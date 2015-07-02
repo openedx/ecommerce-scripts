@@ -3,13 +3,12 @@
 """ Verify all completed orders have active enrollments. """
 from contextlib import closing
 from datetime import timedelta, datetime
-from itertools import groupby
 import logging
 import os
 import sys
 
 import MySQLdb
-from MySQLdb.cursors import DictCursor
+import pandas
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +16,7 @@ logger = logging.getLogger(__name__)
 def setup_logging():
     """ Setup logging.
 
-    Add support for console logging.
+    Add support for console logging, and avoid truncation by pandas.
     """
     msg_format = '%(asctime)s - %(levelname)s - %(message)s'
     ch = logging.StreamHandler()
@@ -25,6 +24,10 @@ def setup_logging():
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
     logger.setLevel(logging.DEBUG)
+
+    pandas.set_option('display.max_rows', 500)
+    pandas.set_option('display.max_columns', 500)
+    pandas.set_option('display.width', 1000)
 
 
 ecommerce_db = MySQLdb.connect(host=os.environ['ECOMMERCE_DB_HOST'],
@@ -38,14 +41,13 @@ edxapp_db = MySQLdb.connect(host=os.environ['EDXAPP_DB_HOST'],
                             db=os.environ['EDXAPP_DB_NAME'])
 
 # This is the number of minutes to look back when retrieving orders (e.g. all orders in the last 15 minutes).
-ORDER_WINDOW_START_TIME = int(os.environ.get('ORDER_WINDOW_START_TIME', 15))
+ORDER_WINDOW_START_TIME = int(os.environ.get('ORDER_WINDOW_START_TIME', 20))
 
 
 def get_orders(date_placed):
     """ Retrieve all completed orders placed after the given date. """
     sql = """SELECT
     u.username
-    , u.email
     , o.number
     , o.date_placed
     , o.total_excl_tax
@@ -72,24 +74,27 @@ ORDER BY
     , o.date_placed ASC;
 """
     date_placed = date_placed.strftime('%Y-%m-%d %H:%M:%S')
-    with closing(ecommerce_db.cursor(DictCursor)) as cursor:
-        cursor.execute(sql, (date_placed,))
-        orders = list(cursor.fetchall())
+    orders = pandas.read_sql_query(sql, ecommerce_db, index_col='number', params=(date_placed,),
+                                   parse_dates=('date_placed',))
+    orders.reset_index(level=0, inplace=True)
+    original_order_count = len(orders)
 
     # Identify upgrades and remove the honor purchase.
     # TODO We will need to do the same for credit.
-    for key, grouped_orders in groupby(orders, lambda o: (o['username'], o['course_id'])):
-        grouped_orders = list(grouped_orders)
-        if len(grouped_orders) > 1:
-            modes = set([order['mode'] for order in grouped_orders])
-            if modes == {'honor', 'verified'}:
-                username, course_id = key
-                # The honor order should come before the verified order.
-                order = grouped_orders[0]
-                logger.info('User [%s] recently upgraded for course [%s]. Honor order [%s] will be ignored.', username,
-                            course_id, order['number'])
-                orders.remove(order)
+    grouped = orders.groupby(['username', 'course_id'])
+    for key, row_ids in grouped.groups.iteritems():
+        username, course_id = key
+        if len(row_ids) > 1:
+            row_ids.sort()
+            honor_order = orders.ix[row_ids[0]]
+            verified_order = orders.ix[row_ids[1]]
 
+            logger.info(
+                'User [%s] upgraded for course [%s]. Honor order [%s] will be ignored in favor of verified order [%s].',
+                username, course_id, honor_order['number'], verified_order['number'])
+            orders = orders.drop(row_ids[0])
+
+    logger.info('Dropped [%d] orders.', original_order_count - len(orders))
     return orders
 
 
@@ -108,48 +113,35 @@ WHERE
     AND e.course_id in ({course_ids});
 """.format(usernames=','.join('%s' for __ in usernames), course_ids=','.join('%s' for __ in course_ids))
 
-    with closing(edxapp_db.cursor(DictCursor)) as cursor:
-        args = list(usernames) + list(course_ids)
-        cursor.execute(sql, args)
-        return cursor.fetchall()
+    params = list(usernames) + list(course_ids)
+    enrollments = pandas.read_sql_query(sql, edxapp_db, params=params)
+    return enrollments
 
 
 def identify_missing_enrollments(orders, enrollments):
     """ Identify the orders that do not have corresponding enrollments. """
-    enrollments = list(enrollments)
-    unfulfilled_orders = []
-    for order in orders:
-        fulfilled = False
-        for enrollment in enrollments:
-            if enrollment['username'] == order['username'] and enrollment['course_id'] == order['course_id'] and \
-                            enrollment['mode'] == order['mode']:
-                fulfilled = True
-                enrollments.remove(enrollment)
-                break
-
-        if not fulfilled:
-            unfulfilled_orders.append(order)
-
+    merged = pandas.merge(orders, enrollments, on=['username', 'course_id', 'mode'], how='left')
+    unfulfilled_orders = merged[merged.is_active.isnull()]
     return unfulfilled_orders
 
 
 def run_audit():
     date_placed = datetime.utcnow() - timedelta(minutes=ORDER_WINDOW_START_TIME)
     orders = get_orders(date_placed)
-    usernames = set([order['username'] for order in orders])
-    course_ids = set([order['course_id'] for order in orders])
+    usernames = pandas.unique(orders.username.ravel())
+    course_ids = pandas.unique(orders.course_id.ravel())
     num_orders = len(orders)
-    logger.info('Retrieved [%d] orders, for [%d] users and [%d] courses, from the ecommerce database.', num_orders,
-                len(usernames), len(course_ids))
+    logger.info('Retrieved [%d] orders, for [%d] users and [%d] courses, from the ecommerce database.',
+                num_orders, len(usernames), len(course_ids))
 
     enrollments = get_enrollments(usernames, course_ids)
     num_enrollments = len(enrollments)
     logger.info('Retrieved [%d] enrollments from the edxapp database.', num_enrollments)
 
     unfulfilled_orders = identify_missing_enrollments(orders, enrollments)
-    if unfulfilled_orders:
-        logger.error(u'Identified [%d] unfulfilled order(s):\n%s', len(unfulfilled_orders),
-                     '\n'.join(['\t' + unicode(order) for order in unfulfilled_orders]))
+    if len(unfulfilled_orders) > 0:
+        logger.error(u'Identified [%d] unfulfilled order(s):\n%s',
+                     len(unfulfilled_orders), unfulfilled_orders.to_string(index=False))
         return False
 
     logger.info('No unfulfilled orders identified. All is well.')
@@ -159,8 +151,12 @@ def run_audit():
 if __name__ == "__main__":
     setup_logging()
 
+    logger.info('Audit started...')
     with closing(ecommerce_db):
         with closing(edxapp_db):
-            if not run_audit():
-                # Use a non-zero exit code to indicate an error
-                sys.exit(1)
+            try:
+                if not run_audit():
+                    # Use a non-zero exit code to indicate an error
+                    sys.exit(1)
+            finally:
+                logger.info('Audit completed.')
