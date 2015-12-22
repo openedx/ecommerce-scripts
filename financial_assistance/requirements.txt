@@ -1,0 +1,4 @@
+pycountry
+python-geoip
+python-geoip-geolite2
+git+https://github.com/shotgunsoftware/zendesk.git#egg=Zendesk==1.1.1
