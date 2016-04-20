@@ -1,0 +1,2 @@
+This directory contains the build output that will ultimately be zipped and uploaded to AWS. Do NOT commit additional
+contents of this directory to the repository.

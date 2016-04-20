@@ -1,0 +1,2 @@
+paypalrestsdk==1.11.5
+zenpy==1.0.7

@@ -1,0 +1,68 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "OpenEdX Webhooks"
+  },
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/paypal-dispute": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "PAYPAL-TRANSMISSION-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "PAYPAL-TRANSMISSION-TIME",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "PAYPAL-TRANSMISSION-SIG",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "PAYPAL-CERT-URL",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "PAYPAL-AUTH-ALGO",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            ".*": {
+              "statusCode": "200"
+            }
+          },
+          "httpMethod": "POST",
+          "requestTemplates": {
+            "application/json": "{\n    \"paypal_credentials\": {\n        \"mode\": \"$stageVariables.paypal_mode\",\n        \"client_id\": \"$stageVariables.paypal_client_id\",\n        \"client_secret\": \"$stageVariables.paypal_client_secret\"\n    },\n    \"body\": \"$util.escapeJavaScript($input.json('$'))\",\n    \"paypal_webhook_id\": \"$stageVariables.paypal_dispute_webhook_id\",\n    \"paypal_transmission_id\": \"$input.params('PAYPAL-TRANSMISSION-ID')\",\n    \"paypal_transmission_time\": \"$input.params('PAYPAL-TRANSMISSION-TIME')\",\n    \"paypal_cert_url\": \"$input.params('PAYPAL-CERT-URL')\",\n    \"paypal_transmission_sig\": \"$input.params('PAYPAL-TRANSMISSION-SIG')\",\n    \"paypal_auth_algo\": \"$input.params('PAYPAL-AUTH-ALGO')\"\n}"
+          },
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:102034828053:function:paypal_test/invocations",
+          "type": "aws"
+        }
+      }
+    }
+  }
+}
