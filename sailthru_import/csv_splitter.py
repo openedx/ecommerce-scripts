@@ -1,3 +1,4 @@
+import argparse
 import csv
 import os
 
@@ -17,9 +18,10 @@ Example usage:
 """
 
 
-def split(filehandler, delimiter=',', row_limit=10000,
+def split(filehandler, delimiter=',', row_limit=500000,
           output_name_template='output_%s.csv', output_path='.', keep_headers=True):
 
+    print "Beginning split..."
     reader = csv.reader(filehandler, delimiter=delimiter)
     current_piece = 1
     current_out_path = os.path.join(
@@ -30,6 +32,13 @@ def split(filehandler, delimiter=',', row_limit=10000,
     current_limit = row_limit
     if keep_headers:
         headers = reader.next()
+        # rename "Email Address" header to "email", this is required to be in the first column, and rename
+        # date fields to end
+        headers[0] = 'email'
+        headers[4] = 'joined_date'
+        headers[10] = 'last_login_date'
+        # make headers lowercase
+        headers = [header.lower() for header in headers]
         current_out_writer.writerow(headers)
     for i, row in enumerate(reader):
         if i + 1 > current_limit:
@@ -43,3 +52,16 @@ def split(filehandler, delimiter=',', row_limit=10000,
             if keep_headers:
                 current_out_writer.writerow(headers)
         current_out_writer.writerow(row)
+
+
+def main():
+    parser = argparse.ArgumentParser(description='CSV splitter script')
+    parser.add_argument('input_file', help='Input file name.')
+    args = parser.parse_args()
+    print "Input file: " + args.input_file
+
+    split(open(args.input_file, 'r'))
+
+
+if __name__ == "__main__":
+    main()

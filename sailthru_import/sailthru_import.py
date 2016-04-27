@@ -16,6 +16,14 @@ Arguments:
 Example usage:
     $ sailthru_import AJKHSDKJHSADKJSH-1 KSJLAFUHDSUIH-2 input.csv "Dev Test" "bfohl@edx.org"
 
+Upload file size limit is 100 MB. csv_splitter is used to break up the export file from MailChimp.
+
+csvcut (part of csvkit) is recommended for filtering out the necessary fields:
+    csvcut -c "Email Address","activated","Age","Country","date_joined",
+    "DSTOFF","EUID","Gender","GMTOFF","id","last_login","LEID","MEMBER_RATING",
+    "REGION","TIMEZONE","Username","year_of_birth"
+    ~/Downloads/members_export_107aacb22a.csv -e ISO-8859-1 > Downloads/members_export_filtered_2.csv
+
 """
 
 
@@ -63,7 +71,16 @@ def main():
     args = parser.parse_args()
 
     sailthru_client = SailthruClient(args.sailthru_key, args.sailthru_secret)
-    upload_csv_to_sailthru(args.csv_file_name, args.list_name, args.report_email, sailthru_client)
+
+    if args.csv_file_name.find(',') != -1:
+        # handle a comma separated list of CSV files
+        file_list = args.csv_file_name.split(',')
+        for file_name in file_list:
+            upload_csv_to_sailthru(file_name, args.list_name, args.report_email, sailthru_client)
+    else:
+        # handle a single input CSV
+        upload_csv_to_sailthru(args.csv_file_name, args.list_name, args.report_email, sailthru_client)
+
     print "Import Complete!"
 
 if __name__ == "__main__":
