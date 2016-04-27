@@ -180,9 +180,10 @@ def test_create_sailthru_content():
             "marketing_url": 'http://www.hi.there'
         }
 
-    response = content.create_sailthru_content(course, course_run, series_table)
+    response = content.create_sailthru_content(course, course_run, series_table, 'https://test.org')
 
-    assert response['url'] == 'http://www.hi.there'
+    assert response['url'] == 'https://test.org/courses/' + course_run_id + '/info'
+    assert response['vars']['marketing_url'] == 'http://www.hi.there'
     assert response['title'] == title
     assert response['description'] == description
     assert response['vars']['course_id'] == course_id
