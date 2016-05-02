@@ -1,5 +1,6 @@
 import argparse
 import csv
+import logging
 import os
 
 """
@@ -21,7 +22,7 @@ Example usage:
 def split(filehandler, delimiter=',', row_limit=500000,
           output_name_template='output_%s.csv', output_path='.', keep_headers=True):
 
-    print "Beginning split..."
+    logging.info("Beginning split...")
     reader = csv.reader(filehandler, delimiter=delimiter)
     current_piece = 1
     current_out_path = os.path.join(
@@ -58,7 +59,7 @@ def main():
     parser = argparse.ArgumentParser(description='CSV splitter script')
     parser.add_argument('input_file', help='Input file name.')
     args = parser.parse_args()
-    print "Input file: " + args.input_file
+    logging.info("Input file: " + args.input_file)
 
     split(open(args.input_file, 'r'))
 
