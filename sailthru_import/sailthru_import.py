@@ -1,7 +1,7 @@
 import argparse
+import os
 import time
 from sailthru.sailthru_client import SailthruClient
-from sailthru.sailthru_error import SailthruClientError
 
 """
 Uploads a specified CSV file containing users into SailThru via the Job API endpoint.
@@ -28,43 +28,40 @@ csvcut (part of csvkit) is recommended for filtering out the necessary fields:
 
 
 def upload_csv_to_sailthru(filepath, list_name, report_email, client):
-    try:
-        print "Uploading %s" % filepath
-        # Start the upload job
-        request_data = {
-                'job': 'import',
-                'file': filepath,
-                'list': list_name,
-                'signup_dates': 1,
-                'report_email': report_email
-            }
-        response = client.api_post('job', request_data, {'file': 1})
+    print "Uploading %s" % filepath
+    # Start the upload job
+    request_data = {
+            'job': 'import',
+            'file': filepath,
+            'list': list_name,
+            'signup_dates': 1,
+            'report_email': report_email
+        }
+    response = client.api_post('job', request_data, {'file': 1})
 
-        if response.is_ok():
-            job_id = response.get_body().get("job_id")
-            print "Import job started on SailThru - JOB ID: " + job_id
+    if response.is_ok():
+        job_id = response.get_body().get("job_id")
+        print "Import job started on SailThru - JOB ID: " + job_id
 
-            # Keeping checking status until we find out that it's done
-            while True:
-                print("waiting for import to complete...")
-                time.sleep(30)
-                response = client.api_get('job', {'job_id': job_id})
-                if response.get_body().get("status") == "completed":
-                    return
-        else:
-            error = response.get_error()
-            print ("Error: " + error.get_message())
-            print ("Status Code: " + str(response.get_status_code()))
-            print ("Error Code: " + str(error.get_error_code()))
-    except SailthruClientError as e:
-        print ("Exception")
-        print (e)
+        # Keeping checking status until we find out that it's done
+        while True:
+            print("waiting for import to complete...")
+            time.sleep(30)
+            response = client.api_get('job', {'job_id': job_id})
+            if response.get_body().get("status") == "completed":
+                return
+    else:
+        error = response.get_error()
+        print ("Error: " + error.get_message())
+        print ("Status Code: " + str(response.get_status_code()))
+        print ("Error Code: " + str(error.get_error_code()))
+        exit(1)
 
 
 def main():
     parser = argparse.ArgumentParser(description='Sailthru user import script')
-    parser.add_argument('sailthru_key', help='Sailthru access key.')
-    parser.add_argument('sailthru_secret', help='Sailthru access secret.')
+    parser.add_argument('sailthru_key', default=os.environ['SAILTHRU_API_KEY'], help='Sailthru access key.')
+    parser.add_argument('sailthru_secret', default=os.environ['SAILTHRU_API_SECRET'], help='Sailthru access secret.')
     parser.add_argument('csv_file_name', help='CSV file name for import.')
     parser.add_argument('list_name', help='SailThru list name to import users into.')
     parser.add_argument('report_email', help='Email address which will receive report on import completion.')
