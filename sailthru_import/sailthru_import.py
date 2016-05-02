@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 import time
 from sailthru.sailthru_client import SailthruClient
@@ -28,7 +29,7 @@ csvcut (part of csvkit) is recommended for filtering out the necessary fields:
 
 
 def upload_csv_to_sailthru(filepath, list_name, report_email, client):
-    print "Uploading %s" % filepath
+    logging.info("Uploading %s" % filepath)
     # Start the upload job
     request_data = {
             'job': 'import',
@@ -41,20 +42,20 @@ def upload_csv_to_sailthru(filepath, list_name, report_email, client):
 
     if response.is_ok():
         job_id = response.get_body().get("job_id")
-        print "Import job started on SailThru - JOB ID: " + job_id
+        logging.info("Import job started on SailThru - JOB ID: " + job_id)
 
         # Keeping checking status until we find out that it's done
         while True:
-            print("waiting for import to complete...")
+            logging.info("waiting for import to complete...")
             time.sleep(30)
             response = client.api_get('job', {'job_id': job_id})
             if response.get_body().get("status") == "completed":
                 return
     else:
         error = response.get_error()
-        print ("Error: " + error.get_message())
-        print ("Status Code: " + str(response.get_status_code()))
-        print ("Error Code: " + str(error.get_error_code()))
+        logging.error("Error: " + error.get_message())
+        logging.error("Status Code: " + str(response.get_status_code()))
+        logging.error("Error Code: " + str(error.get_error_code()))
         exit(1)
 
 
@@ -78,7 +79,7 @@ def main():
         # handle a single input CSV
         upload_csv_to_sailthru(args.csv_file_name, args.list_name, args.report_email, sailthru_client)
 
-    print "Import Complete!"
+    logging.info("Import Complete!")
 
 if __name__ == "__main__":
     main()
