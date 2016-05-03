@@ -30,8 +30,9 @@ the Sailthru content library appropriately.
 
 The following switches are available:
 
++--------------------------------+-------------------------------------------------------+
 | Switch                         | Purpose                                               |
-|--------------------------------|-------------------------------------------------------|
++================================+=======================================================+
 | --access_token                 | An access token for the Course Discovery API          |
 | --oauth_host                   | The host used to obtain Course Discover access token  |
 | --oauth_key                    | The key used to obtain Course Discover access token   |
@@ -40,15 +41,11 @@ The following switches are available:
 | --sailthru_secret              | Access secret for Sailthru api                        |
 | --content_api_url              | Url of Course Discovery API                           |
 | --lms_url                      | Url of LMS (default http://courses.edx.org            |
++--------------------------------+-------------------------------------------------------+
 
 To get access to the Course Discovery API, you need either an existing access token, or you can specify the
 oauth_host, oauth_key and oauth_secret.
 
-
-Documentation
--------------
-
-The docs for Course Discovery Service will be on Read the Docs:  https://open-edx-course-discovery.readthedocs.org.
 
 License
 -------
