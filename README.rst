@@ -34,12 +34,19 @@ The following switches are available:
 | Switch                         | Purpose                                               |
 +================================+=======================================================+
 | --access_token                 | An access token for the Course Discovery API          |
++--------------------------------+-------------------------------------------------------+
 | --oauth_host                   | The host used to obtain Course Discover access token  |
++--------------------------------+-------------------------------------------------------+
 | --oauth_key                    | The key used to obtain Course Discover access token   |
++--------------------------------+-------------------------------------------------------+
 | --oauth_secret                 | The secret used to obtain Course Discover access token|
++--------------------------------+-------------------------------------------------------+
 | --sailthru_key                 | Access key for Sailthru api                           |
++--------------------------------+-------------------------------------------------------+
 | --sailthru_secret              | Access secret for Sailthru api                        |
++--------------------------------+-------------------------------------------------------+
 | --content_api_url              | Url of Course Discovery API                           |
++--------------------------------+-------------------------------------------------------+
 | --lms_url                      | Url of LMS (default http://courses.edx.org            |
 +--------------------------------+-------------------------------------------------------+
 
