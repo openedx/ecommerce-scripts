@@ -40,7 +40,9 @@ def main(argv):
     elif args.command == 'clear':
         process_clear(sc)
     elif args.command == 'load':
-        process_load(args, sc, args.lms_url)
+        process_load(args, sc, args.lms_url, False)
+    elif args.command == 'test':
+        process_load(args, sc, args.lms_url, True)
 
 
 def process_list(sc):
@@ -85,7 +87,7 @@ def process_clear(sc):
                 logger.info("url %s deleted", body['url'])
 
 
-def process_load(args, sc, lms_url):
+def process_load(args, sc, lms_url, test):
     """ Process load command
     :param sc: Sailthru client
     :return:
@@ -139,14 +141,18 @@ def process_load(args, sc, lms_url):
                 if sailthru_content:
                     course_runs += 1
 
-                    response = sc.api_post('content', sailthru_content)
-                    if not response.is_ok():
-                        logger.error("Error code %d connecting to Sailthru content api: %s",
-                                     response.json['error'],
-                                     response.json['errormsg'])
-                        return
+                    if not test:
+                        response = sc.api_post('content', sailthru_content)
+                        if not response.is_ok():
+                            logger.error("Error code %d connecting to Sailthru content api: %s",
+                                         response.json['error'],
+                                         response.json['errormsg'])
+                            return
 
-                    logger.info("Course: %s, Course_run: %s saved in Sailthru.", course['key'], course_run['key'])
+                        logger.info("Course: %s, Course_run: %s saved in Sailthru.", course['key'], course_run['key'])
+
+                    else:
+                        logger.info(sailthru_content)
 
     logger.info('Retrieved %d courses.', count)
     logger.info('Saved %d course runs in Sailthru.', course_runs)
@@ -164,6 +170,7 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
     sailthru_content = {}
     sailthru_content_vars = {}
     sailthru_content['url'] = lms_url + '/courses/' + course_run['key'] + '/info'
+    sailthru_content_vars['course_run'] = True
     sailthru_content_vars['marketing_url'] = url
     sailthru_content['title'] = course_run['title']
     if course_run['short_description']:
@@ -184,10 +191,17 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
         sailthru_content_vars['enrollment_end'] = convert_date(course_run['enrollment_end'])
     if course_run['enrollment_start']:
         sailthru_content_vars['enrollment_start'] = convert_date(course_run['enrollment_start'])
+        logging.info(course_run['enrollment_start'])
     if course_run['start']:
         sailthru_content_vars['course_start'] = convert_date(course_run['start'])
     if course_run['end']:
         sailthru_content_vars['course_end'] = convert_date(course_run['end'])
+    if course_run['pacing_type']:
+        sailthru_content_vars['pacing_type'] = course_run['pacing_type']
+    if course_run['content_language']:
+        logger.info('Content: ' + course_run['content_language'])
+    if len(course_run['transcript_languages']) > 0:
+        logger.info('Content: ' + course_run['transcript_languages'][0])
 
     # figure out the price(s) and save as Sailthru vars
     if course_run['seats']:
@@ -221,9 +235,9 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
             tags.append(convert_tag('school', sponsor['key']))
     # add interest tags for course id and course run id
     #   note, interest tags should contain only lower case chars and '-'
-    trans = "".maketrans('+:./', '----')
-    tags.append(convert_tag(None, course['key'].translate(trans)))
-    tags.append(convert_tag(None, course_run['key'].translate(trans)))
+    # trans = "".maketrans('+:./', '----')
+    # tags.append(convert_tag(None, course['key'].translate(trans)))
+    # tags.append(convert_tag(None, course_run['key'].translate(trans)))
 
     # check if course run is part of an xseries
     if course_run['key'] in series_table:
@@ -278,6 +292,18 @@ def convert_date(iso_date):
     if iso_date is None:
         return None
     if '.' in iso_date:
+        return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d")
+    return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d")
+
+
+def convert_datetime(iso_date):
+    """ Convert date from ISO 8601 (e.g. 2016-04-15T20:35:11.424818Z) to Sailthru format
+    :param iso_date:
+    :return: sailthru format date
+    """
+    if iso_date is None:
+        return None
+    if '.' in iso_date:
         return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S +0000")
     return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M:%S +0000")
 
@@ -302,7 +328,7 @@ def get_args(argv):
 
     parser.add_argument(
             'command',
-            choices=['list', 'load', 'clear'])
+            choices=['list', 'load', 'clear', 'test'])
 
     parser.add_argument(
             '--access_token',
