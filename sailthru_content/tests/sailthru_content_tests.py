@@ -5,8 +5,10 @@ import sailthru_content
 # test datetime converter
 def test_convert_date():
     content = sailthru_content
-    assert content.convert_date('2016-04-20T17:34:34.444460Z') == "2016-04-20 17:34:34 +0000"
-    assert content.convert_date('2016-04-20T17:34:34Z') == "2016-04-20 17:34:34 +0000"
+    assert content.convert_datetime('2016-04-20T17:34:34.444460Z') == "2016-04-20 17:34:34 +0000"
+    assert content.convert_datetime('2016-04-20T17:34:34Z') == "2016-04-20 17:34:34 +0000"
+    assert content.convert_date('2016-04-20T17:34:34.444460Z') == "2016-04-20"
+    assert content.convert_date('2016-04-20T17:34:34Z') == "2016-04-20"
 
 
 # test tag converter
@@ -26,15 +28,15 @@ def test_create_sailthru_content():
     owner = "TestX"
     owner_tag = "school-testx"
     date = "2016-04-20T17:34:34.360311Z"
-    converted_date = "2016-04-20 17:34:34 +0000"
+    converted_date = "2016-04-20"
     enrollment_end_date = "2017-12-14T05:00:00Z"
-    converted_enrollment_end_date = "2017-12-14 05:00:00 +0000"
+    converted_enrollment_end_date = "2017-12-14"
     enrollment_start_date = "2017-11-14T05:00:00Z"
-    converted_enrollment_start_date = "2017-11-14 05:00:00 +0000"
+    converted_enrollment_start_date = "2017-11-14"
     course_start_date = "2017-11-14T05:00:00Z"
-    converted_course_start_date = "2017-11-14 05:00:00 +0000"
+    converted_course_start_date = "2017-11-14"
     course_end_date = "2017-11-24T05:00:00Z"
-    converted_course_end_date = "2017-11-24 05:00:00 +0000"
+    converted_course_end_date = "2017-11-24"
     image_url = "https://image.location.edx.org/image"
     series_id = '22'
     series_index = 11
@@ -49,7 +51,7 @@ def test_create_sailthru_content():
     sponsor1 = "US Navy"
     sponsor1_converted = "school-us-navy"
     upgrade_deadline = "2016-04-22T17:34:34.360311Z"
-    converted_upgrade_deadline = "2016-04-22 17:34:34 +0000"
+    converted_upgrade_deadline = "2016-04-22"
 
     series_table = {course_run_id: {'series': series_id, 'index': series_index}}
 
