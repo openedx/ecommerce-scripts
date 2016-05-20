@@ -99,21 +99,25 @@ def process_load(args, sc, lms_url, test):
         logger.info('No access token provided. Retrieving access token using client_credential flow...')
 
         try:
-            access_token, __ = EdxRestApiClient.get_oauth_access_token(
-                '{root}/access_token'.format(root=args.oauth_host),
+            # access_token, __ = EdxRestApiClient.get_oauth_access_token(
+            #     '{root}/access_token'.format(root=args.oauth_host),
+            #     args.oauth_key,
+            #     args.oauth_secret,
+            #     token_type='jwt'
+            # )
+            access_token, expires = EdxRestApiClient.get_oauth_access_token('{root}/access_token'.format(root=args.oauth_host),
                 args.oauth_key,
-                args.oauth_seret
-            )
+                args.oauth_secret, token_type='jwt')
         except Exception:
             logger.exception('No access token provided or acquired through client_credential flow.')
             raise
 
-    # logger.info('Token retrieved: %s', access_token)
+    logger.info('Token retrieved: %s', access_token)
 
     # use programs api to build table of course runs that are part of xseries
     series_table = load_series_table()
 
-    client = EdxRestApiClient(args.content_api_url, oauth_access_token=access_token)
+    client = EdxRestApiClient(args.content_api_url, jwt=access_token)
 
     count = None
     page = 1
@@ -123,7 +127,7 @@ def process_load(args, sc, lms_url, test):
 
     while page:
         # get a page of courses
-        response = client.courses().get(limit=20, offset=(page-1)*20)
+        response = client.courses().get(limit=50, offset=(page-1)*50)
 
         count = response['count']
         results = response['results']
@@ -316,7 +320,7 @@ def convert_tag(tagtype, tag):
     """
     # TODO need to deal with chinese characters...
     if tag:
-        resp = tag.replace(' & ', '-').replace(',', '').replace('.', '').replace(' ', '-').replace('--', '-').casefold()
+        resp = tag.replace(' & ', '-').replace(',', '').replace('.', '').replace(' ', '-').replace('--', '-')
         if tagtype:
             resp = tagtype + '-' + resp
         return resp
@@ -338,7 +342,7 @@ def get_args(argv):
 
     parser.add_argument(
             '--oauth_host',
-            default=os.environ.get('CONTENT_LOAD_OAUTH_HOST', 'https://courses.stage.edx.org/oauth2'),
+            default=os.environ.get('CONTENT_LOAD_OAUTH_HOST', 'https://api.edx.org/oauth2/v1'),
             help='OAuth2 base url.'
         )
 
