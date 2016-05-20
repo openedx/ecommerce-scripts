@@ -1,0 +1,14 @@
+<script type="text/javascript" src="//ak.sail-horizon.com/horizon/v1.js"></script>
+<script type="text/javascript">
+  var curl = "";
+  var main = document.getElementById('course-info-page');
+  if (main) {
+     curl = main.getAttribute('data-course-lms-url') + '/courses/' + main.getAttribute('data-course-id') + '/info';
+  }
+  Sailthru.setup({
+    domain: 'horizon.edx.org',
+    spider: true,
+    curl: curl,
+    useStoredTags: true
+  });
+</script>
