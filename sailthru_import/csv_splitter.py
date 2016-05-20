@@ -4,17 +4,11 @@ import logging
 import os
 
 """
-Splits a CSV file into multiple pieces.
+Split the Mailchimp csv file in to multiple pieces and change column names
 
-Arguments:
+File from Mailchimp should be reduced with the following command before running:
 
-    `row_limit`: The number of rows you want in each output file. 10,000 by default.
-    `output_name_template`: A %s-style template for the numbered output files.
-    `output_path`: Where to stick the output files.
-    `keep_headers`: Whether or not to print the headers in each output file.
-
-Example usage:
-    >> csv_splitter.split(open('/home/ben/input.csv', 'r'));
+csvcut -c "Email Address","activated","Age","Country","First Name","LAST_CHANGED","Name","date_joined","DSTOFF","EUID","Gender","GMTOFF","id","last_login","LEID","MEMBER_RATING","REGION","TIMEZONE","Username","year_of_birth" ~/Downloads/members_export_eccf291e61.csv -e ISO-8859-1 > ~/Downloads/members_export_filtered.csv
 
 """
 
@@ -22,7 +16,13 @@ Example usage:
 def split(filehandler, delimiter=',', row_limit=500000,
           output_name_template='output_%s.csv', output_path='.', keep_headers=True):
 
-    logging.info("Beginning split...")
+    # columns to rename
+    renames = [['Email Address', 'email'],
+               ['date_joined', 'joined_date'],
+               ['Name', 'full name'],
+               ['last_login', 'last_login_date']]
+
+    logging.info("Splitter called")
     reader = csv.reader(filehandler, delimiter=delimiter)
     current_piece = 1
     current_out_path = os.path.join(
@@ -33,11 +33,11 @@ def split(filehandler, delimiter=',', row_limit=500000,
     current_limit = row_limit
     if keep_headers:
         headers = reader.next()
-        # rename "Email Address" header to "email", this is required to be in the first column, and rename
-        # date fields to end
-        headers[0] = 'email'
-        headers[4] = 'joined_date'
-        headers[10] = 'last_login_date'
+
+        for rename in renames:
+            if not rename_row(headers, rename[0], rename[1]):
+                return
+
         # make headers lowercase
         headers = [header.lower() for header in headers]
         current_out_writer.writerow(headers)
@@ -49,10 +49,22 @@ def split(filehandler, delimiter=',', row_limit=500000,
                output_path,
                output_name_template % current_piece
             )
+            # return
             current_out_writer = csv.writer(open(current_out_path, 'w'), delimiter=delimiter)
+
             if keep_headers:
                 current_out_writer.writerow(headers)
         current_out_writer.writerow(row)
+
+
+def rename_row(headers, input, output):
+    for i, value in enumerate(headers):
+        if value == input:
+            headers[i] = output
+            return True
+
+    logging.error("Unable to find column %s", input)
+    return False
 
 
 def main():

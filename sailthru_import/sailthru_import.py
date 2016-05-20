@@ -64,8 +64,8 @@ def main():
     parser.add_argument('csv_file_name', help='CSV file name for import.')
     parser.add_argument('list_name', help='SailThru list name to import users into.')
     parser.add_argument('report_email', help='Email address which will receive report on import completion.')
-    parser.add_argument('sailthru_key', default=os.environ['SAILTHRU_API_KEY'], help='Sailthru access key.')
-    parser.add_argument('sailthru_secret', default=os.environ['SAILTHRU_API_SECRET'], help='Sailthru access secret.')
+    parser.add_argument('sailthru_key', help='Sailthru access key.')
+    parser.add_argument('sailthru_secret', help='Sailthru access secret.')
     args = parser.parse_args()
 
     sailthru_client = SailthruClient(args.sailthru_key, args.sailthru_secret)
