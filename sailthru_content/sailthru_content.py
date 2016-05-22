@@ -167,8 +167,8 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
     url = course['marketing_url']
 
     # skip course runs with no url
-    if not url:
-        return None
+    #if not url:
+    #    return None
 
     # create parameters for call to Sailthru
     sailthru_content = {}
