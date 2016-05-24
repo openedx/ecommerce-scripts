@@ -38,7 +38,9 @@ def main(argv):
     if args.command == 'list':
         process_list(sc)
     elif args.command == 'clear':
-        process_clear(sc)
+        process_clear(sc, False)
+    elif args.command == 'cleanup':
+        process_clear(sc, True)
     elif args.command == 'load':
         process_load(args, sc, args.lms_url, False)
     elif args.command == 'test':
@@ -62,14 +64,14 @@ def process_list(sc):
         logger.info(body)
 
 
-def process_clear(sc):
+def process_clear(sc, cleanup):
     """ Process clear command
     :param sc: Sailthru client
     :return:
     """
 
     while True:
-        response = sc.api_get('content', {})
+        response = sc.api_get('content', { 'items' : 4000})
 
         if not response.is_ok():
             logger.error("Error code %d connecting to Sailthru content api: %s",
@@ -82,9 +84,16 @@ def process_clear(sc):
             return
 
         for body in response.json['content']:
-            response = sc.api_delete('content', {'url': body['url']})
-            if response.is_ok():
-                logger.info("url %s deleted", body['url'])
+            if not cleanup or \
+                len(body['tags']) == 0 or \
+                body['url'].startswith('https://www.edx.org/bio/'):
+
+                response = sc.api_delete('content', {'url': body['url']})
+                if response.is_ok():
+                    logger.info("url %s deleted", body['url'])
+
+        if cleanup:
+            return
 
 
 def process_load(args, sc, lms_url, test):
@@ -127,7 +136,7 @@ def process_load(args, sc, lms_url, test):
 
     while page:
         # get a page of courses
-        response = client.courses().get(limit=50, offset=(page-1)*50)
+        response = client.courses().get(limit=500, offset=(page-1)*500)
 
         count = response['count']
         results = response['results']
@@ -163,6 +172,12 @@ def process_load(args, sc, lms_url, test):
 
 
 def create_sailthru_content(course, course_run, series_table, lms_url):
+    fixups = [['course-v1:MITx+Launch.x_2+2T2016', 'marketing_url', 'https://www.edx.org/course/becoming-entrepreneur-mitx-launch-x-0'],
+              ['course-v1:MITx+Launch.x_2+2T2016', 'course_start', '2016-06-27'],
+              ['course-v1:UTArlingtonX+ENGR2.0x+2T2016', 'marketing_url', 'https://www.edx.org/course/introduction-engineering-utarlingtonx-engr2-0x'],
+              ['course-v1:UTArlingtonX+ENGR2.0x+2T2016', 'course_start', '2016-06-08'],
+              ['course-v1:DelftX+EX103x+2T2016', 'course_start', '2016-06-08']]
+
     # **temp** expected to move to course_run
     url = course['marketing_url']
 
@@ -252,6 +267,13 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
         sailthru_content['tags'] = ", ".join(tags)
     sailthru_content['vars'] = sailthru_content_vars
     sailthru_content['spider'] = 0
+
+    # perform any fixups
+    for row in fixups:
+        if row[0] == course_run['key']:
+            logger.info('Changing %s to %s for %s', row[1], row[2], row[0])
+            sailthru_content_vars[row[1]] = row[2]
+
     return sailthru_content
 
 
@@ -332,7 +354,7 @@ def get_args(argv):
 
     parser.add_argument(
             'command',
-            choices=['list', 'load', 'clear', 'test'])
+            choices=['list', 'load', 'clear', 'test', 'cleanup'])
 
     parser.add_argument(
             '--access_token',
