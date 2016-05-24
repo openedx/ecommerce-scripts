@@ -19,6 +19,7 @@ def split(filehandler, delimiter=',', row_limit=500000,
     # columns to rename
     renames = [['Email Address', 'email'],
                ['date_joined', 'joined_date'],
+               ['LAST_CHANGED', 'last_changed_date'],
                ['Name', 'full name'],
                ['last_login', 'last_login_date']]
 
