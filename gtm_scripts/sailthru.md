@@ -64,12 +64,21 @@
 | Trigger Type:    | DOM Ready                                                                      |
 | Fire On:         | url contains edx.org & url does not contain edx.org/course/                    |
 
+
 | Field            | Value                                                                          |
 |------------------|--------------------------------------------------------------------------------|
 | Name:            | Course enroll                                                                  |
 | Event:           | Custom event                                                                   |
 | Trigger Type:    | n/a                                                                            |
 | Fire On:         | url contains edx.org/course & event contains course-details.enroll             |
+
+
+| Field            | Value                                                                          |
+|------------------|--------------------------------------------------------------------------------|
+| Name:            | Filtered course search                                                         |
+| Event:           | Custom event                                                                   |
+| Trigger Type:    | n/a                                                                            |
+| Fire On:         | url ends with edx.org/course & event = edx.bi.user.*.filtered (regex)          |
 
 ##  Tags
  
@@ -93,7 +102,7 @@
 
 | Field            | Value                                                                          |
 |------------------|--------------------------------------------------------------------------------|
-| Name:            | Sailthru course enroll                                                         |
+| Name:            | Sailthru filtered course search                                                |
 | Type:            | Custom HTML                                                                    |
 | Firing Triggers: | Course enroll                                                                  |
 | HTML:            | Copy from sailthru_course_filters.html                                         |
