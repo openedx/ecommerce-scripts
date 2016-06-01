@@ -1,6 +1,6 @@
 <script type="text/javascript">
     var iCookieLength = 30; // Cookie length in days
-    var sCookieName = "affiliate_id"; // Name of the first party cookie to utilise for last click referrer de-duplication
+    var sCookieName = "prod.edx.affiliate_id"; // Name of the first party cookie to utilise for last click referrer de-duplication
     var sSourceParameterName = "utm_source"; // The parameter used by networks and other marketing channels to tell you who drove the traffic
     var sMediumParameterName = "utm_medium"; // The parameter to identify the type of referrer
     var sPartnerValue = "affiliate_partner"; // We only set a cookie if `sMediumParameterName` is set to this value
