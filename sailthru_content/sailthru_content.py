@@ -85,8 +85,8 @@ def process_clear(sc, cleanup):
 
         for body in response.json['content']:
             if not cleanup or \
-                len(body['tags']) == 0 or \
-                body['url'].startswith('https://www.edx.org/bio/'):
+                len(body['tags']) == 0:
+                # or body['url'].startswith('https://www.edx.org/bio/'):
 
                 response = sc.api_delete('content', {'url': body['url']})
                 if response.is_ok():
@@ -172,14 +172,14 @@ def process_load(args, sc, lms_url, test):
 
 
 def create_sailthru_content(course, course_run, series_table, lms_url):
-    fixups = [['course-v1:MITx+Launch.x_2+2T2016', 'marketing_url', 'https://www.edx.org/course/becoming-entrepreneur-mitx-launch-x-0'],
-              ['course-v1:MITx+Launch.x_2+2T2016', 'course_start', '2016-06-27'],
-              ['course-v1:UTArlingtonX+ENGR2.0x+2T2016', 'marketing_url', 'https://www.edx.org/course/introduction-engineering-utarlingtonx-engr2-0x'],
-              ['course-v1:UTArlingtonX+ENGR2.0x+2T2016', 'course_start', '2016-06-08'],
-              ['course-v1:DelftX+EX103x+2T2016', 'course_start', '2016-06-08']]
+    # fixups array used for any needed overrides of information from the course content api
+    #  the form is [[<course_run id>, <field name>, <correct value>],[...]]
+    fixups = []
 
-    # **temp** expected to move to course_run
-    url = course['marketing_url']
+    # get marketing url
+    url = course_run['marketing_url']
+    if not url:
+        url = course['marketing_url']
 
     # skip course runs with no url
     #if not url:
@@ -199,7 +199,7 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
 
     # get first owner
     if course['owners'] and len(course['owners']) > 0:
-        sailthru_content['site_name'] = course['owners'][0]['key']
+        sailthru_content['site_name'] = course['owners'][0]['key'].replace('_',' ')
 
     # use last modified date for sailthru 'date'
     sailthru_content['date'] = convert_date(course_run['modified'])
