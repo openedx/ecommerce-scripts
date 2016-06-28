@@ -1,6 +1,5 @@
 <script type="text/javascript" src="//ak.sail-horizon.com/horizon/v1.js"></script>
 <script type="text/javascript">
-  console.log('event: ' + {{event}}  +', category: ' + {{category}} + ', label: ' + {{label}});
   var s_tag = '';
   if ({{event}}.includes('.subject')) s_tag = 'subject-' + {{label}};
   else if ({{event}}.includes('.school')) s_tag = 'school-' + {{label}};
@@ -14,10 +13,10 @@
   }
   else if ({{event}}.includes('.availability')) s_tag = 'type-' + {{label}};
 
-  if (sailthru_tag) {
+  if (s_tag) {
     s_tag = s_tag.replace(' & ','-').replace(' ','-').toLowerCase();
     Sailthru.setup({
-      domain: 'horizon.mailtest.edx.org',
+      domain: 'horizon.edx.org',
       spider: true,
       tag: s_tag,
       useStoredTags: false

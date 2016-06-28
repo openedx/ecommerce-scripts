@@ -8,6 +8,7 @@ import json
 import sys
 import os
 import argparse
+import csv
 from edx_rest_api_client.client import EdxRestApiClient
 from sailthru.sailthru_client import SailthruClient
 
@@ -38,7 +39,9 @@ def main(argv):
     if args.command == 'list':
         process_list(sc)
     elif args.command == 'clear':
-        process_clear(sc)
+        process_clear(sc, False)
+    elif args.command == 'cleanup':
+        process_clear(sc, True)
     elif args.command == 'load':
         process_load(args, sc, args.lms_url, False)
     elif args.command == 'test':
@@ -62,14 +65,14 @@ def process_list(sc):
         logger.info(body)
 
 
-def process_clear(sc):
+def process_clear(sc, cleanup):
     """ Process clear command
     :param sc: Sailthru client
     :return:
     """
 
     while True:
-        response = sc.api_get('content', {})
+        response = sc.api_get('content', { 'items' : 4000})
 
         if not response.is_ok():
             logger.error("Error code %d connecting to Sailthru content api: %s",
@@ -82,9 +85,16 @@ def process_clear(sc):
             return
 
         for body in response.json['content']:
-            response = sc.api_delete('content', {'url': body['url']})
-            if response.is_ok():
-                logger.info("url %s deleted", body['url'])
+            if not cleanup or \
+                len(body['tags']) == 0:
+                # or body['url'].startswith('https://www.edx.org/bio/'):
+
+                response = sc.api_delete('content', {'url': body['url']})
+                if response.is_ok():
+                    logger.info("url %s deleted", body['url'])
+
+        if cleanup:
+            return
 
 
 def process_load(args, sc, lms_url, test):
@@ -99,21 +109,29 @@ def process_load(args, sc, lms_url, test):
         logger.info('No access token provided. Retrieving access token using client_credential flow...')
 
         try:
-            access_token, __ = EdxRestApiClient.get_oauth_access_token(
-                '{root}/access_token'.format(root=args.oauth_host),
+            # access_token, __ = EdxRestApiClient.get_oauth_access_token(
+            #     '{root}/access_token'.format(root=args.oauth_host),
+            #     args.oauth_key,
+            #     args.oauth_secret,
+            #     token_type='jwt'
+            # )
+            access_token, expires = EdxRestApiClient.get_oauth_access_token('{root}/access_token'.format(root=args.oauth_host),
                 args.oauth_key,
-                args.oauth_seret
-            )
+                args.oauth_secret, token_type='jwt')
         except Exception:
             logger.exception('No access token provided or acquired through client_credential flow.')
             raise
 
-    # logger.info('Token retrieved: %s', access_token)
+    logger.info('Token retrieved: %s', access_token)
 
     # use programs api to build table of course runs that are part of xseries
     series_table = load_series_table()
 
-    client = EdxRestApiClient(args.content_api_url, oauth_access_token=access_token)
+    # load any fixups
+    fixups = load_fixups(args.fixups)
+    logger.info(fixups)
+
+    client = EdxRestApiClient(args.content_api_url, jwt=access_token)
 
     count = None
     page = 1
@@ -123,7 +141,7 @@ def process_load(args, sc, lms_url, test):
 
     while page:
         # get a page of courses
-        response = client.courses().get(limit=20, offset=(page-1)*20)
+        response = client.courses().get(limit=500, offset=(page-1)*500)
 
         count = response['count']
         results = response['results']
@@ -136,7 +154,7 @@ def process_load(args, sc, lms_url, test):
         for course in results:
             for course_run in course['course_runs']:
 
-                sailthru_content = create_sailthru_content(course, course_run, series_table, lms_url)
+                sailthru_content = create_sailthru_content(course, course_run, series_table, lms_url, fixups)
 
                 if sailthru_content:
                     course_runs += 1
@@ -158,13 +176,16 @@ def process_load(args, sc, lms_url, test):
     logger.info('Saved %d course runs in Sailthru.', course_runs)
 
 
-def create_sailthru_content(course, course_run, series_table, lms_url):
-    # **temp** expected to move to course_run
-    url = course['marketing_url']
+def create_sailthru_content(course, course_run, series_table, lms_url, fixups):
+
+    # get marketing url
+    url = course_run['marketing_url']
+    if not url:
+        url = course['marketing_url']
 
     # skip course runs with no url
-    if not url:
-        return None
+    #if not url:
+    #    return None
 
     # create parameters for call to Sailthru
     sailthru_content = {}
@@ -180,7 +201,7 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
 
     # get first owner
     if course['owners'] and len(course['owners']) > 0:
-        sailthru_content['site_name'] = course['owners'][0]['key']
+        sailthru_content['site_name'] = course['owners'][0]['key'].replace('_',' ')
 
     # use last modified date for sailthru 'date'
     sailthru_content['date'] = convert_date(course_run['modified'])
@@ -199,9 +220,9 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
     if course_run['pacing_type']:
         sailthru_content_vars['pacing_type'] = course_run['pacing_type']
     if course_run['content_language']:
-        logger.info('Content: ' + course_run['content_language'])
+        sailthru_content_vars['content_language'] = course_run['content_language']
     if len(course_run['transcript_languages']) > 0:
-        logger.info('Content: ' + course_run['transcript_languages'][0])
+        logger.info('Transcript language: ' + course_run['transcript_languages'][0])
 
     # figure out the price(s) and save as Sailthru vars
     if course_run['seats']:
@@ -248,6 +269,13 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
         sailthru_content['tags'] = ", ".join(tags)
     sailthru_content['vars'] = sailthru_content_vars
     sailthru_content['spider'] = 0
+
+    # perform any fixups
+    for row in fixups:
+        if row[0] == course_run['key']:
+            logger.info('Changing %s to %s for %s', row[1], row[2], row[0])
+            sailthru_content_vars[row[1]] = row[2]
+
     return sailthru_content
 
 
@@ -284,6 +312,27 @@ def load_series_table():
     return series_table
 
 
+def load_fixups(filename):
+    """
+    Read list of fixups.
+
+    The fixups file should be a three column csv with any fields that should be overriden
+
+    Each line should have:
+        course_run,field_name,value
+    :param filename:
+    :return:
+    """
+
+    if not filename:
+        return []
+
+    with open(filename, 'rb') as f:
+        reader = csv.reader(f)
+        return list(reader)
+
+
+
 def convert_date(iso_date):
     """ Convert date from ISO 8601 (e.g. 2016-04-15T20:35:11.424818Z) to Sailthru format
     :param iso_date:
@@ -316,7 +365,7 @@ def convert_tag(tagtype, tag):
     """
     # TODO need to deal with chinese characters...
     if tag:
-        resp = tag.replace(' & ', '-').replace(',', '').replace('.', '').replace(' ', '-').replace('--', '-').casefold()
+        resp = tag.replace(' & ', '-').replace(',', '').replace('.', '').replace(' ', '-').replace('--', '-')
         if tagtype:
             resp = tagtype + '-' + resp
         return resp
@@ -328,7 +377,7 @@ def get_args(argv):
 
     parser.add_argument(
             'command',
-            choices=['list', 'load', 'clear', 'test'])
+            choices=['list', 'load', 'clear', 'test', 'cleanup'])
 
     parser.add_argument(
             '--access_token',
@@ -338,7 +387,7 @@ def get_args(argv):
 
     parser.add_argument(
             '--oauth_host',
-            default=os.environ.get('CONTENT_LOAD_OAUTH_HOST', 'https://courses.stage.edx.org/oauth2'),
+            default=os.environ.get('CONTENT_LOAD_OAUTH_HOST', 'https://api.edx.org/oauth2/v1'),
             help='OAuth2 base url.'
         )
 
@@ -376,6 +425,11 @@ def get_args(argv):
             '--lms_url',
             default=os.environ.get('CONTENT_LOAD_LMS_URL', 'https://courses.edx.org'),
             help='LMS url for course pages (e.g. https://courses.edx.org).'
+        )
+
+    parser.add_argument(
+            '--fixups',
+            help='CSV file with fields to fix (each line has course_run,field,value.'
         )
 
     return parser.parse_args()

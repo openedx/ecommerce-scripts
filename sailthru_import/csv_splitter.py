@@ -6,8 +6,9 @@ import os
 """
 Split the Mailchimp csv file in to multiple pieces and change column names
 
-File from Mailchimp should be reduced with the following command before running:
+File from Mailchimp should be reduced with the following commands before running:
 
+pip install csvkit
 csvcut -c "Email Address","activated","Age","Country","First Name","LAST_CHANGED","Name","date_joined","DSTOFF","EUID","Gender","GMTOFF","id","last_login","LEID","MEMBER_RATING","REGION","TIMEZONE","Username","year_of_birth" ~/Downloads/members_export_eccf291e61.csv -e ISO-8859-1 > ~/Downloads/members_export_filtered.csv
 
 """

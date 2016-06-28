@@ -8,14 +8,14 @@ from sailthru.sailthru_client import SailthruClient
 Uploads a specified CSV file containing users into SailThru via the Job API endpoint.
 
 Arguments:
-    `sailthru_key`: API key
-    `sailthru_secret`: API secret
     `csv_file_name`: CSV file name to import.
     `list_name`: List name to import users into.
     `report_email`: Email address which will receive report on import completion.
+    `sailthru_key`: API key
+    `sailthru_secret`: API secret
 
 Example usage:
-    $ sailthru_import AJKHSDKJHSADKJSH-1 KSJLAFUHDSUIH-2 input.csv "Dev Test" "bfohl@edx.org"
+    $ sailthru_import input.csv "Dev Test" "bfohl@edx.org" AJKHSDKJHSADKJSH-1 KSJLAFUHDSUIH-2
 
 Upload file size limit is 100 MB. csv_splitter is used to break up the export file from MailChimp.
 
