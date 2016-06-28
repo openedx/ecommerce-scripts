@@ -8,6 +8,7 @@ import json
 import sys
 import os
 import argparse
+import csv
 from edx_rest_api_client.client import EdxRestApiClient
 from sailthru.sailthru_client import SailthruClient
 
@@ -126,6 +127,10 @@ def process_load(args, sc, lms_url, test):
     # use programs api to build table of course runs that are part of xseries
     series_table = load_series_table()
 
+    # load any fixups
+    fixups = load_fixups(args.fixups)
+    logger.info(fixups)
+
     client = EdxRestApiClient(args.content_api_url, jwt=access_token)
 
     count = None
@@ -149,7 +154,7 @@ def process_load(args, sc, lms_url, test):
         for course in results:
             for course_run in course['course_runs']:
 
-                sailthru_content = create_sailthru_content(course, course_run, series_table, lms_url)
+                sailthru_content = create_sailthru_content(course, course_run, series_table, lms_url, fixups)
 
                 if sailthru_content:
                     course_runs += 1
@@ -171,10 +176,7 @@ def process_load(args, sc, lms_url, test):
     logger.info('Saved %d course runs in Sailthru.', course_runs)
 
 
-def create_sailthru_content(course, course_run, series_table, lms_url):
-    # fixups array used for any needed overrides of information from the course content api
-    #  the form is [[<course_run id>, <field name>, <correct value>],[...]]
-    fixups = []
+def create_sailthru_content(course, course_run, series_table, lms_url, fixups):
 
     # get marketing url
     url = course_run['marketing_url']
@@ -218,9 +220,9 @@ def create_sailthru_content(course, course_run, series_table, lms_url):
     if course_run['pacing_type']:
         sailthru_content_vars['pacing_type'] = course_run['pacing_type']
     if course_run['content_language']:
-        logger.info('Content: ' + course_run['content_language'])
+        sailthru_content_vars['content_language'] = course_run['content_language']
     if len(course_run['transcript_languages']) > 0:
-        logger.info('Content: ' + course_run['transcript_languages'][0])
+        logger.info('Transcript language: ' + course_run['transcript_languages'][0])
 
     # figure out the price(s) and save as Sailthru vars
     if course_run['seats']:
@@ -308,6 +310,27 @@ def load_series_table():
             page = None
 
     return series_table
+
+
+def load_fixups(filename):
+    """
+    Read list of fixups.
+
+    The fixups file should be a three column csv with any fields that should be overriden
+
+    Each line should have:
+        course_run,field_name,value
+    :param filename:
+    :return:
+    """
+
+    if not filename:
+        return []
+
+    with open(filename, 'rb') as f:
+        reader = csv.reader(f)
+        return list(reader)
+
 
 
 def convert_date(iso_date):
@@ -402,6 +425,11 @@ def get_args(argv):
             '--lms_url',
             default=os.environ.get('CONTENT_LOAD_LMS_URL', 'https://courses.edx.org'),
             help='LMS url for course pages (e.g. https://courses.edx.org).'
+        )
+
+    parser.add_argument(
+            '--fixups',
+            help='CSV file with fields to fix (each line has course_run,field,value.'
         )
 
     return parser.parse_args()
