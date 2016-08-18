@@ -14,7 +14,7 @@ csvcut -c "Email Address","activated","Age","Country","First Name","LAST_CHANGED
 """
 
 
-def split(filehandler, delimiter=',', row_limit=500000,
+def split(filehandler, delimiter=',', row_limit=1000000,
           output_name_template='output_%s.csv', output_path='.', keep_headers=True):
 
     # columns to rename
@@ -56,17 +56,18 @@ def split(filehandler, delimiter=',', row_limit=500000,
 
             if keep_headers:
                 current_out_writer.writerow(headers)
+        row[7] = '2016-07-21'
         current_out_writer.writerow(row)
 
 
-def rename_row(headers, input, output):
+def rename_row(headers, input_row, output):
     for i, value in enumerate(headers):
-        if value == input:
+        if value == input_row:
             headers[i] = output
             return True
 
-    logging.error("Unable to find column %s", input)
-    return False
+    logging.error("Unable to find column %s", input_row)
+    return True
 
 
 def main():

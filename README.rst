@@ -21,14 +21,17 @@ as follows:
                            [--sailthru_secret SAILTHRU_SECRET]
                            [--content_api_url CONTENT_API_URL]
                            [--lms_url LMS_URL]
-                           {list,load,clear}
+                           [--email_report EMAIL_REPORT]
+                           {list,batch,load,clear}
 
 The 'clear' command deletes all the entries currently in the Sailthru content library.  It should generally only be
 used during testing before deployment.  The 'list' command displays, in JSON, up to 1000 entries currently in the
 Sailthru content library.  The 'load' command reads the course list using the Course Discovery API and adds/updates
-the Sailthru content library appropriately.
+the Sailthru content library appropriately.  The 'batch' command sends the updates to Sailthru as a batch job.  The
+result is sent as a brief report to the address specified in --email_report.  Batch mode is the most efficient and
+doesn't risk violating the api rate limiting in Sailthru.
 
-The following switches are available:
+The following options are available:
 
 +--------------------------------+-------------------------------------------------------+
 | Switch                         | Purpose                                               |
@@ -48,6 +51,8 @@ The following switches are available:
 | --content_api_url              | Url of Course Discovery API                           |
 +--------------------------------+-------------------------------------------------------+
 | --lms_url                      | Url of LMS (default http://courses.edx.org            |
++--------------------------------+-------------------------------------------------------+
+| --email_report                 | Email address to sent batch report to                 |
 +--------------------------------+-------------------------------------------------------+
 
 To get access to the Course Discovery API, you need either an existing access token, or you can specify the
