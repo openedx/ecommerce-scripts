@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
-import sailthru_content
+from sailthru_content import sailthru_content
+
 
 # test datetime converter
 def test_convert_date():
@@ -14,7 +15,7 @@ def test_convert_date():
 # test tag converter
 def test_convert_tag():
     content = sailthru_content
-    assert content.convert_tag('subject', 'Accounting & Finance,...') == 'subject-accounting-finance'
+    assert content.convert_tag('subject', 'Accounting & Finance,...') == 'subject-Accounting-Finance'
 
 
 # test create sailthru content
@@ -26,7 +27,7 @@ def test_create_sailthru_content():
     title = "Writing Fiction for Computers"
     description = "Lots of laughs for your PC friends"
     owner = "TestX"
-    owner_tag = "school-testx"
+    owner_tag = "school-TestX"
     date = "2016-04-20T17:34:34.360311Z"
     converted_date = "2016-04-20"
     enrollment_end_date = "2017-12-14T05:00:00Z"
@@ -41,15 +42,13 @@ def test_create_sailthru_content():
     series_id = '22'
     series_index = 11
     subject1 = "Computer Science"
-    subject1_converted = 'subject-computer-science'
+    subject1_converted = 'subject-Computer-Science'
     subject2 = "Literature"
-    subject2_converted = 'subject-literature'
+    subject2_converted = 'subject-Literature'
     instructor1 = "Jack London"
-    instructor1_converted = "instructor-jack-london"
     staff1 = "Jill G. Hillson"
-    staff1_converted = "staff-jill-g-hillson"
     sponsor1 = "US Navy"
-    sponsor1_converted = "school-us-navy"
+    sponsor1_converted = "school-US-Navy"
     upgrade_deadline = "2016-04-22T17:34:34.360311Z"
     converted_upgrade_deadline = "2016-04-22"
 
@@ -136,7 +135,8 @@ def test_create_sailthru_content():
                     "pacing_type": "instructor_paced",
                     "min_effort": None,
                     "max_effort": None,
-                    "modified": date
+                    "modified": date,
+                    "marketing_url": 'http://www.hi.there',
                 }
 
     course = {
@@ -182,7 +182,7 @@ def test_create_sailthru_content():
             "marketing_url": 'http://www.hi.there'
         }
 
-    response = content.create_sailthru_content(course, course_run, series_table, 'https://test.org')
+    response = content.create_sailthru_content(course, course_run, series_table, 'https://test.org', [])
 
     assert response['url'] == 'https://test.org/courses/' + course_run_id + '/info'
     assert response['vars']['marketing_url'] == 'http://www.hi.there'
@@ -207,8 +207,6 @@ def test_create_sailthru_content():
     assert len(tags) > 4
     assert subject1_converted in tags
     assert subject2_converted in tags
-    assert instructor1_converted in tags
-    assert staff1_converted in tags
     assert owner_tag in tags
     assert sponsor1_converted in tags
 
