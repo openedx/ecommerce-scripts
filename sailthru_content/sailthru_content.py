@@ -45,11 +45,11 @@ The following options are available:
 +================================+=======================================================+
 | --access_token                 | An access token for the Course Discovery API          |
 +--------------------------------+-------------------------------------------------------+
-| --oauth_host                   | The host used to obtain Course Discover access token  |
+| --oauth_host                   | The host used to obtain Course Discovery access token |
 +--------------------------------+-------------------------------------------------------+
-| --oauth_key                    | The key used to obtain Course Discover access token   |
+| --oauth_key                    | Key used to obtain Course Discovery access token      |
 +--------------------------------+-------------------------------------------------------+
-| --oauth_secret                 | The secret used to obtain Course Discover access token|
+| --oauth_secret                 | Secret used to obtain Course Discovery access token   |
 +--------------------------------+-------------------------------------------------------+
 | --sailthru_key                 | Access key for Sailthru api                           |
 +--------------------------------+-------------------------------------------------------+
@@ -64,6 +64,15 @@ The following options are available:
 
 To get access to the Course Discovery API, you need either an existing access token, or you can specify the
 oauth_host, oauth_key and oauth_secret.
+
+Sample command to load course content in batch:
+
+sailthru_content.py --oauth_key=<api key> --oauth_secret=<api secret>
+   --sailthru_key=<sailthru key> --sailthru_secret=<sailthru secret>
+   --content_api_url=https://prod-edx-discovery.edx.org/api/v1/
+   --lms_url=https://courses.edx.org
+   --fixups=fixups.csv
+   --email_report=somebody@edx.org batch
 
 """
 
