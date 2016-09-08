@@ -59,6 +59,7 @@ To get access to the Course Discovery API, you need either an existing access to
 oauth_host, oauth_key and oauth_secret.
 
 sailthru_content.py --oauth_key=<api key> --oauth_secret=<api secret>
+   --oauth_host=https://api.edx.org/oauth2/v1
    --sailthru_key=<sailthru key> --sailthru_secret=<sailthru secret>
    --content_api_url=https://prod-edx-discovery.edx.org/api/v1/
    --lms_url=https://courses.edx.org
