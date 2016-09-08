@@ -68,6 +68,7 @@ oauth_host, oauth_key and oauth_secret.
 Sample command to load course content in batch:
 
 sailthru_content.py --oauth_key=<api key> --oauth_secret=<api secret>
+   --oauth_host=https://api.edx.org/oauth2/v1
    --sailthru_key=<sailthru key> --sailthru_secret=<sailthru secret>
    --content_api_url=https://prod-edx-discovery.edx.org/api/v1/
    --lms_url=https://courses.edx.org
@@ -384,9 +385,12 @@ def convert_date(iso_date):
     """
     if iso_date is None:
         return None
-    if '.' in iso_date:
-        return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d")
-    return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d")
+    try:
+        if '.' in iso_date:
+            return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d")
+        return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d")
+    except ValueError:
+        return None
 
 
 def convert_datetime(iso_date):
@@ -394,9 +398,12 @@ def convert_datetime(iso_date):
     """
     if iso_date is None:
         return None
-    if '.' in iso_date:
-        return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S +0000")
-    return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M:%S +0000")
+    try:
+        if '.' in iso_date:
+            return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S +0000")
+        return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M:%S +0000")
+    except ValueError:
+        return None
 
 
 def convert_tag(tagtype, tag):
