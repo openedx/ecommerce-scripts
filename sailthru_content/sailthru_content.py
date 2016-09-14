@@ -293,7 +293,7 @@ def create_sailthru_content(course, course_run, series_table, lms_url, fixups):
 
     if len(tags) > 0:
         sailthru_content['tags'] = ", ".join(tags)
-    sailthru_content['vars'] = _create_course_vars(course, course_run, url, series_table)
+    sailthru_content['vars'] = _create_course_vars(course, course_run, url, series_table, sailthru_content)
     sailthru_content['spider'] = 0
 
     # perform any fixups
@@ -309,7 +309,7 @@ def create_sailthru_content(course, course_run, series_table, lms_url, fixups):
     return sailthru_content
 
 
-def _create_course_vars(course, course_run, url, series_table):
+def _create_course_vars(course, course_run, url, series_table, sailthru_content):
     """ Generate 'vars' section of Sailthru data
     """
     sailthru_content_vars = {}
@@ -317,6 +317,10 @@ def _create_course_vars(course, course_run, url, series_table):
     sailthru_content_vars['marketing_url'] = url
     sailthru_content_vars['course_id'] = course['key']
     sailthru_content_vars['course_run_id'] = course_run['key']
+
+    # duplicate site_name in vars for purchase/enroll templates
+    if 'site_name' in sailthru_content:
+        sailthru_content_vars['site_name'] = sailthru_content['site_name']
 
     # use enrollment_end for sailthru expire_date
     if course_run['enrollment_end']:
