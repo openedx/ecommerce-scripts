@@ -1,0 +1,23 @@
+<script type="text/javascript">
+  require(["Sailthru"], function (Sailthru) {
+  var s_tag = '';
+  if ({{event}}.includes('.subject')) s_tag = 'subject-' + {{label}};
+  else if ({{event}}.includes('.school')) s_tag = 'school-' + {{label}};
+  else if ({{event}}.includes('.language')) s_tag = 'language-' + {{label}};
+  else if ({{event}}.includes('.level')) s_tag = 'level-' + {{label}};
+  else if ({{event}}.includes('.types')) {
+    if ({{label}} == 'highschool') s_tag = 'page-high-school';
+    else if ({{label}} == 'verified') s_tag = 'page-verified-certificate';
+    else if ({{label}} == 'profed') s_tag = 'page-professional-education';
+    else s_tag = 'page-' + {{label}};
+  }
+  else if ({{event}}.includes('.availability')) s_tag = 'type-' + {{label}};
+
+  if (s_tag) {
+
+    s_tag = s_tag.replace(' & ','-').replace(' ','-').toLowerCase();
+    Sailthru.SPM.setup(<customer id>, {
+         				tags: s_tag,
+         				useStoredTags: false});
+  } })();
+</script>
