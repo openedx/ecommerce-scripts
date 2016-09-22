@@ -1,0 +1,39 @@
+<script type="text/javascript">
+(function() {
+	function loadHorizon() {
+		var s = document.createElement('script');
+		s.type = 'text/javascript';
+		s.src = location.protocol + '//ak.sail-horizon.com/onsite/personalize.v0.0.4.js';
+		s.dataset.sailthruSetup = "true";
+		var x = document.getElementsByTagName('script')[0];
+		x.parentNode.insertBefore(s, x);
+	}
+
+	loadHorizon();
+
+	var oldOnLoad = window.onload;
+	window.onload = function() {
+		if (typeof oldOnLoad === 'function') {
+			oldOnLoad();
+		}
+
+		var config = {
+	        paths: {
+	            "Sailthru": "https://ak.sail-horizon.com/onsite/personalize.v0.0.4.min"
+	        },
+	        waitSeconds: 300,
+	        shim: {
+	            Sailthru: {
+	                exports: 'Sailthru'
+	            }
+	        }
+	    };
+
+        Sailthru.SPM.setup(<customer id>, {
+            spider: true,
+            autoTrackPageView: false,
+            useStoredTags: true});
+        Sailthru.SPM.trackPageView(decodeURIComponent(window.location.href), {});
+	};
+})();
+</script>

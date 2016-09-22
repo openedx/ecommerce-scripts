@@ -62,7 +62,8 @@
 | Name:            | Drupal Other Page                                                              |
 | Event:           | Page View                                                                      |
 | Trigger Type:    | DOM Ready                                                                      |
-| Fire On:         | url contains edx.org & url does not contain edx.org/course/                    |
+| Fire On:         | url contains edx.org & url does not contain edx.org/course/ and                |
+|                  | url does not contain courses.edx.org                                           |
 
 
 | Field            | Value                                                                          |
@@ -82,13 +83,13 @@
 
 ##  Tags
  
- Two GTM tags are required
+ Following GTM tags are required
 
 | Field            | Value                                                                          |
 |------------------|--------------------------------------------------------------------------------|
 | Name:            | Sailthru tagged page                                                           |
 | Type:            | Custom HTML                                                                    |
-| Firing Triggers: | LMS Course Page, Drupal Subject Page, Drupal Other Page                        |
+| Firing Triggers: | Drupal Subject Page, Drupal Other Page                                         |
 | HTML:            | Copy from sailthru_standard.html                                               |
 
 
@@ -96,7 +97,7 @@
 |------------------|--------------------------------------------------------------------------------|
 | Name:            | Drupal course page tag                                                         |
 | Type:            | Custom HTML                                                                    |
-| Firing Triggers: | Drupal Course Page                                                             |
+| Firing Triggers: | Drupal Course Page, Course enroll                                              |
 | HTML:            | Copy from sailthru_course.html                                                 |
 
 
@@ -104,5 +105,13 @@
 |------------------|--------------------------------------------------------------------------------|
 | Name:            | Sailthru filtered course search                                                |
 | Type:            | Custom HTML                                                                    |
-| Firing Triggers: | Course enroll                                                                  |
+| Firing Triggers: | Filtered course search                                                         |
 | HTML:            | Copy from sailthru_course_filters.html                                         |
+
+
+| Field            | Value                                                                          |
+|------------------|--------------------------------------------------------------------------------|
+| Name:            | LMS course info page                                                           |
+| Type:            | Custom HTML                                                                    |
+| Firing Triggers: | LMS Course Page                                                                |
+| HTML:            | Copy from sailthru_lms_course.html                                             |
