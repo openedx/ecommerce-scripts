@@ -37,7 +37,8 @@
             utm_medium: sMediumeValue,
             utm_campaign: sCampaignValue,
             utm_term: sTermValue,
-            utm_content: sContentValue
+            utm_content: sContentValue,
+            created_at: new Date().getTime()
         };
         _setCookie(sCookieName, JSON.stringify(oCookieContent), iCookieLengthDays);
     }
