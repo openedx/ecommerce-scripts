@@ -60,3 +60,9 @@ docs/_build/
 target/
 
 .idea/
+
+.DS_Store
+
+# Google Analytics Specific
+google_analytics/client_secrets.json
+google_analytics/analytics.dat

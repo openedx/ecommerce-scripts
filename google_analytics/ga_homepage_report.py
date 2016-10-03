@@ -37,6 +37,7 @@ recipients = ["ojchang@edx.org"]
 
 import argparse
 
+# pip install --upgrade google-api-python-client
 from apiclient.discovery import build
 import httplib2
 from oauth2client import client
@@ -86,6 +87,12 @@ def get_service(api_name, api_version, scope, client_secrets_path):
 def get_hpEnrolls(service,date):
   # Use the Analytics Service Object to query the Core Reporting API
   # for the number of sessions in the past seven days.
+  filters = [
+    'ga:eventAction==edx.bi.user.course-details.enroll.header',
+    'ga:eventAction==edx.bi.user.course-details.enroll.main',
+    'ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card',
+    'ga:eventAction==edx.bi.user.course-details.enroll.discovery-card',
+  ]
   return service.data().ga().get(
       ids='ga:' + '86300562',
       start_date=str(date),
@@ -93,8 +100,8 @@ def get_hpEnrolls(service,date):
       max_results=10000,
       metrics='ga:totalEvents,ga:uniqueEvents',
       dimensions='ga:date,ga:pageTitle',
-      filters='ga:eventAction==edx.bi.user.course-details.enroll.header,ga:eventAction==edx.bi.user.course-details.enroll.main,ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card',
-      segment='sessions::sequence::ga:pagePath==/;->ga:pagePath!~^/course/subject/;ga:pagePath=~^/course/,ga:pagePath=~^/xseries/;->>ga:eventAction==edx.bi.user.course-details.enroll.header,ga:eventAction==edx.bi.user.course-details.enroll.main,ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card').execute()
+      filters=','.join(filters),
+      segment='sessions::sequence::ga:pagePath==/;->ga:pagePath!~^/course/subject/;ga:pagePath=~^/course/,ga:pagePath=~^/xseries/,ga:pagePath=~^/micromasters/;->>ga:eventAction==edx.bi.user.course-details.enroll.header,ga:eventAction==edx.bi.user.course-details.enroll.main,ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card,ga:eventAction==edx.bi.user.course-details.enroll.discovery-card').execute()
 
 def get_X(service,date):
   # Use the Analytics Service Object to query the Core Reporting API
@@ -106,7 +113,7 @@ def get_X(service,date):
       max_results=10000,
       metrics='ga:pageviews',
       dimensions='ga:date,ga:pageTitle',
-      filters='ga:landingPagePath=~^/xseries/;ga:secondPagePath=~^/course/').execute()
+      filters='ga:landingPagePath=~^/xseries/;ga:secondPagePath=~^/course/;,ga:pagePath=~^/micromasters/').execute()
 
 
 def get_hpCourseViews(service,date):
@@ -119,7 +126,7 @@ def get_hpCourseViews(service,date):
       max_results=10000,
       metrics='ga:pageviews,ga:uniquePageviews',
       dimensions='ga:date,ga:pageTitle',
-      filters='ga:previousPagePath==/;ga:pagePath!~^/course/subject/;ga:pagePath=~^/course/,ga:pagePath=~^/xseries/').execute()
+      filters='ga:previousPagePath==/;ga:pagePath!~^/course/subject/;ga:pagePath=~^/course/,ga:pagePath=~^/xseries/,ga:pagePath=~^/micromasters/').execute()
 
 def get_hpSubjectViews(service,date):
   # Use the Analytics Service Object to query the Core Reporting API
