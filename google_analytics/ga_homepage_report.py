@@ -37,7 +37,6 @@ recipients = ["ojchang@edx.org"]
 
 import argparse
 
-# pip install --upgrade google-api-python-client
 from apiclient.discovery import build
 import httplib2
 from oauth2client import client
