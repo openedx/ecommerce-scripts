@@ -48,9 +48,9 @@ class SailthruTranslationService(object):
         if site_name:
             sailthru_content_vars['site_name'] = site_name
 
-        if course_run['pacing_type']:
+        if course_run.get('pacing_type'):
             sailthru_content_vars['pacing_type'] = course_run['pacing_type']
-        if course_run['content_language']:
+        if course_run.get('content_language'):
             sailthru_content_vars['content_language'] = course_run['content_language']
 
         # figure out the price(s) and save as Sailthru vars
@@ -84,7 +84,7 @@ class SailthruTranslationService(object):
 
     def translate_course_run(self, course_run, course, program_dictionary=None):
         # get marketing url
-        url = course_run.get('marketing_url', course['marketing_url'])
+        url = course_run.get('marketing_url', course.get('marketing_url'))
 
         # create parameters for call to Sailthru
         sailthru_content = {
@@ -161,8 +161,9 @@ class SailthruTranslationService(object):
 
     def _filter_keys(self, collection, selected_keys):
         translated = []
-        for item in collection:
-            translated.append({key: item.get(key) for key in selected_keys})
+        if collection:
+            for item in collection:
+                translated.append({key: item.get(key) for key in selected_keys})
 
         return translated
 
@@ -229,11 +230,15 @@ class SailthruTranslationService(object):
         if not course_run_list:
             return None
 
+        default_start_string = '2030-12-31T00:00:00Z'
         sorted_course_runs = sorted(
             course_run_list,
-            key=lambda run: datetime.datetime.strptime(run.get('start'), '%Y-%m-%dT%H:%M:%SZ'))
+            key=lambda run: datetime.datetime.strptime(run.get('start', default_start_string), '%Y-%m-%dT%H:%M:%SZ'))
         for course_run in sorted_course_runs:
-            if datetime.datetime.now() < datetime.datetime.strptime(course_run.get('start'), '%Y-%m-%dT%H:%M:%SZ'):
+            if datetime.datetime.now() < datetime.datetime.strptime(
+                course_run.get('start', default_start_string),
+                '%Y-%m-%dT%H:%M:%SZ'
+            ):
                 return course_run
         return course_run_list[0]
 

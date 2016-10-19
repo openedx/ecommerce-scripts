@@ -46,7 +46,7 @@ class CatalogApiService(object):
 
     def get_courses(self):
         logger.debug('Get Courses called')
-        return self._get_resource_from_api(self.api_client.courses(), COURSES_PAGE_SIZE)
+        return self._get_resource_from_api(self.api_client.courses(), COURSES_PAGE_SIZE, marketable=1)
 
     def get_program_dictionary(self):
         if not self._programs_dictionary:
