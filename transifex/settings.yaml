@@ -1,0 +1,5 @@
+repos:
+  - git@github.com:edx/course-discovery.git
+  - git@github.com:edx/credentials.git
+  - git@github.com:edx/ecommerce.git
+  - git@github.com:edx/programs.git
