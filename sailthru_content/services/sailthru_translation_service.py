@@ -2,6 +2,8 @@
 import datetime
 import logging
 
+from constants import GFA_COURSE_RUN_LIST
+
 
 class SailthruTranslationService(object):
     """This is the service that converts the data in edX into what Sailthru can consume"""
@@ -33,6 +35,7 @@ class SailthruTranslationService(object):
 
     def _create_course_vars(self, course, course_run, url, site_name, program_dictionary=None):
         """ Generate 'vars' section of Sailthru data"""
+        seat_priority = ['credit', 'professional', 'verified', 'no-id-professional', 'audit', 'honor']
         sailthru_content_vars = {
             'course_run': True,
             'marketing_url': url,
@@ -58,10 +61,21 @@ class SailthruTranslationService(object):
             for seat in course_run['seats']:
                 sailthru_content_vars['price_{}'.format(seat['type'])] = seat['price']
                 sailthru_content_vars['currency_{}'.format(seat['type'])] = seat['currency']
+                # Adding the course type with the precedence as
+                # Credit, Professional, Verified, Audit so that if a course run have
+                # multiple seat types the one with the higher precedence will be added
+                # in course_type
+                if not sailthru_content_vars.get('course_type', None) or \
+                        seat_priority.index(sailthru_content_vars['course_type']) < seat_priority.index(seat['type']):
+                    sailthru_content_vars['course_type'] = seat['type']
+
                 # add upgrade deadline if there is one
                 if seat.get('upgrade_deadline'):
                     deadline_key = 'upgrade_deadline_{}'.format(seat['type'])
                     sailthru_content_vars[deadline_key] = self._convert_date(seat, 'upgrade_deadline')
+
+        if course_run['key'] in GFA_COURSE_RUN_LIST:
+            sailthru_content_vars['course_type'] = 'gfa'
 
         # If the course runs have associated programs, also append programs information
         course_programs = course.get('programs')
@@ -71,6 +85,7 @@ class SailthruTranslationService(object):
                 program = program_dictionary.get(program_link.get('uuid'))
                 if program:
                     sailthru_content_vars['programs'].append(self._translate_program(program))
+                    sailthru_content_vars['course_type'] = program.get('type')
 
         return sailthru_content_vars
 

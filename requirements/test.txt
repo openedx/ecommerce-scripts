@@ -1,0 +1,6 @@
+# Packages required for testing
+-r base.txt
+
+ddt==1.0.0
+factory_boy==2.7.0
+responses==0.5.1

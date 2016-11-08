@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import json
 import unittest
 
@@ -16,7 +17,17 @@ class CatalogApiTestMixins(unittest.TestCase):
         self.api_url_root = 'http://' + faker.domain_name()
         self.catalog_api_service = CatalogApiService(faker.password(), self.oauth_host, None, None, self.api_url_root)
 
-    def prepare_get_courses(self):
+    def prepare_get_courses(self, seat_type=None):
+        if seat_type:
+            seat = {
+                'type': seat_type,
+                'price': '0.00',
+                'currency': 'USD',
+                'upgrade_deadline': None,
+                'credit_provider': None,
+                'credit_hours': None
+            }
+            SINGLE_COURSE_DATA['results'][0]['course_runs'][0]['seats'].append(seat)
         responses.add(
             responses.GET, self.api_url_root + '/courses/',
             body=json.dumps(SINGLE_COURSE_DATA),
