@@ -1,365 +1,517 @@
-from __future__ import division
-import vertica_python
-import numpy as np
-from pandas import Series, DataFrame
-import pandas as pd
-from vertica_python import connect
-import StringIO
-from StringIO import StringIO
-from datetime import date, timedelta as td
-import xlsxwriter
-import os
-import json
-import urllib2
-import base64
-import datetime
-import re
-import csv
-import pandas as pd
-from pandas import DataFrame, Series
-import numpy as np
-
-
-#pd.options.display.float_format = '{:.2f}%'.format
-
-
-# In[2]:
-
-d1 = date(2016, 9, 22) # Start Date
-d2 = date(2016, 9, 23) # End Date
-filepath="C:/Users/ochang/Desktop/Weekly Marketing Reports/HP Snapshots/"
-#recipients = ["patrick@edx.org","snorkin@edx.org","rsacks@edx.org","ebottomy@edx.org","jzheng@edx.org","cvongsy@edx.org","junjie@edx.org"]
-recipients = ["ojchang@edx.org"]
-
-# In[3]:
-
-"""A simple example of how to access the Google Analytics API."""
-
 import argparse
+from datetime import datetime, timedelta
+import httplib2
+import sys
 
 from apiclient.discovery import build
-import httplib2
-from oauth2client import client
-from oauth2client import file
-from oauth2client import tools
-
-def get_service(api_name, api_version, scope, client_secrets_path):
-  """Get a service that communicates to a Google API.
-
-  Args:
-    api_name: string The name of the api to connect to.
-    api_version: string The api version to connect to.
-    scope: A list of strings representing the auth scopes to authorize for the
-      connection.
-    client_secrets_path: string A path to a valid client secrets file.
-
-  Returns:
-    A service that is connected to the specified API.
-  """
-  # Parse command-line arguments.
-  parser = argparse.ArgumentParser(
-      formatter_class=argparse.RawDescriptionHelpFormatter,
-      parents=[tools.argparser])
-  flags = parser.parse_args([])
-
-  # Set up a Flow object to be used if we need to authenticate.
-  flow = client.flow_from_clientsecrets(
-      client_secrets_path, scope=scope,
-      message=tools.message_if_missing(client_secrets_path))
-
-  # Prepare credentials, and authorize HTTP object with them.
-  # If the credentials don't exist or are invalid run through the native client
-  # flow. The Storage object will ensure that if successful the good
-  # credentials will get written back to a file.
-  storage = file.Storage(api_name + '.dat')
-  credentials = storage.get()
-  if credentials is None or credentials.invalid:
-    credentials = tools.run_flow(flow, storage, flags)
-  http = credentials.authorize(http=httplib2.Http())
-
-  # Build the service object.
-  service = build(api_name, api_version, http=http)
-
-  return service
-
-
-def get_hpEnrolls(service,date):
-  # Use the Analytics Service Object to query the Core Reporting API
-  # for the number of sessions in the past seven days.
-  filters = [
-    'ga:eventAction==edx.bi.user.course-details.enroll.header',
-    'ga:eventAction==edx.bi.user.course-details.enroll.main',
-    'ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card',
-    'ga:eventAction==edx.bi.user.course-details.enroll.discovery-card',
-  ]
-  return service.data().ga().get(
-      ids='ga:' + '86300562',
-      start_date=str(date),
-      end_date=str(date),
-      max_results=10000,
-      metrics='ga:totalEvents,ga:uniqueEvents',
-      dimensions='ga:date,ga:pageTitle',
-      filters=','.join(filters),
-      segment='sessions::sequence::ga:pagePath==/;->ga:pagePath!~^/course/subject/;ga:pagePath=~^/course/,ga:pagePath=~^/xseries/,ga:pagePath=~^/micromasters/;->>ga:eventAction==edx.bi.user.course-details.enroll.header,ga:eventAction==edx.bi.user.course-details.enroll.main,ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card,ga:eventAction==edx.bi.user.course-details.enroll.discovery-card').execute()
-
-def get_X(service,date):
-  # Use the Analytics Service Object to query the Core Reporting API
-  # for the number of sessions in the past seven days.
-  return service.data().ga().get(
-      ids='ga:' + '86300562',
-      start_date=str(date),
-      end_date=str(date),
-      max_results=10000,
-      metrics='ga:pageviews',
-      dimensions='ga:date,ga:pageTitle',
-      filters='ga:landingPagePath=~^/xseries/;ga:secondPagePath=~^/course/;,ga:pagePath=~^/micromasters/').execute()
-
-
-def get_hpCourseViews(service,date):
-  # Use the Analytics Service Object to query the Core Reporting API
-  # for the number of sessions in the past seven days.
-  return service.data().ga().get(
-      ids='ga:' + '86300562',
-      start_date=str(date),
-      end_date=str(date),
-      max_results=10000,
-      metrics='ga:pageviews,ga:uniquePageviews',
-      dimensions='ga:date,ga:pageTitle',
-      filters='ga:previousPagePath==/;ga:pagePath!~^/course/subject/;ga:pagePath=~^/course/,ga:pagePath=~^/xseries/,ga:pagePath=~^/micromasters/').execute()
-
-def get_hpSubjectViews(service,date):
-  # Use the Analytics Service Object to query the Core Reporting API
-  # for the number of sessions in the past seven days.
-  return service.data().ga().get(
-      ids='ga:' + '86300562',
-      start_date=str(date),
-      end_date=str(date),
-      max_results=10000,
-      metrics='ga:pageviews,ga:uniquePageviews',
-      dimensions='ga:date,ga:pageTitle',
-      filters='ga:previousPagePath==/;ga:pagePath=~^/course/subject/').execute()
-
-def get_hpViews(service,date):
-  # Use the Analytics Service Object to query the Core Reporting API
-  # for the number of sessions in the past seven days.
-  return service.data().ga().get(
-      ids='ga:' + '86300562',
-      start_date=str(date),
-      end_date=str(date),
-      max_results=10000,
-      metrics='ga:pageviews,ga:uniquePageviews',
-      dimensions='ga:date',
-      filters='ga:pagePath==/').execute()
-
-
-def main_hpEnrolls(date):
-  # Define the auth scopes to request.
-  scope = ['https://www.googleapis.com/auth/analytics.readonly']
-
-  # Authenticate and construct service.
-  service = get_service('analytics', 'v3', scope, 'client_secrets.json')
-
-  return get_hpEnrolls(service,str(date))['rows']
-
-
-def main_hpViews(date):
-  # Define the auth scopes to request.
-  scope = ['https://www.googleapis.com/auth/analytics.readonly']
-
-  # Authenticate and construct service.
-  service = get_service('analytics', 'v3', scope, 'client_secrets.json')
-
-  return get_hpCourseViews(service,str(date))['rows']
-
-def main_hpSubjectViews(date):
-  # Define the auth scopes to request.
-  scope = ['https://www.googleapis.com/auth/analytics.readonly']
-
-  # Authenticate and construct service.
-  service = get_service('analytics', 'v3', scope, 'client_secrets.json')
-
-  return get_hpSubjectViews(service,str(date))['rows']
-
-def main_hpViewsTot(date):
-  # Define the auth scopes to request.
-  scope = ['https://www.googleapis.com/auth/analytics.readonly']
-
-  # Authenticate and construct service.
-  service = get_service('analytics', 'v3', scope, 'client_secrets.json')
-
-  return get_hpViews(service,str(date))['rows']
-
-
-def substring(x):
-    z=len(x)
-    y=(z-6)
-    temp=x[:y]
-    return temp
-substring('IELTS Academic Test Preparation | edX')
-
-
-# In[4]:
-
-delta = d2 - d1
-
-t=0
-
-for i in range(delta.days + 1):
-    t=t+1
-    dt=d1 + td(days=i)
-    print dt
-    print t
-    if t==1:
-        hpData=main_hpEnrolls(dt)
-        hpData2=main_hpViews(dt)
-        hpDataSubj=main_hpSubjectViews(dt)
-        hpDataViews=main_hpViewsTot(dt)
-    if t>1:
-        hpData=hpData+main_hpEnrolls(dt)
-        hpData2=hpData2+main_hpViews(dt)
-        hpDataSubj=hpDataSubj+main_hpSubjectViews(dt)
-        hpDataViews=hpDataViews+main_hpViewsTot(dt)
-
-
-
-# In[5]:
-
-hpDataViews=DataFrame(hpDataViews,columns=['date','views','uniqueViews'])
-hpDataViews=hpDataViews.convert_objects(convert_numeric=True)
-hpTotal=int(hpDataViews['uniqueViews'].sum())
-hpTotal
-
-
-# In[6]:
-
-hpSubjData=DataFrame(hpDataSubj,columns=['date','page_title','views','uniqueViews'])
-hpSubjData=hpSubjData.convert_objects(convert_numeric=True)
-hpSubjData.drop('date', axis=1, inplace=True)
-hpSubjData2=hpSubjData.groupby(['page_title']).sum().sort(['uniqueViews'],ascending=0)
-hpSubjData2.reset_index(inplace=True)
-hpSubjData2['subject']=hpSubjData2['page_title'].apply(lambda x: substring(x))
-hpSubjData2['totViews'] = hpSubjData2['uniqueViews'].sum()
-hpSubjData2['Pct'] =(hpSubjData2['uniqueViews'] /hpSubjData2['totViews'])
-hpSubjData2=hpSubjData2[(hpSubjData2['Pct']>0.0001)]
-hpSubjData2.to_clipboard(excel=True,encoding='utf-8')
-hpSubjDataFinal=hpSubjData2[['subject','uniqueViews','Pct']]
-#hpSubjDataFinal['Pct'] = hpSubjDataFinal['Pct'].astype(int)
-hpSubjDataFinal
-
-
-# In[7]:
-
-hpViewData=DataFrame(hpData2,columns=['date','page_title','views','uniqueViews'])
-hpViewData=hpViewData.convert_objects(convert_numeric=True)
-hpViewData.drop('date', axis=1, inplace=True)
-hpViewData2=hpViewData.groupby(['page_title']).sum().sort(['uniqueViews'],ascending=0)
-hpViewData2.reset_index(inplace=True)
-#hpViewData2['course_name']=hpViewData2['course_title'].apply(lambda x: substring(x))
-hpViewData2.to_clipboard(excel=True,encoding='utf-8')
-hpViewData2.head()
-
-
-# In[8]:
-
-hpData2=DataFrame(hpData,columns=['date','page_title','totalEnrolls','uniqueEnrolls'])
-hpData2=hpData2.convert_objects(convert_numeric=True)
-hpData2.drop('date', axis=1, inplace=True)
-hpData3=hpData2.groupby(['page_title']).sum().sort(['uniqueEnrolls'],ascending=0)
-hpData3.reset_index(inplace=True)
-#hpData4=pd.merge(hpData3,courseCat,on='course_id',how='left')[['course_name','org','start_date','course_id','uniqueEnrolls','page']]
-#hpData4.sort(['uniqueEnrolls'],ascending=0,inplace=True)
-hpData3.to_clipboard(excel=True,encoding='utf-8')
-hpData3.head()
-courseEnrolls=hpData3[['page_title','uniqueEnrolls']]
-courseEnrolls['course_name']=courseEnrolls['page_title'].apply(lambda x: substring(x))
-courseEnrolls.drop('page_title', axis=1, inplace=True)
-courseEnrolls[['course_name','uniqueEnrolls']].head()
-
-
-# In[9]:
-
-pd.merge(hpViewData2,hpData3,on='page_title',how='outer').to_clipboard(excel=True,encoding='utf-8')
-hpTop12=pd.merge(hpViewData2,hpData3,on='page_title',how='outer').head(14)
-hpTop12['totViews'] = hpTop12['uniqueViews'].sum()
-hpTop12['CR'] =(hpTop12['uniqueEnrolls'] /hpTop12['uniqueViews'])
-hpTop12['CTR'] =(hpTop12['uniqueViews'] /hpTotal)
-hpTop12['clickShare'] =(hpTop12['uniqueViews'] /hpTop12['totViews'])
-hpTop12['enrollsPerImp'] =(hpTop12['uniqueEnrolls'] /hpTop12['totViews'])
-hpTop12['course_name']=hpTop12['page_title'].apply(lambda x: substring(x))
-final12=hpTop12[['course_name','uniqueViews','CTR','clickShare','uniqueEnrolls','CR','enrollsPerImp']]
-final12
-
-
-# In[10]:
-
-#from pandas import ExcelWriter
-#writer = ExcelWriter(str(filepath)+'HP Data '+str(d1)+' to '+str(d2)+'.xlsx')
-#hpTop12[['course_name','uniqueViews','CR','clickShare','uniqueEnrolls','enrollsPerImp']].to_excel(writer,'HomepageCourses',index=False)
-#hpSubjDataFinal.to_excel(writer,'HomepageSubjects',index=False)
-#writer.save()
-int(final12['uniqueViews'].sum())/hpTotal
-
-
-# In[11]:
-
-excelFile=str(filepath)+'HP Data '+str(d1)+' to '+str(d2)+'.xlsx'
-from pandas import ExcelWriter
-writer = pd.ExcelWriter(excelFile,engine='xlsxwriter')
-final12.to_excel(writer, index=False, sheet_name='HomepageCourses', startrow=8)
-hpSubjDataFinal.to_excel(writer, index=False, sheet_name='HomepageSubjects', startrow=2)
-courseEnrolls[['course_name','uniqueEnrolls']].to_excel(writer, index=False, sheet_name='CourseEnrolls', startrow=2)
-
-
-# Get access to the workbook and sheet
-workbook = writer.book
-worksheet = writer.sheets['HomepageCourses']
-
-money_fmt = workbook.add_format({'num_format': '$#,##0', 'bold': True})
-percent_fmt = workbook.add_format({'num_format': '0.0%', 'bold': False})
-comma_fmt = workbook.add_format({'num_format': '#,##0', 'bold': False})
-date_fmt = workbook.add_format({'num_format': 'dd/mm/yy'})
-cell_format = workbook.add_format({'bold': True, 'italic': False})
-
-worksheet.conditional_format('F1:F1000', {'type': '3_color_scale'})
-worksheet.conditional_format('D1:D1000', {'type': '3_color_scale'})
-worksheet.conditional_format('C1:C1000', {'type': '3_color_scale'})
-worksheet.conditional_format('G1:G1000', {'type': '3_color_scale'})
-
-worksheet.set_column('A:A', 60)
-worksheet.set_column('B:B', 15, comma_fmt)
-worksheet.set_column('E:E', 15, comma_fmt)
-worksheet.set_column('C:D', 15, percent_fmt)
-worksheet.set_column('F:G', 15, percent_fmt)
-worksheet.write('A1', 'Homepage Course Enrollments, Data from '+str(d1)+' to '+str(d2) , cell_format)
-worksheet.write('A3', 'Total Homepage Views:', cell_format)
-worksheet.write('A4', 'Total Click-Throughs to Courses Below:', cell_format)
-worksheet.write('A5', 'Total CTR:', cell_format)
-worksheet.write('A6', 'Total Enrollments:', cell_format)
-worksheet.write('A7', 'Total Enrollments per Homepage View:', cell_format)
-
-worksheet.write('B3', hpTotal, comma_fmt)
-worksheet.write('B4', int(final12['uniqueViews'].sum()), comma_fmt)
-worksheet.write('B5', int(final12['uniqueViews'].sum())/hpTotal, percent_fmt)
-worksheet.write('B6', int(final12['uniqueEnrolls'].sum()), comma_fmt)
-worksheet.write('B7', int(final12['uniqueEnrolls'].sum())/hpTotal, percent_fmt)
-
-
-worksheet = writer.sheets['HomepageSubjects']
-
-worksheet.conditional_format('C1:C1000', {'type': '3_color_scale'})
-
-worksheet.set_column('A:A', 27)
-worksheet.set_column('B:B', 15, comma_fmt)
-worksheet.set_column('C:S', 15, percent_fmt)
-worksheet.write('A1', 'Top Subject Pages from the Homepage, Data from '+str(d1)+' to '+str(d2) , cell_format)
-
-worksheet = writer.sheets['CourseEnrolls']
-
-worksheet.conditional_format('B1:B1000', {'type': '3_color_scale'})
-
-worksheet.set_column('A:A', 100)
-worksheet.set_column('B:B', 20, comma_fmt)
-worksheet.write('A1', 'Course Enrollments from the Homepage, Data from '+str(d1)+' to '+str(d2) , cell_format)
-worksheet.autofilter('A3:B3')
-
-writer.save()
+from oauth2client import client, file, tools
+from pandas import DataFrame, ExcelWriter, merge, concat
+import xlsxwriter
+
+################################################################
+#
+# Run this script by providing the following inputs
+#     python ga_homepage_report.py yyyy-mm-dd yyyy-mm-dd /path/to/report/destination/
+#
+# The first argument is the start date
+# The second argument is the end date
+# The third argument is the location the report will be written to
+#
+###############################################################
+
+def get_service():
+    """Get a service that communicates to a Google API."""
+    api_name = 'analytics'
+    api_version = 'v3'
+    scope = ['https://www.googleapis.com/auth/analytics.readonly']
+    client_secrets_path = 'client_secrets.json'
+
+    # Parse command-line arguments.
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        parents=[tools.argparser])
+    flags = parser.parse_args([])
+
+    # Set up a Flow object to be used if we need to authenticate.
+    flow = client.flow_from_clientsecrets(
+        client_secrets_path,
+        scope=scope,
+        message=tools.message_if_missing(client_secrets_path)
+    )
+
+    # Prepare credentials, and authorize HTTP object with them.
+    # If the credentials don't exist or are invalid run through the native client
+    # flow. The Storage object will ensure that if successful the good
+    # credentials will get written back to a file.
+    storage = file.Storage(api_name + '.dat')
+    credentials = storage.get()
+    if credentials is None or credentials.invalid:
+        credentials = tools.run_flow(flow, storage, flags)
+    http = credentials.authorize(http=httplib2.Http())
+
+    # Build the service object.
+    service = build(api_name, api_version, http=http)
+
+    return service
+
+
+def _featuredCardDrivenEnrollments(date, enrollment_events, featured_card_click):
+    # RETURN total events & unique events
+    # GROUPED BY date, label (course/program id), card index
+    # FOR anyone who clicked a certain featured card
+    # AND whose session sequence was
+    #     featured card click EVENTUALLY FOLLOWED BY
+    #     a set of enrollment events
+    service = get_service()
+
+    data = service.data().ga().get(
+        ids='ga:' + '86300562',
+        start_date=str(date),
+        end_date=str(date),
+        max_results=10000,
+        metrics='ga:totalEvents,ga:uniqueEvents',
+        dimensions='ga:date,ga:eventLabel,ga:dimension5',
+        filters=featured_card_click,
+        segment='sessions::sequence::{featured_card_click};->>{enrollment_events}'.format(
+            featured_card_click=featured_card_click,
+            enrollment_events=enrollment_events
+        )
+    ).execute()
+
+    return data.get('rows', [])
+
+
+def featuredProgramCardDrivenProgramEnrollments(date):
+    program_enrollment_events = ','.join([
+        'ga:eventAction==edx.bi.user.course-details.enrolled-user.enroll-card',  # New MicroMaster
+        'ga:eventAction==edx.bi.user.course-details.enroll.enroll-card',  # New xSeries
+        'ga:eventAction==edx.bi.user.course-details.enroll.discovery-card',  # Old MicroMaster
+        'ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card',  # Old xSeries
+    ])
+
+    featured_program_card_click = ';'.join([
+        'ga:eventAction==edx.bi.user.discovery.card.click',
+        'ga:eventCategory==program',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardDrivenEnrollments(date, program_enrollment_events, featured_program_card_click)
+
+
+def featuredProgramCardDrivenCourseEnrollments(date):
+    course_enrollment_events = ','.join([
+        'ga:eventAction==edx.bi.user.course-details.enroll.header',
+        'ga:eventAction==edx.bi.user.course-details.enroll.main',
+    ])
+
+    featured_program_card_click = ';'.join([
+        'ga:eventAction==edx.bi.user.discovery.card.click',
+        'ga:eventCategory==program',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardDrivenEnrollments(date, course_enrollment_events, featured_program_card_click)
+
+
+def featuredCourseCardDrivenProgramEnrollments(date):
+    program_enrollment_events = ','.join([
+        'ga:eventAction==edx.bi.user.course-details.enrolled-user.enroll-card',  # New MicroMaster
+        'ga:eventAction==edx.bi.user.course-details.enroll.enroll-card',  # New xSeries
+        'ga:eventAction==edx.bi.user.course-details.enroll.discovery-card',  # Old MicroMaster
+        'ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card',  # Old xSeries
+    ])
+
+    featured_course_card_click = ';'.join([
+        'ga:eventAction==edx.bi.user.discovery.card.click',
+        'ga:eventCategory==course',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardDrivenEnrollments(date, program_enrollment_events, featured_course_card_click)
+
+
+def featuredCourseCardDrivenCourseEnrollments(date):
+    course_enrollment_events = ','.join([
+        'ga:eventAction==edx.bi.user.course-details.enroll.header',
+        'ga:eventAction==edx.bi.user.course-details.enroll.main',
+    ])
+
+    featured_course_card_click = ';'.join([
+        'ga:eventAction==edx.bi.user.discovery.card.click',
+        'ga:eventCategory==course',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardDrivenEnrollments(date, course_enrollment_events, featured_course_card_click)
+
+
+def _featuredCardClicks(date, featured_card_click):
+    # RETURN total events & unique events
+    # GROUPED BY date, label (course/program id), card index
+    # FOR anyone who clicked a certain featured card
+    # AND whose session sequence was
+    #     featured card click EVENTUALLY FOLLOWED BY
+    #     a set of enrollment events
+    service = get_service()
+
+    data = service.data().ga().get(
+        ids='ga:' + '86300562',
+        start_date=str(date),
+        end_date=str(date),
+        max_results=10000,
+        metrics='ga:totalEvents,ga:uniqueEvents',
+        dimensions='ga:date,ga:eventLabel,ga:dimension5',
+        filters=featured_card_click
+    ).execute()
+
+    return data.get('rows', [])
+
+
+def featuredCourseCardClicks(date):
+    featured_course_card_click = ';'.join([
+        'ga:eventAction==edx.bi.user.discovery.card.click',
+        'ga:eventCategory==course',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardClicks(date, featured_course_card_click)
+
+
+def featuredProgramCardClicks(date):
+    featured_program_card_click = ';'.join([
+        'ga:eventAction==edx.bi.user.discovery.card.click',
+        'ga:eventCategory==program',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardClicks(date, featured_program_card_click)
+
+
+def homePageToSubjectPageData(date):
+    # RETURN pageviews & unique pageviews
+    # GROUPED BY date & page title
+    # FOR anyone who hit the homepage and ended up on a subject page
+    service = get_service()
+    data = service.data().ga().get(
+        ids='ga:' + '86300562',
+        start_date=str(date),
+        end_date=str(date),
+        max_results=10000,
+        metrics='ga:pageviews,ga:uniquePageviews',
+        dimensions='ga:date,ga:pageTitle',
+        filters='ga:previousPagePath==/;ga:pagePath=~^/course/subject/'
+    ).execute()
+
+    return data['rows']
+
+
+def totalHomePageViewsData(date):
+    # RETURN pageviews & unique pageviews
+    # GROUPED BY date
+    # FOR anyone who hit the homepage
+    service = get_service()
+    data = service.data().ga().get(
+        ids='ga:' + '86300562',
+        start_date=str(date),
+        end_date=str(date),
+        max_results=10000,
+        metrics='ga:pageviews,ga:uniquePageviews',
+        dimensions='ga:date',
+        filters='ga:pagePath==/'
+    ).execute()
+
+    return data['rows']
+
+
+def homePageToSubjectPageDataframe(data):
+    subject_dataframe = DataFrame(data,columns=['date','page_title','views','uniqueViews'])
+    subject_dataframe = subject_dataframe.convert_objects(convert_numeric=True)
+    subject_dataframe.drop('date', axis=1, inplace=True)
+    subject_dataframe = subject_dataframe.groupby(['page_title']).sum().sort(['uniqueViews'],ascending=0)
+    subject_dataframe.reset_index(inplace=True)
+    subject_dataframe['subject'] = subject_dataframe['page_title'].apply(lambda title: strip_edx_page_title(title))
+    subject_dataframe['totalViews'] = subject_dataframe['uniqueViews'].sum()
+    subject_dataframe['Pct'] = (subject_dataframe['uniqueViews'] / subject_dataframe['totalViews'])
+    subject_dataframe = subject_dataframe[(subject_dataframe['Pct']>0.0001)]
+
+    return subject_dataframe[['subject','uniqueViews','Pct']]
+
+
+def totalHomePageViewsValue(data):
+    homepage_view_dataframe = DataFrame(data,columns=['date','views','uniqueViews'])
+    homepage_view_dataframe = homepage_view_dataframe.convert_objects(convert_numeric=True)
+    return int(homepage_view_dataframe['uniqueViews'].sum())
+
+
+def mergeProgramAndCourseDataframe(program_df, course_df, total_homepage_views):
+    dataframe = concat([program_df, course_df])
+    total_clicks = dataframe['uniqueClicks'].sum()
+    total_enrolls = dataframe['uniqueEnrolls'].sum()
+
+    dataframe['CTR'] = dataframe['uniqueClicks'] / total_homepage_views
+    dataframe['clickShare'] = dataframe['uniqueClicks'] / total_clicks
+    dataframe['enrollsPerClick'] = dataframe['uniqueEnrolls'] / total_enrolls
+
+    dataframe = dataframe.sort(['uniqueEnrolls'], ascending=0)
+    fields = [
+        'cardName',
+        'position',
+        'type',
+        'uniqueClicks',
+        'CTR',
+        'uniqueEnrolls',
+        'uniqueProgramEnrolls',
+        'uniqueCourseEnrolls',
+        'conversionRate',
+        'programConversionRate',
+        'courseConversionRate',
+        'clickShare',
+        'clickShareByType',
+        'enrollsPerClick',
+        'enrollsPerClickByType'
+    ]
+
+    return dataframe[fields]
+
+
+def mergeEnrollmentsAndClicksDataframe(program_program_enrolls, program_course_enrolls,course_program_enrolls, course_course_enrolls, course_clicks, program_clicks):
+    program_program_enrolls_df = enrollmentDataframe(program_program_enrolls, 'program', 'Program')
+    program_course_enrolls_df = enrollmentDataframe(program_course_enrolls, 'program', 'Course')
+    course_program_enrolls_df = enrollmentDataframe(course_program_enrolls, 'course', 'Program')
+    course_course_enrolls_df = enrollmentDataframe(course_course_enrolls, 'course', 'Course')
+
+    program_clicks_df = clicksDataframe(program_clicks)
+    course_clicks_df = clicksDataframe(course_clicks)
+
+    program_enrolls_df = mergeEnrollmentByTypeDataframe(program_program_enrolls_df, program_course_enrolls_df, program_clicks_df)
+    course_enrolls_df = mergeEnrollmentByTypeDataframe(course_program_enrolls_df, course_course_enrolls_df, course_clicks_df)
+
+    return (
+        program_enrolls_df,
+        course_enrolls_df
+    )
+
+
+def clicksDataframe(clicks_data):
+    clicks_dataframe = DataFrame(clicks_data, columns=['date', 'cardName', 'position', 'totalClicks', 'uniqueClicks'])
+    clicks_dataframe = clicks_dataframe.convert_objects(convert_numeric=True)
+    clicks_dataframe.drop('date', axis=1, inplace=True)
+
+    return clicks_dataframe
+
+
+def enrollmentDataframe(enrolls_data, card_type, enroll_type):
+    enrolls_dataframe = DataFrame(
+        enrolls_data,
+        columns=[
+            'date',
+            'cardName',
+            'position',
+            'total{type}Enrolls'.format(type=enroll_type),
+            'unique{type}Enrolls'.format(type=enroll_type)
+        ]
+    )
+
+    enrolls_dataframe = enrolls_dataframe.convert_objects(convert_numeric=True)
+    enrolls_dataframe.drop('date', axis=1, inplace=True)
+    enrolls_dataframe['type'] = card_type
+
+    return enrolls_dataframe
+
+
+def mergeEnrollmentByTypeDataframe(program_enrolls, course_enrolls, clicks):
+    dataframe = merge(
+        program_enrolls,
+        course_enrolls,
+        on=['cardName', 'position', 'type'],
+        how='left'
+    )
+
+    dataframe = merge(
+        dataframe,
+        clicks,
+        on=['cardName', 'position'],
+        how='left'
+    )
+
+    total_clicks_by_type = dataframe['uniqueClicks'].sum()
+
+    dataframe['uniqueEnrolls'] = dataframe['uniqueCourseEnrolls'] + dataframe['uniqueProgramEnrolls']
+    dataframe['conversionRate'] = dataframe['uniqueEnrolls'] / dataframe['uniqueClicks']
+    dataframe['programConversionRate'] = dataframe['uniqueProgramEnrolls'] / dataframe['uniqueClicks']
+    dataframe['courseConversionRate'] = dataframe['uniqueCourseEnrolls'] / dataframe['uniqueClicks']
+    dataframe['clickShareByType'] = dataframe['uniqueClicks'] / total_clicks_by_type
+    dataframe['enrollsPerClickByType'] = dataframe['uniqueEnrolls'] / total_clicks_by_type
+
+    return dataframe
+
+
+def strip_edx_page_title(page_title):
+    return page_title.replace(' | edX', '')
+
+
+def output_report(filename, total_homepage_views=None, total_course_card_clicks=None, total_program_card_clicks=None, featured_cards=None, homepage_subjects=None):
+    writer = ExcelWriter(filename,engine='xlsxwriter')
+
+    # Get access to the workbook
+    workbook = writer.book
+
+    # Set the formats needed for the report
+    money_fmt = workbook.add_format({'num_format': '$#,##0', 'bold': True})
+    percent_fmt = workbook.add_format({'num_format': '0.0%', 'bold': False})
+    comma_fmt = workbook.add_format({'num_format': '#,##0', 'bold': False})
+    date_fmt = workbook.add_format({'num_format': 'dd/mm/yy'})
+    cell_format = workbook.add_format({'bold': True, 'italic': False})
+    merge_format = workbook.add_format(
+        {
+            'bold': 1,
+            'align': 'center',
+            'valign': 'vcenter',
+        }
+    )
+
+
+    # Create the homepage courses worksheet
+    if featured_cards is not None:
+        featured_cards.to_excel(writer, index=False, sheet_name='Featured Card Report', startrow=18)
+        featured_cards_worksheet = writer.sheets['Featured Card Report']
+
+        # Set column width and formatting
+        featured_cards_worksheet.set_column('A:A', 60)
+        featured_cards_worksheet.set_column('D:D', 15, comma_fmt)
+        featured_cards_worksheet.set_column('E:E', 15, percent_fmt)
+        featured_cards_worksheet.set_column('F:H', 15, comma_fmt)
+        featured_cards_worksheet.set_column('I:O', 15, percent_fmt)
+
+        # Write headings
+        featured_cards_worksheet.write(
+            'A1',
+            'Homepage Course Enrollments, Data from {start} to {end}'.format(start=start_date, end=end_date),
+            cell_format
+        )
+        featured_cards_worksheet.write('A3', 'Overview', cell_format)
+        featured_cards_worksheet.write('A4', 'Total Homepage Views:', cell_format)
+        featured_cards_worksheet.write('A6', 'Total feat. Card Clicks on Home Page:', cell_format)
+        featured_cards_worksheet.write('A7', '     feat. course clicks', cell_format)
+        featured_cards_worksheet.write('A8', '     feat. program clicks', cell_format)
+        featured_cards_worksheet.write('A10', 'Total CTR', cell_format)
+        featured_cards_worksheet.write('C12', 'card conversion', cell_format)
+        featured_cards_worksheet.write('A13', 'Total Enrollments from card clicks:', cell_format)
+        featured_cards_worksheet.write('A14', '      enrollment on course about (top+bottom)', cell_format)
+        featured_cards_worksheet.write('A15', '      enrolllment on program about', cell_format)
+        featured_cards_worksheet.write('A18', 'Top Performing Cards + Conversion', cell_format)
+
+        featured_cards_worksheet.merge_range('F18:H18', 'enrollment events from card click', merge_format)
+        featured_cards_worksheet.merge_range('I18:K18', 'conversion from card click', merge_format)
+        featured_cards_worksheet.merge_range('L18:M18', 'clickshare vs. other cards', merge_format)
+        featured_cards_worksheet.merge_range('N18:O18', 'enrollments per impression', merge_format)
+
+        # Write Overview Data
+        featured_cards_worksheet.write('B4', total_homepage_views, comma_fmt)
+        featured_cards_worksheet.write('B6', int(featured_cards['uniqueClicks'].sum()), comma_fmt)
+        featured_cards_worksheet.write('B7', total_course_card_clicks, comma_fmt)
+        featured_cards_worksheet.write('B8', total_program_card_clicks, comma_fmt)
+        featured_cards_worksheet.write('B10', float(featured_cards['uniqueClicks'].sum())/total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('B13', int(featured_cards['uniqueEnrolls'].sum()), comma_fmt)
+        featured_cards_worksheet.write('B14', int(featured_cards['uniqueCourseEnrolls'].sum()), comma_fmt)
+        featured_cards_worksheet.write('B15', int(featured_cards['uniqueProgramEnrolls'].sum()), comma_fmt)
+        featured_cards_worksheet.write('C13', float(featured_cards['uniqueEnrolls'].sum())/total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C14', float(featured_cards['uniqueCourseEnrolls'].sum()) / total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C15', float(featured_cards['uniqueProgramEnrolls'].sum()) / total_homepage_views, percent_fmt)
+
+    if homepage_subjects is not None:
+        homepage_subjects.to_excel(writer, index=False, sheet_name='HomepageSubjects', startrow=2)
+
+        # Get the homepage subject worksheet
+        homepage_subject_worksheet = writer.sheets['HomepageSubjects']
+
+        # Set conditional format
+        homepage_subject_worksheet.conditional_format('C1:C1000', {'type': '3_color_scale'})
+
+        # Set column width and formatting
+        homepage_subject_worksheet.set_column('A:A', 27)
+        homepage_subject_worksheet.set_column('B:B', 15, comma_fmt)
+        homepage_subject_worksheet.set_column('C:S', 15, percent_fmt)
+
+        # Write heading
+        homepage_subject_worksheet.write('A1', 'Top Subject Pages from the Homepage, Data from '+str(start_date)+' to '+str(end_date) , cell_format)
+
+    # Write out the .xlsx file
+    writer.save()
+
+
+def run(start_date, end_date, filepath):
+    # get all of the report data
+    homepage_to_subject_page_data = homePageToSubjectPageData(start_date)
+    total_homepage_views_data = totalHomePageViewsData(start_date)
+    program_card_program_enroll_data = featuredProgramCardDrivenProgramEnrollments(start_date)
+    program_card_course_enroll_data = featuredProgramCardDrivenCourseEnrollments(start_date)
+    course_card_program_enroll_data = featuredCourseCardDrivenProgramEnrollments(start_date)
+    course_card_course_enroll_data = featuredCourseCardDrivenCourseEnrollments(start_date)
+    course_card_clicks = featuredCourseCardClicks(start_date)
+    program_card_clicks = featuredProgramCardClicks(start_date)
+    print(start_date)
+    delta = end_date - start_date
+    for i in range(1, delta.days + 1):
+        next_date = start_date + timedelta(days=i)
+        homepage_to_subject_page_data += homePageToSubjectPageData(next_date)
+        total_homepage_views_data += totalHomePageViewsData(next_date)
+        program_card_program_enroll_data += featuredProgramCardDrivenProgramEnrollments(next_date)
+        program_card_course_enroll_data += featuredProgramCardDrivenCourseEnrollments(next_date)
+        course_card_program_enroll_data += featuredCourseCardDrivenProgramEnrollments(next_date)
+        course_card_course_enroll_data += featuredCourseCardDrivenCourseEnrollments(next_date)
+        course_card_clicks += featuredCourseCardClicks(next_date)
+        program_card_clicks += featuredProgramCardClicks(next_date)
+        print(next_date)
+
+    subject_dataframe = homePageToSubjectPageDataframe(homepage_to_subject_page_data)
+    total_homepage_views = totalHomePageViewsValue(total_homepage_views_data)
+    program_card_df, course_card_df = mergeEnrollmentsAndClicksDataframe(
+        program_card_program_enroll_data,
+        program_card_course_enroll_data,
+        course_card_program_enroll_data,
+        course_card_course_enroll_data,
+        course_card_clicks,
+        program_card_clicks
+    )
+
+    total_course_card_clicks = course_card_df['uniqueClicks'].sum()
+    total_program_card_clicks = program_card_df['uniqueClicks'].sum()
+
+    featured_card_df = mergeProgramAndCourseDataframe(program_card_df, course_card_df, total_homepage_views)
+
+    # create filename from inputs
+    filename = "{filepath}HP Data {start_date} to {end_date}.xlsx".format(
+        filepath=filepath,
+        start_date=start_date,
+        end_date=end_date
+    )
+
+    # generate report
+    output_report(
+        filename,
+        total_homepage_views=total_homepage_views,
+        total_course_card_clicks=total_course_card_clicks,
+        total_program_card_clicks=total_program_card_clicks,
+        featured_cards=featured_card_df,
+        homepage_subjects=subject_dataframe
+    )
+
+
+def parse_date(date):
+    return datetime.strptime(date, '%Y-%m-%d').date()
+
+
+# parse script arguments
+start_date = parse_date(sys.argv[1])
+end_date = parse_date(sys.argv[2])
+filepath = sys.argv[3]
+
+# Run the report
+run(start_date, end_date, filepath)
