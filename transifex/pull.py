@@ -5,7 +5,14 @@ commit, push, and merge them to their respective repos.
 To use, export an environment variable `GITHUB_ACCESS_TOKEN`. The token requires
 GitHub's "repo" scope.
 
-Run the script from the root of this repo: `python transifex/pull.py`.
+Run the script from the root of this repo. To use the repo clone URLs stored in
+settings.yaml, simply run:
+
+    python transifex/pull.py
+
+If you want to run the script for a specific repo, provide a clone URL as an argument:
+
+    python transifex/pull.py git@github.com:edx/course-discovery.git
 """
 import concurrent.futures
 from contextlib import contextmanager
@@ -15,6 +22,7 @@ import os
 from os.path import join, abspath, dirname
 import re
 import subprocess
+import sys
 import time
 
 from github import Github, GithubException
@@ -218,11 +226,18 @@ def pull(repo):
 
 
 if __name__ == '__main__':
-    settings_file = join(abspath(dirname(__file__)), 'settings.yaml')
-    with open(settings_file) as f:
-        settings = yaml.load(f)
+    try:
+        clone_url = sys.argv[1]
+        repo = Repo(clone_url)
+        pull(repo)
+    except IndexError:
+        logger.info('No arguments provided. Using settings.yaml.')
 
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        for clone_url in settings['repos']:
-            repo = Repo(clone_url)
-            executor.submit(pull, repo)
+        settings_file = join(abspath(dirname(__file__)), 'settings.yaml')
+        with open(settings_file) as f:
+            settings = yaml.load(f)
+
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            for clone_url in settings['repos']:
+                repo = Repo(clone_url)
+                executor.submit(pull, repo)
