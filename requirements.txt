@@ -1,10 +1,2 @@
-edx-rest-api-client==1.6.0
-factory_boy==2.7.0
-google-api-python-client==1.5.3
-MySQL-python==1.2.5
-numpy==1.11.1
-pandas==0.16.2
-responses==0.5.1
-sailthru-client==2.2.3
-vertica-python==0.6.7
-XlsxWriter==0.9.3
+-r requirements/base.txt
+
