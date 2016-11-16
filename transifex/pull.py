@@ -24,6 +24,7 @@ import re
 import subprocess
 import sys
 import time
+from urllib.parse import urlparse
 
 from github import Github, GithubException
 import yaml
@@ -62,16 +63,24 @@ MAX_RETRIES = 10
 
 # Initialize GitHub client. For documentation,
 # see http://pygithub.github.io/PyGithub/v1/reference.html.
-github = Github(os.environ['GITHUB_ACCESS_TOKEN'])
+github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
+github = Github(github_access_token)
 edx = github.get_organization('edx')
 
 
 class Repo:
     """Utility representing a Git repo."""
     def __init__(self, clone_url):
-        self.clone_url = clone_url
+        # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
+        parsed = urlparse(clone_url)
+        self.clone_url = '{scheme}://{token}@{netloc}{path}'.format(
+            scheme=parsed.scheme,
+            token=github_access_token,
+            netloc=parsed.netloc,
+            path=parsed.path
+        )
 
-        match = re.match(r'.*:edx/(?P<name>.*).git', self.clone_url)
+        match = re.match(r'.*edx/(?P<name>.*).git', self.clone_url)
         self.name = match.group('name')
 
         self.github_repo = edx.get_repo(self.name)
@@ -80,11 +89,11 @@ class Repo:
 
     def clone(self):
         """Clone the repo."""
-        subprocess.run(['git', 'clone', self.clone_url])
+        subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
 
     def branch(self):
         """Create and check out a new branch."""
-        subprocess.run(['git', 'checkout', '-b', self.branch_name])
+        subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
 
     def pull(self):
         """Download translated strings from Transifex.
@@ -95,11 +104,11 @@ class Repo:
 
         See http://docs.transifex.com/client/config/.
         """
-        subprocess.run(['make', 'pull_translations'])
+        subprocess.run(['make', 'pull_translations'], check=True)
 
     def is_changed(self):
         """Determine whether any changes were made."""
-        completed_process = subprocess.run(['git', 'status', '--porcelain'], stdout=subprocess.PIPE)
+        completed_process = subprocess.run(['git', 'status', '--porcelain'], stdout=subprocess.PIPE, check=True)
         return bool(completed_process.stdout)
 
     def commit(self):
@@ -107,12 +116,12 @@ class Repo:
 
         Adds any untracked files, in case new translations are added.
         """
-        subprocess.run(['git', 'add', '-A'])
-        subprocess.run(['git', 'commit', '-m', self.message])
+        subprocess.run(['git', 'add', '-A'], check=True)
+        subprocess.run(['git', 'commit', '-m', self.message], check=True)
 
     def push(self):
         """Push branch to the remote."""
-        subprocess.run(['git', 'push', '-u', 'origin', self.branch_name])
+        subprocess.run(['git', 'push', '-u', 'origin', self.branch_name], check=True)
 
     def pr(self):
         """Create a new PR on GitHub."""
@@ -135,7 +144,7 @@ class Repo:
             self.github_repo.get_git_ref(ref).delete()
 
         # Delete cloned repo.
-        subprocess.run(['rm', '-rf', self.name])
+        subprocess.run(['rm', '-rf', self.name], check=True)
 
 
 @contextmanager
@@ -159,70 +168,72 @@ def pull(repo):
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
-    logger.info('Pulling translations for [%s].', repo.name)
-    repo.clone()
-
     pr = None
-    with cd(repo):
-        repo.branch()
-        repo.pull()
+    logger.info('Pulling translations for [%s].', repo.name)
 
-        if repo.is_changed():
-            logger.info('Translations have changed for [%s]. Pushing them to GitHub and opening a PR.', repo.name)
-            repo.commit()
-            repo.push()
-            pr = repo.pr()
-        else:
-            logger.info('No changes detected for [%s]. Cleaning up.', repo.name)
+    try:
+        repo.clone()
 
-    if pr:
-        retries = 0
-        while retries <= MAX_RETRIES:
-            try:
-                pr.merge()
-                logger.info('Merged [%s/#%d]. Cleaning up.', repo.name, pr.number)
-                break
-            except GithubException as e:
-                # Assumes only one commit is present on the PR.
-                statuses = pr.get_commits()[0].get_statuses()
+        with cd(repo):
+            repo.branch()
+            repo.pull()
 
-                # Check for any failing Travis builds. If any are found, notify the team
-                # and move on.
-                if any('travis' in s.context and s.state == 'failure' for s in statuses):
-                    logger.info(
-                        'A failing Travis build prevents [%s/#%d] from being merged. Notifying @edx/ecommerce.',
-                        repo.name, pr.number
-                    )
+            if repo.is_changed():
+                logger.info('Translations have changed for [%s]. Pushing them to GitHub and opening a PR.', repo.name)
+                repo.commit()
+                repo.push()
+                pr = repo.pr()
+            else:
+                logger.info('No changes detected for [%s]. Cleaning up.', repo.name)
 
-                    pr.create_issue_comment(
-                        '@edx/ecommerce a failed Travis build prevented this PR from being automatically merged.'
-                    )
-
+        if pr:
+            retries = 0
+            while retries <= MAX_RETRIES:
+                try:
+                    pr.merge()
+                    logger.info('Merged [%s/#%d]. Cleaning up.', repo.name, pr.number)
                     break
-                else:
-                    logger.info(
-                        'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
-                        repo.name, pr.number, retries, MAX_RETRIES
-                    )
+                except GithubException as e:
+                    # Assumes only one commit is present on the PR.
+                    statuses = pr.get_commits()[0].get_statuses()
 
-                    # No need to sleep if this is the last retry. We're going to give up next time around.
-                    if retries + 1 <= MAX_RETRIES:
-                        # Exponential backoff.
-                        time.sleep(2 ** retries)
+                    # Check for any failing Travis builds. If any are found, notify the team
+                    # and move on.
+                    if any('travis' in s.context and s.state == 'failure' for s in statuses):
+                        logger.info(
+                            'A failing Travis build prevents [%s/#%d] from being merged. Notifying @edx/ecommerce.',
+                            repo.name, pr.number
+                        )
 
-                    retries += 1
-        else:
-            logger.info(
-                'Retry limit hit for [%s/#%d]. Notifying @edx/ecommerce.',
-                repo.name, pr.number
-            )
+                        pr.create_issue_comment(
+                            '@edx/ecommerce a failed Travis build prevented this PR from being automatically merged.'
+                        )
 
-            # Retry limit hit. Notify the team and move on.
-            pr.create_issue_comment(
-                '@edx/ecommerce pending status checks prevented this PR from being automatically merged.'
-            )
+                        break
+                    else:
+                        logger.info(
+                            'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
+                            repo.name, pr.number, retries, MAX_RETRIES
+                        )
 
-    repo.cleanup(pr)
+                        # No need to sleep if this is the last retry. We're going to give up next time around.
+                        if retries + 1 <= MAX_RETRIES:
+                            # Exponential backoff.
+                            time.sleep(2 ** retries)
+
+                        retries += 1
+            else:
+                logger.info(
+                    'Retry limit hit for [%s/#%d]. Notifying @edx/ecommerce.',
+                    repo.name, pr.number
+                )
+
+                # Retry limit hit. Notify the team and move on.
+                pr.create_issue_comment(
+                    '@edx/ecommerce pending status checks prevented this PR from being automatically merged.'
+                )
+    finally:
+        repo.cleanup(pr)
 
 
 if __name__ == '__main__':
