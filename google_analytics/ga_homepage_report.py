@@ -5,7 +5,7 @@ import sys
 
 from apiclient.discovery import build
 from oauth2client import client, file, tools
-from pandas import DataFrame, ExcelWriter, merge, concat
+from pandas import DataFrame, ExcelWriter, merge, concat, to_numeric
 import xlsxwriter
 
 ################################################################
@@ -231,9 +231,9 @@ def totalHomePageViewsData(date):
 
 def homePageToSubjectPageDataframe(data):
     subject_dataframe = DataFrame(data,columns=['date','page_title','views','uniqueViews'])
-    subject_dataframe = subject_dataframe.convert_objects(convert_numeric=True)
+    subject_dataframe = subject_dataframe.apply(to_numeric, errors='ignore')
     subject_dataframe.drop('date', axis=1, inplace=True)
-    subject_dataframe = subject_dataframe.groupby(['page_title']).sum().sort(['uniqueViews'],ascending=0)
+    subject_dataframe = subject_dataframe.groupby(['page_title']).sum().sort_values(by='uniqueViews',ascending=0)
     subject_dataframe.reset_index(inplace=True)
     subject_dataframe['subject'] = subject_dataframe['page_title'].apply(lambda title: strip_edx_page_title(title))
     subject_dataframe['totalViews'] = subject_dataframe['uniqueViews'].sum()
@@ -245,7 +245,7 @@ def homePageToSubjectPageDataframe(data):
 
 def totalHomePageViewsValue(data):
     homepage_view_dataframe = DataFrame(data,columns=['date','views','uniqueViews'])
-    homepage_view_dataframe = homepage_view_dataframe.convert_objects(convert_numeric=True)
+    homepage_view_dataframe = homepage_view_dataframe.apply(to_numeric, errors='ignore')
     return int(homepage_view_dataframe['uniqueViews'].sum())
 
 
@@ -258,7 +258,7 @@ def mergeProgramAndCourseDataframe(program_df, course_df, total_homepage_views):
     dataframe['clickShare'] = dataframe['uniqueClicks'] / total_clicks
     dataframe['enrollsPerClick'] = dataframe['uniqueEnrolls'] / total_enrolls
 
-    dataframe = dataframe.sort(['uniqueEnrolls'], ascending=0)
+    dataframe = dataframe.sort_values(by='uniqueEnrolls', ascending=0)
     fields = [
         'cardName',
         'position',
@@ -300,8 +300,10 @@ def mergeEnrollmentsAndClicksDataframe(program_program_enrolls, program_course_e
 
 def clicksDataframe(clicks_data):
     clicks_dataframe = DataFrame(clicks_data, columns=['date', 'cardName', 'position', 'totalClicks', 'uniqueClicks'])
-    clicks_dataframe = clicks_dataframe.convert_objects(convert_numeric=True)
+    clicks_dataframe = clicks_dataframe.apply(to_numeric, errors='ignore')
     clicks_dataframe.drop('date', axis=1, inplace=True)
+    clicks_dataframe = clicks_dataframe.groupby(['cardName','position']).sum().sort_values(by='uniqueClicks',ascending=0)
+    clicks_dataframe.reset_index(inplace=True)
 
     return clicks_dataframe
 
@@ -318,8 +320,10 @@ def enrollmentDataframe(enrolls_data, card_type, enroll_type):
         ]
     )
 
-    enrolls_dataframe = enrolls_dataframe.convert_objects(convert_numeric=True)
+    enrolls_dataframe = enrolls_dataframe.apply(to_numeric, errors='ignore')
     enrolls_dataframe.drop('date', axis=1, inplace=True)
+    enrolls_dataframe = enrolls_dataframe.groupby(['cardName','position']).sum().sort_values(by='unique{type}Enrolls'.format(type=enroll_type),ascending=0)
+    enrolls_dataframe.reset_index(inplace=True)
     enrolls_dataframe['type'] = card_type
 
     return enrolls_dataframe
