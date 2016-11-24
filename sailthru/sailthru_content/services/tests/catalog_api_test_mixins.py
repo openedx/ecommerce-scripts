@@ -6,8 +6,8 @@ from faker import Factory
 import responses
 
 
-from services.catalog_api_service import CatalogApiService
-from services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
+from sailthru_content.services.catalog_api_service import CatalogApiService
+from sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
 
 
 class CatalogApiTestMixins(unittest.TestCase):
@@ -23,6 +23,7 @@ class CatalogApiTestMixins(unittest.TestCase):
                 'type': seat_type,
                 'price': '0.00',
                 'currency': 'USD',
+                'sku': 'sku001',
                 'upgrade_deadline': None,
                 'credit_provider': None,
                 'credit_hours': None

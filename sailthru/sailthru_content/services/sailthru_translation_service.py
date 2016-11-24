@@ -4,6 +4,8 @@ import logging
 
 from constants import GFA_COURSE_RUN_LIST
 
+REQUIRED_SEATS_TYPES = ['verified', 'professional']
+
 
 class SailthruTranslationService(object):
     """This is the service that converts the data in edX into what Sailthru can consume"""
@@ -97,6 +99,10 @@ class SailthruTranslationService(object):
 
         return tags
 
+    def _return_sku(self, seats):
+        """ Return dict of sku for a course run. """
+        return {seat['type']: seat['sku'] for seat in seats if seat['type'] in REQUIRED_SEATS_TYPES}
+
     def translate_course_run(self, course_run, course, program_dictionary=None):
         # get marketing url
         url = course_run.get('marketing_url', course.get('marketing_url'))
@@ -132,6 +138,10 @@ class SailthruTranslationService(object):
 
         if len(tags) > 0:
             sailthru_content['tags'] = ", ".join(tags)
+
+        seats = course_run.get('seats')
+        if seats:
+            sailthru_content['sku'] = self._return_sku(seats)
 
         sailthru_content['vars'] = self._create_course_vars(
             course,
