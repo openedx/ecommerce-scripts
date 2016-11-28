@@ -117,7 +117,18 @@ class Repo:
         Adds any untracked files, in case new translations are added.
         """
         subprocess.run(['git', 'add', '-A'], check=True)
-        subprocess.run(['git', 'commit', '-m', self.message], check=True)
+        try:
+            subprocess.run(['git', 'commit', '-m', self.message], check=True)
+        except subprocess.CalledProcessError:
+            subprocess.run(
+                [
+                    'git',
+                    '-c', 'user.name="edX Transifex Bot"',
+                    '-c', 'user.email=ecom-eng@edx.org',
+                    'commit', '-m', self.message
+                ],
+                check=True
+            )
 
     def push(self):
         """Push branch to the remote."""
