@@ -1,5 +1,5 @@
 import os
-from sailthru_import import sailthru_import
+
 from sailthru.sailthru_client import SailthruClient
 
 sailthru_client = SailthruClient(os.environ['SAILTHRU_API_KEY'], os.environ['SAILTHRU_API_SECRET'])

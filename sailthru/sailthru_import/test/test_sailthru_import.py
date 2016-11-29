@@ -1,9 +1,8 @@
-from sailthru_import import sailthru_import
-from sailthru.sailthru_client import SailthruClient
-
 import unittest
-import mock
+
 from mock import patch
+
+from sailthru.sailthru_import import sailthru_import
 
 
 @patch('sailthru.sailthru_client')
