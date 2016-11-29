@@ -2,11 +2,11 @@ Part of `edX code`__.
 
 __ http://code.edx.org/
 
-Miscellaneous edX Utility Scripts
-=================================
+edX Sailthru Scripts
+====================
 
-This package contains scripts useful for managing an edX environment.  Included are the following
-The script are coded to run in the Python 2.7 environment
+This package contains scripts useful for managing the edX.org integration with Sailthru. They have been designed and
+tested for Python 2.7.x.
 
 Sailthru Content
 ----------------
@@ -15,7 +15,7 @@ A script intended to be run periodically (e.g. nightly) which uses the Course Di
 the Sailthru content library.  Useful when Sailthru is used for email marketing. The script invocation syntax is
 as follows:
 
- usage: ./sailthru_content/sync_library.py [-h] [--access_token ACCESS_TOKEN]
+ Usage: ./sailthru_content/sync_library.py [-h] [--access_token ACCESS_TOKEN]
                            [--oauth_host OAUTH_HOST] [--oauth_key OAUTH_KEY]
                            [--oauth_secret OAUTH_SECRET]
                            [--sailthru_key SAILTHRU_KEY]
@@ -73,9 +73,6 @@ oauth_host, oauth_key and oauth_secret.
 License
 -------
 
-The code in this repository is licensed under AGPL unless
-otherwise noted.
+The code in this repository is licensed under AGPL unless otherwise noted.
 
 Please see ``LICENSE.txt`` for details.
-
-
