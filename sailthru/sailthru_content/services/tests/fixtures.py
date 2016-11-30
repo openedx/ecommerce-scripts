@@ -715,6 +715,7 @@ SINGLE_COURSE_DATA = {
                             "type": u"verified",
                             "price": u"49.00",
                             "currency": u"USD",
+                            'sku': u"sku001",
                             "upgrade_deadline": None,
                             "credit_provider": None,
                             "credit_hours": None

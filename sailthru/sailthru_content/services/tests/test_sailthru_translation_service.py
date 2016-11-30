@@ -4,9 +4,9 @@ from faker import Factory
 import ddt
 import responses
 
-from services.sailthru_translation_service import SailthruTranslationService
-from services.tests.catalog_api_test_mixins import CatalogApiTestMixins
-from services.tests.fixtures import SINGLE_COURSE_DATA
+from sailthru_content.services.sailthru_translation_service import SailthruTranslationService
+from sailthru_content.services.tests.catalog_api_test_mixins import CatalogApiTestMixins
+from sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA
 
 
 @ddt.ddt
@@ -30,6 +30,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
         expected_sailthru_item = {
             'site_name': 'HamiltonX',
             'description': '.',
+            'sku': {'verified': 'sku001'},
             'vars': {
                 'price_audit': '0.00',
                 'site_name': 'HamiltonX',
@@ -43,7 +44,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 'price_verified': '49.00',
                 'course_start': '2016-10-18',
                 'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x?utm_source=simonthebestedx&utm_medium=affiliate_partner',
-                'course_type': 'micromasters'
+                'course_type': 'audit'
             },
             'title': 'Ethics of Sports: Do Sports Morally Matter?',
             'url': '{root}/courses/{key}/info'.format(
@@ -70,7 +71,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
         self.assertEqual(len(translated_programs[0]['vars']['course_runs']), 4)
 
     def _get_expected_sailthru_item(self, seat_type=None):
-        return {
+        expected_sailthru_item = {
             'site_name': 'HamiltonX',
             'description': '.',
             'vars': {
@@ -103,8 +104,15 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
             'date': '2016-09-23'
         }
 
+        if seat_type in ['professional', 'verified']:
+            expected_sailthru_item.update({
+                'sku': {seat_type: 'sku001'}
+            })
+
+        return expected_sailthru_item
+
     @responses.activate
-    @ddt.data(None, 'professional', 'credit')
+    @ddt.data(None, 'professional', 'credit', 'verified')
     def test_translated_vars(self, seat_type):
         self.prepare_get_courses(seat_type)
         translated_course_runs = self.sailthru_translation_service.translate_courses()
