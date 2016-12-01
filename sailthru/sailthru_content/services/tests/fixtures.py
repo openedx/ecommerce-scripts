@@ -77,7 +77,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": None,
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "abc"
                                 },
                                 {
                                     "type": u"verified",
@@ -85,7 +86,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": u"2017-03-10T23:58:00Z",
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "def"
                                 }
                             ],
                             "content_language": u"en-us",
@@ -185,7 +187,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": None,
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "ghi"
                                 },
                                 {
                                     "type": u"verified",
@@ -193,7 +196,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": u"2017-05-07T23:58:00Z",
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "jkl"
                                 }
                             ],
                             "content_language": u"en-us",
@@ -293,7 +297,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": None,
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "hf546h"
                                 },
                                 {
                                     "type": u"verified",
@@ -301,7 +306,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": u"2017-08-09T23:58:00Z",
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "hf7689h"
                                 }
                             ],
                             "content_language": u"en-us",
@@ -401,7 +407,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": None,
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "h4354fh"
                                 },
                                 {
                                     "type": u"verified",
@@ -409,7 +416,8 @@ SINGLE_PROGRAM_DATA = {
                                     "currency": u"USD",
                                     "upgrade_deadline": u"2017-11-05T23:58:00Z",
                                     "credit_provider": None,
-                                    "credit_hours": None
+                                    "credit_hours": None,
+                                    "sku": "u323"
                                 }
                             ],
                             "content_language": u"en-us",
@@ -709,7 +717,8 @@ SINGLE_COURSE_DATA = {
                             "currency": u"USD",
                             "upgrade_deadline": None,
                             "credit_provider": None,
-                            "credit_hours": None
+                            "credit_hours": None,
+                            "sku": "hfh"
                         },
                         {
                             "type": u"verified",
@@ -718,7 +727,8 @@ SINGLE_COURSE_DATA = {
                             'sku': u"sku001",
                             "upgrade_deadline": None,
                             "credit_provider": None,
-                            "credit_hours": None
+                            "credit_hours": None,
+                            "sku": "ghie"
                         }
                     ],
                     "content_language": u"en-us",

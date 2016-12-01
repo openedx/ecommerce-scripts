@@ -42,7 +42,7 @@ class SailthruTranslationService(object):
             'course_run': True,
             'marketing_url': url,
             'course_id': course['key'],
-            'course_run_id': course_run['key'],
+            'course_run_id': course_run['key']
         }
 
         for key in ['enrollment_end', 'enrollment_start', 'course_start', 'course_end']:
@@ -60,6 +60,7 @@ class SailthruTranslationService(object):
 
         # figure out the price(s) and save as Sailthru vars
         if course_run.get('seats'):
+            sailthru_content_vars['sku'] = self._return_sku(course_run.get('seats'))
             for seat in course_run['seats']:
                 sailthru_content_vars['price_{}'.format(seat['type'])] = seat['price']
                 sailthru_content_vars['currency_{}'.format(seat['type'])] = seat['currency']
@@ -138,10 +139,6 @@ class SailthruTranslationService(object):
 
         if len(tags) > 0:
             sailthru_content['tags'] = ", ".join(tags)
-
-        seats = course_run.get('seats')
-        if seats:
-            sailthru_content['sku'] = self._return_sku(seats)
 
         sailthru_content['vars'] = self._create_course_vars(
             course,
