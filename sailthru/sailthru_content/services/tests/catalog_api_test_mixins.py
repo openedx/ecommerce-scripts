@@ -6,8 +6,8 @@ from faker import Factory
 import responses
 
 
-from sailthru_content.services.catalog_api_service import CatalogApiService
-from sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
+from sailthru.sailthru_content.services.catalog_api_service import CatalogApiService
+from sailthru.sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
 
 
 class CatalogApiTestMixins(unittest.TestCase):

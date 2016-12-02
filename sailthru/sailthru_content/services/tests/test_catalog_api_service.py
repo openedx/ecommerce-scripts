@@ -1,7 +1,7 @@
 import responses
 
-from services.tests.catalog_api_test_mixins import CatalogApiTestMixins
-from services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
+from sailthru.sailthru_content.services.tests.catalog_api_test_mixins import CatalogApiTestMixins
+from sailthru.sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
 
 
 class CatalogApiServiceTests(CatalogApiTestMixins):
