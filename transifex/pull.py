@@ -123,8 +123,8 @@ class Repo:
             subprocess.run(
                 [
                     'git',
-                    '-c', 'user.name="edX Transifex Bot"',
-                    '-c', 'user.email=ecom-eng@edx.org',
+                    '-c', 'user.name="{}"'.format(os.environ['GIT_USER_NAME']),
+                    '-c', 'user.email={}'.format(os.environ['GIT_USER_EMAIL']),
                     'commit', '-m', self.message
                 ],
                 check=True
