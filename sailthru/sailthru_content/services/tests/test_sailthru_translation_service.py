@@ -23,6 +23,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
 
     @responses.activate
     def test_translate_courses(self):
+        self.prepare_searchable_courses()
         self.prepare_get_courses()
         self.prepare_get_programs()
         translated_course_runs = self.sailthru_translation_service.translate_courses()
@@ -115,9 +116,10 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
         return expected_sailthru_item
 
     @responses.activate
-    @ddt.data(None, 'credit', 'professional')
+    @ddt.data(None, 'professional', 'credit', 'verified')
     def test_translated_vars(self, seat_type):
         self.prepare_get_courses(seat_type)
+        self.prepare_searchable_courses()
         self.prepare_get_programs()
         translated_course_runs = self.sailthru_translation_service.translate_courses()
         self.assertEqual(len(translated_course_runs), 1)

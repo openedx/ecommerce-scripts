@@ -1,7 +1,9 @@
 import responses
 
 from sailthru.sailthru_content.services.tests.catalog_api_test_mixins import CatalogApiTestMixins
-from sailthru.sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
+from sailthru.sailthru_content.services.tests.fixtures import (
+    SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA, SINGLE_SEARCHABLE_COURSE_DATA
+)
 
 
 class CatalogApiServiceTests(CatalogApiTestMixins):
@@ -26,3 +28,10 @@ class CatalogApiServiceTests(CatalogApiTestMixins):
         self.assertEqual(len(responses.calls), 1)
         self.assertIsNotNone(retrieved_program)
         self.assertEqual(retrieved_program, expected_program)
+
+    @responses.activate
+    def test_get_searchable_course_keys(self):
+        self.prepare_searchable_courses()
+        course_keys = self.catalog_api_service.get_searchable_course_run_keys()
+        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(course_keys[0], SINGLE_SEARCHABLE_COURSE_DATA['results'][0]['key'])
