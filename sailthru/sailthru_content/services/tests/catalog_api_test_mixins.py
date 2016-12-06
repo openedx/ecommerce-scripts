@@ -7,7 +7,9 @@ import responses
 
 
 from sailthru.sailthru_content.services.catalog_api_service import CatalogApiService
-from sailthru.sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
+from sailthru.sailthru_content.services.tests.fixtures import (
+    SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA, SINGLE_SEARCHABLE_COURSE_DATA
+)
 
 
 class CatalogApiTestMixins(unittest.TestCase):
@@ -46,6 +48,15 @@ class CatalogApiTestMixins(unittest.TestCase):
         responses.add(
             responses.GET, self.api_url_root + '/programs/',
             body=json.dumps(SINGLE_PROGRAM_DATA),
+            status=200,
+            content_type='application/json',
+            match_querystring=False
+        )
+
+    def prepare_searchable_courses(self):
+        responses.add(
+            responses.GET, self.api_url_root + '/course_runs/',
+            body=json.dumps(SINGLE_SEARCHABLE_COURSE_DATA),
             status=200,
             content_type='application/json',
             match_querystring=False

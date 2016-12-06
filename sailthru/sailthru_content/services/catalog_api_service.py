@@ -48,6 +48,18 @@ class CatalogApiService(object):
         logger.debug('Get Courses called')
         return self._get_resource_from_api(self.api_client.courses(), COURSES_PAGE_SIZE, marketable=1)
 
+    def get_searchable_course_run_keys(self):
+        logger.debug('Get Searchable Course runs called')
+        searchable_course_keys = []
+        searchable_course_runs = self._get_resource_from_api(
+            self.api_client.course_runs(), COURSES_PAGE_SIZE, hidden=False, marketable=1
+        )
+        for course_run in searchable_course_runs:
+            if course_run.get('key'):
+                searchable_course_keys.append(course_run.get('key'))
+
+        return searchable_course_keys
+
     def get_program_dictionary(self):
         if not self._programs_dictionary:
             program_array = self._get_resource_from_api(

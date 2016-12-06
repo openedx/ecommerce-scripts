@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+
 import datetime
 import logging
 
@@ -165,11 +168,13 @@ class SailthruTranslationService(object):
     def translate_courses(self):
         sailthru_item_array = []
         courses = self.data_service.get_courses()
+        serachable_run_keys = self.data_service.get_searchable_course_run_keys()
         program_dictionary = self.data_service.get_program_dictionary()
         for course in courses:
             course_runs = course.get('course_runs', [])
             for course_run in course_runs:
-                sailthru_item_array.append(self.translate_course_run(course_run, course, program_dictionary))
+                if course_run.get('key') in serachable_run_keys:
+                    sailthru_item_array.append(self.translate_course_run(course_run, course, program_dictionary))
 
         return sailthru_item_array
 
