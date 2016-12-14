@@ -43,7 +43,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 'price_verified': '49.00',
                 'course_start': '2016-10-18',
                 'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x?utm_source=simonthebestedx&utm_medium=affiliate_partner',
-                'course_type': 'audit',
+                'course_type': 'verified',
                 'sku': {'verified': 'ghie'}
             },
             'title': 'Ethics of Sports: Do Sports Morally Matter?',
@@ -75,6 +75,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
             'site_name': 'HamiltonX',
             'description': '.',
             'vars': {
+                'sku': {u'verified': u'ghie'},
                 'price_audit': '0.00',
                 'site_name': 'HamiltonX',
                 'course_run': True,
@@ -105,16 +106,20 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
         }
 
         if seat_type in ['professional', 'verified']:
-            expected_sailthru_item['vars'].update({
-                'sku': {seat_type: 'sku001'}
-            })
+            expected_sailthru_item['vars']['sku'][seat_type] = 'sku001'
+
+        if seat_type:
+            expected_sailthru_item['vars']['price_'+seat_type] = '0.00'
+            expected_sailthru_item['vars']['currency_'+seat_type] = 'USD'
 
         return expected_sailthru_item
 
     @responses.activate
-    @ddt.data(None, 'professional', 'credit', 'verified')
+    @ddt.data(None, 'credit', 'professional')
     def test_translated_vars(self, seat_type):
         self.prepare_get_courses(seat_type)
+        self.prepare_get_programs()
         translated_course_runs = self.sailthru_translation_service.translate_courses()
         self.assertEqual(len(translated_course_runs), 1)
         self.assertDictEqual(translated_course_runs[0], self._get_expected_sailthru_item(seat_type))
+        self.remove_seat(seat_type)
