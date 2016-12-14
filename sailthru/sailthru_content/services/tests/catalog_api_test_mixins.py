@@ -37,6 +37,11 @@ class CatalogApiTestMixins(unittest.TestCase):
             match_querystring=False
         )
 
+    def remove_seat(self, seat_type):
+        for seat in SINGLE_COURSE_DATA['results'][0]['course_runs'][0]['seats']:
+            if seat['type'] == seat_type:
+                SINGLE_COURSE_DATA['results'][0]['course_runs'][0]['seats'].remove(seat)
+
     def prepare_get_programs(self):
         responses.add(
             responses.GET, self.api_url_root + '/programs/',

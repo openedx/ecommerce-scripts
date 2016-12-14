@@ -69,7 +69,7 @@ class SailthruTranslationService(object):
                 # multiple seat types the one with the higher precedence will be added
                 # in course_type
                 if not sailthru_content_vars.get('course_type', None) or \
-                        seat_priority.index(sailthru_content_vars['course_type']) < seat_priority.index(seat['type']):
+                        seat_priority.index(sailthru_content_vars['course_type']) > seat_priority.index(seat['type']):
                     sailthru_content_vars['course_type'] = seat['type']
 
                 # add upgrade deadline if there is one
