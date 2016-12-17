@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 This script can be used to automatically pull translations from Transifex,
 commit, push, and merge them to their respective repos.
