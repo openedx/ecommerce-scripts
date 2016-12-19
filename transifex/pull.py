@@ -85,12 +85,19 @@ class Repo:
         self.name = match.group('name')
 
         self.github_repo = edx.get_repo(self.name)
+        self.owner = None
         self.branch_name = 'update-translations'
         self.message = 'Update translations'
 
     def clone(self):
         """Clone the repo."""
         subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
+
+        # Assumes the existence of repo metadata YAML, standardized in
+        # https://open-edx-proposals.readthedocs.io/en/latest/oep-0002.html.
+        with open('{}/openedx.yaml'.format(self.name)) as f:
+            repo_metadata = yaml.load(f)
+            self.owner = repo_metadata['owner']
 
     def branch(self):
         """Create and check out a new branch."""
@@ -213,12 +220,14 @@ def pull(repo):
                     # and move on.
                     if any('travis' in s.context and s.state == 'failure' for s in statuses):
                         logger.info(
-                            'A failing Travis build prevents [%s/#%d] from being merged. Notifying @edx/ecommerce.',
-                            repo.name, pr.number
+                            'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
+                            repo.name, pr.number, repo.owner
                         )
 
                         pr.create_issue_comment(
-                            '@edx/ecommerce a failed Travis build prevented this PR from being automatically merged.'
+                            '@{owner} a failed Travis build prevented this PR from being automatically merged.'.format(
+                                owner=repo.owner
+                            )
                         )
 
                         break
@@ -236,13 +245,15 @@ def pull(repo):
                         retries += 1
             else:
                 logger.info(
-                    'Retry limit hit for [%s/#%d]. Notifying @edx/ecommerce.',
-                    repo.name, pr.number
+                    'Retry limit hit for [%s/#%d]. Notifying %s.',
+                    repo.name, pr.number, repo.owner
                 )
 
                 # Retry limit hit. Notify the team and move on.
                 pr.create_issue_comment(
-                    '@edx/ecommerce pending status checks prevented this PR from being automatically merged.'
+                    '@{owner} pending status checks prevented this PR from being automatically merged.'.format(
+                        owner=repo.owner
+                    )
                 )
     finally:
         repo.cleanup(pr)
