@@ -65,8 +65,8 @@ oauth_host, oauth_key and oauth_secret.
    --sailthru_key=<sailthru key> --sailthru_secret=<sailthru secret>
    --content_api_url=https://prod-edx-discovery.edx.org/api/v1/
    --lms_url=https://courses.edx.org
-   --fixups=fixups.csv
-   --email_report=somebody@edx.org
+   --fixups=./sailthru_content/fixups.csv
+   --report_email=somebody@edx.org
    --type=all upload
 
 
