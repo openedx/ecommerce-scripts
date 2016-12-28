@@ -88,6 +88,7 @@ class Repo:
         self.owner = None
         self.branch_name = 'update-translations'
         self.message = 'Update translations'
+        self.is_compiled = True
 
     def clone(self):
         """Clone the repo."""
@@ -103,8 +104,8 @@ class Repo:
         """Create and check out a new branch."""
         subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
 
-    def pull(self):
-        """Download translated strings from Transifex.
+    def update_translations(self):
+        """Download and compile messages from Transifex.
 
         Assumes this repo defines the `pull_translations` Make target and a
         project config file at .tx/config. Running the Transifex client also
@@ -113,6 +114,22 @@ class Repo:
         See http://docs.transifex.com/client/config/.
         """
         subprocess.run(['make', 'pull_translations'], check=True)
+
+        # Messages may fail to compile (e.g., a translator may accidentally translate a
+        # variable in a Python format string). If this happens, we want to proceed with
+        # the PR process and notify the team that messages failed to compile.
+        try:
+            # The compilemessages command is a script that (as of Django 1.9) scans the project
+            # tree for .po files to compile and calls GNU gettext's msgfmt command on them. It
+            # doesn't require DJANGO_SETTINGS_MODULE to be defined when run from the project root,
+            # and also doesn't need django.setup() to be run. Because of this, we can get away with
+            # django-admin.py instead of manage.py. The latter defines a default value for
+            # DJANGO_SETTINGS_MODULE and causes django.setup() to run, which is undesirable here for reasons
+            # ranging from Python 2/3 incompatibility errors across projects to forcing the installation
+            # of packages which provide installed apps custom to each project.
+            subprocess.run(['django-admin.py', 'compilemessages'], check=True)
+        except subprocess.CalledProcessError:
+            self.is_compiled = False
 
     def is_changed(self):
         """Determine whether any changes were made."""
@@ -195,7 +212,7 @@ def pull(repo):
 
         with cd(repo):
             repo.branch()
-            repo.pull()
+            repo.update_translations()
 
             if repo.is_changed():
                 logger.info('Translations have changed for [%s]. Pushing them to GitHub and opening a PR.', repo.name)
@@ -206,6 +223,15 @@ def pull(repo):
                 logger.info('No changes detected for [%s]. Cleaning up.', repo.name)
 
         if pr:
+            if not repo.is_compiled:
+                # Notify the team that message compilation failed.
+                pr.create_issue_comment(
+                    '@{owner} failing message compilation prevents this PR from being automatically merged. '
+                    'Refer to the Travis build log for more details.'.format(
+                        owner=repo.owner
+                    )
+                )
+
             retries = 0
             while retries <= MAX_RETRIES:
                 try:
