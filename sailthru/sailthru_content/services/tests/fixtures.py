@@ -116,12 +116,12 @@ SINGLE_PROGRAM_DATA = {
                             "min_effort": None,
                             "max_effort": None,
                             "modified": "2016-09-23T18:30:13.332321Z",
-                            "marketing_url": "https://www.edx.org/course/international-hospitality-luxury-hkpolyux-htm-541x?utm_source=simonthebestedx&utm_medium=affiliate_partner",
+                            "marketing_url": "https://www.edx.org/course/international-hospitality-luxury-hkpolyux-htm-541x",
                             "level_type": "Intermediate",
                             "availability": "Upcoming"
                         }
                     ],
-                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm541x?utm_source=simonthebestedx&utm_medium=affiliate_partner"
+                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm541x"
                 },
                 {
                     "key": "HKPolyUx+HTM540x",
@@ -226,12 +226,12 @@ SINGLE_PROGRAM_DATA = {
                             "min_effort": None,
                             "max_effort": None,
                             "modified": "2016-09-23T18:30:13.198214Z",
-                            "marketing_url": "https://www.edx.org/course/hospitality-tourism-technology-hkpolyux-htm540x?utm_source=simonthebestedx&utm_medium=affiliate_partner",
+                            "marketing_url": "https://www.edx.org/course/hospitality-tourism-technology-hkpolyux-htm540x",
                             "level_type": "Intermediate",
                             "availability": "Upcoming"
                         }
                     ],
-                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm540x?utm_source=simonthebestedx&utm_medium=affiliate_partner"
+                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm540x"
                 },
                 {
                     "key": "HKPolyUx+HTM534x",
@@ -336,12 +336,12 @@ SINGLE_PROGRAM_DATA = {
                             "min_effort": None,
                             "max_effort": None,
                             "modified": "2016-09-23T18:30:13.046616Z",
-                            "marketing_url": "https://www.edx.org/course/managing-marketing-hospitality-tourism-hkpolyux-htm534x?utm_source=simonthebestedx&utm_medium=affiliate_partner",
+                            "marketing_url": "https://www.edx.org/course/managing-marketing-hospitality-tourism-hkpolyux-htm534x",
                             "level_type": "Intermediate",
                             "availability": "Upcoming"
                         }
                     ],
-                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm534x?utm_source=simonthebestedx&utm_medium=affiliate_partner"
+                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm534x"
                 },
                 {
                     "key": "HKPolyUx+HTM533x",
@@ -446,12 +446,12 @@ SINGLE_PROGRAM_DATA = {
                             "min_effort": None,
                             "max_effort": None,
                             "modified": "2016-09-23T18:30:12.937978Z",
-                            "marketing_url": "https://www.edx.org/course/managing-human-resources-hospitality-hkpolyux-htm533x?utm_source=simonthebestedx&utm_medium=affiliate_partner",
+                            "marketing_url": "https://www.edx.org/course/managing-human-resources-hospitality-hkpolyux-htm533x",
                             "level_type": "Intermediate",
                             "availability": "Upcoming"
                         }
                     ],
-                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm533x?utm_source=simonthebestedx&utm_medium=affiliate_partner"
+                    "marketing_url": "https://www.edx.org/course/hkpolyuxhtm533x"
                 }
             ],
             "overview": "<p>The International Hospitality Management MicroMasters focuses on developing your ability to manage high quality hospitality and tourism businesses around the world.\r\n\r\n<p>This MicroMasters is designed to develop international leaders for the global hospitality industry. You will gain in-depth knowledge about marketing including segmentation for the luxury traveler, the latest technology in the field, and the best marketing, human resource, and related business practices. \r\n\r\n<p>You will learn through a blend of strategic perspectives and pragmatic implementation, interdisciplinary subject exposure, problem identification, decision making theory and management application. \r\n\r\n<p>If you want to further your education, build on the credential and take advantage of the opportunity to be accepted into The Hong Kong Polytechnic University’s Master of Sciences in International Hospitality Management for a fraction of the cost.",
@@ -756,12 +756,12 @@ SINGLE_COURSE_DATA = {
                     "min_effort": None,
                     "max_effort": None,
                     "modified": "2016-09-23T18:31:42.328482Z",
-                    "marketing_url": "https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x?utm_source=simonthebestedx&utm_medium=affiliate_partner",
+                    "marketing_url": "https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x",
                     "level_type": "Introductory",
                     "availability": "Starting Soon"
                 }
             ],
-            "marketing_url": "https://www.edx.org/course/?utm_source=simonthebestedx&utm_medium=affiliate_partner",
+            "marketing_url": "https://www.edx.org/course/",
             "programs": []
         },
     ]
@@ -781,7 +781,7 @@ SINGLE_SEARCHABLE_COURSE_DATA = {
                 "height": None
             },
             "short_description": "Enroll in this course to learn how biology and your vote are connected.",
-            "marketing_url": "https://www.edx.org/course/science-polls-biology-voters-part-1-uc-berkeleyx-bfv101-1x?utm_medium=affiliate_partner&utm_source=ahsan-ulhaq",
+            "marketing_url": "https://www.edx.org/course/science-polls-biology-voters-part-1-uc-berkeleyx-bfv101-1x",
             "start": "2015-09-09T04:00:00Z",
             "end": "2015-10-31T00:00:00Z",
             "enrollment_start": None,
