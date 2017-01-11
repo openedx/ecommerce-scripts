@@ -46,7 +46,7 @@ class CatalogApiService(object):
 
     def get_courses(self):
         logger.debug('Get Courses called')
-        return self._get_resource_from_api(self.api_client.courses(), COURSES_PAGE_SIZE, marketable=1)
+        return self._get_resource_from_api(self.api_client.courses(), COURSES_PAGE_SIZE, marketable=1, exclude_utm=1)
 
     def get_searchable_course_run_keys(self):
         logger.debug('Get Searchable Course runs called')

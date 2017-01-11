@@ -43,7 +43,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 'content_language': 'en-us',
                 'price_verified': '49.00',
                 'course_start': '2016-10-18',
-                'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x?utm_source=simonthebestedx&utm_medium=affiliate_partner',
+                'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x',
                 'course_type': 'verified',
                 'sku': {'verified': 'ghie'}
             },
@@ -88,7 +88,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 'content_language': 'en-us',
                 'price_verified': '49.00',
                 'course_start': '2016-10-18',
-                'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x?utm_source=simonthebestedx&utm_medium=affiliate_partner',
+                'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x',
                 'course_type': seat_type if seat_type else 'verified'
             },
             'title': 'Ethics of Sports: Do Sports Morally Matter?',
