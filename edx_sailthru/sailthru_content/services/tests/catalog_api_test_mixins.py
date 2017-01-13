@@ -6,8 +6,8 @@ from faker import Factory
 import responses
 
 
-from sailthru.sailthru_content.services.catalog_api_service import CatalogApiService
-from sailthru.sailthru_content.services.tests.fixtures import (
+from ..catalog_api_service import CatalogApiService
+from fixtures import (
     SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA, SINGLE_SEARCHABLE_COURSE_DATA
 )
 

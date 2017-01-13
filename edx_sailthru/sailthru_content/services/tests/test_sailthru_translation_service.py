@@ -4,9 +4,9 @@ from faker import Factory
 import ddt
 import responses
 
-from sailthru.sailthru_content.services.sailthru_translation_service import SailthruTranslationService
-from sailthru.sailthru_content.services.tests.catalog_api_test_mixins import CatalogApiTestMixins
-from sailthru.sailthru_content.services.tests.fixtures import SINGLE_COURSE_DATA
+from ..sailthru_translation_service import SailthruTranslationService
+from catalog_api_test_mixins import CatalogApiTestMixins
+from fixtures import SINGLE_COURSE_DATA
 
 
 @ddt.ddt
