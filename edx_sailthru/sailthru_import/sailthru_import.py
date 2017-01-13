@@ -1,6 +1,5 @@
 import argparse
 import logging
-import os
 import time
 from sailthru.sailthru_client import SailthruClient
 
@@ -32,12 +31,12 @@ def upload_csv_to_sailthru(filepath, list_name, report_email, client):
     logging.info("Uploading %s" % filepath)
     # Start the upload job
     request_data = {
-            'job': 'import',
-            'file': filepath,
-            'list': list_name,
-            'signup_dates': 1,
-            'report_email': report_email
-        }
+        'job': 'import',
+        'file': filepath,
+        'list': list_name,
+        'signup_dates': 1,
+        'report_email': report_email
+    }
     response = client.api_post('job', request_data, {'file': 1})
 
     if response.is_ok():
@@ -80,6 +79,7 @@ def main():
         upload_csv_to_sailthru(args.csv_file_name, args.list_name, args.report_email, sailthru_client)
 
     logging.info("Import Complete!")
+
 
 if __name__ == "__main__":
     main()

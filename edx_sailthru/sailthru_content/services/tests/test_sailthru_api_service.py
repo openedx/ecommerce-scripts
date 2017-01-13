@@ -3,7 +3,7 @@ import unittest
 
 from faker import Factory
 
-from sailthru.sailthru_content.services.sailthru_api_service import SailthruApiService
+from ..sailthru_api_service import SailthruApiService
 
 
 class SailthruApiServiceTests(unittest.TestCase):
