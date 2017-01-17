@@ -30,12 +30,15 @@ class CatalogApiService(object):
         self.api_client = EdxRestApiClient(api_url_root, jwt=self.access_token)
         self._programs_dictionary = {}
 
-    def _get_resource_from_api(self, api_endpoint, page_size, **kwargs):
-        page = 0
+    def _get_resource_from_api(self, api_endpoint, page_size=None, **kwargs):
+        page = 1
         results = []
 
-        while page >= 0:
-            response = api_endpoint.get(limit=page_size, offset=(page * page_size), **kwargs)
+        while page >= 1:
+            if page_size:
+                response = api_endpoint.get(limit=page_size, offset=((page - 1) * page_size), **kwargs)
+            else:
+                response = api_endpoint.get(page=page, **kwargs)
             if response.get('next'):
                 page += 1
             else:
@@ -46,13 +49,22 @@ class CatalogApiService(object):
 
     def get_courses(self):
         logger.debug('Get Courses called')
-        return self._get_resource_from_api(self.api_client.courses(), COURSES_PAGE_SIZE, marketable=1, exclude_utm=1)
+        return self._get_resource_from_api(
+            self.api_client.courses(),
+            page_size=COURSES_PAGE_SIZE,
+            marketable_course_runs_only=1,
+            exclude_utm=1
+        )
 
     def get_searchable_course_run_keys(self):
         logger.debug('Get Searchable Course runs called')
         searchable_course_keys = []
         searchable_course_runs = self._get_resource_from_api(
-            self.api_client.course_runs(), COURSES_PAGE_SIZE, hidden=False, marketable=1
+            self.api_client.search().all(),
+            content_type='courserun',
+            partner='edx',
+            published=1,
+            hidden=0
         )
         for course_run in searchable_course_runs:
             if course_run.get('key'):
@@ -65,8 +77,7 @@ class CatalogApiService(object):
             program_array = self._get_resource_from_api(
                 self.api_client.programs(),
                 PROGRAMS_PAGE_SIZE,
-                marketable=1,
-                published_course_runs_only=1
+                marketable_course_runs_only=1
             )
             for program in program_array:
                 self._programs_dictionary[program['uuid']] = program
