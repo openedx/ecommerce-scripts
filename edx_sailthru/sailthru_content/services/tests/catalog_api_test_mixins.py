@@ -55,7 +55,7 @@ class CatalogApiTestMixins(unittest.TestCase):
 
     def prepare_searchable_courses(self):
         responses.add(
-            responses.GET, self.api_url_root + '/course_runs/',
+            responses.GET, self.api_url_root + '/search/all/',
             body=json.dumps(SINGLE_SEARCHABLE_COURSE_DATA),
             status=200,
             content_type='application/json',

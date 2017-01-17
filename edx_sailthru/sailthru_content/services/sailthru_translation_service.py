@@ -8,6 +8,7 @@ import logging
 from constants import GFA_COURSE_RUN_LIST
 
 REQUIRED_SEATS_TYPES = ['verified', 'professional']
+DATE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
 
 class SailthruTranslationService(object):
@@ -25,7 +26,7 @@ class SailthruTranslationService(object):
         try:
             if '.' in iso_date:
                 return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d")
-            return datetime.datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d")
+            return datetime.datetime.strptime(iso_date, DATE_TIME_FORMAT).strftime("%Y-%m-%d")
         except ValueError:
             return None
 
@@ -260,11 +261,15 @@ class SailthruTranslationService(object):
         default_start_string = '2030-12-31T00:00:00Z'
         sorted_course_runs = sorted(
             course_run_list,
-            key=lambda run: datetime.datetime.strptime(run.get('start', default_start_string), '%Y-%m-%dT%H:%M:%SZ'))
+            key=lambda run: datetime.datetime.strptime(
+                run.get('start') or default_start_string,
+                DATE_TIME_FORMAT
+            )
+        )
         for course_run in sorted_course_runs:
             if datetime.datetime.now() < datetime.datetime.strptime(
-                course_run.get('start', default_start_string),
-                '%Y-%m-%dT%H:%M:%SZ'
+                course_run.get('start') or default_start_string,
+                DATE_TIME_FORMAT
             ):
                 return course_run
         return course_run_list[0]
