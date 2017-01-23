@@ -263,12 +263,11 @@ def pull(repo):
                             repo.name, pr.number, retries, MAX_RETRIES
                         )
 
-                        # No need to sleep if this is the last retry. We're going to give up next time around.
-                        if retries + 1 <= MAX_RETRIES:
+                        retries += 1
+
+                        if retries <= MAX_RETRIES:
                             # Exponential backoff.
                             time.sleep(2 ** retries)
-
-                        retries += 1
             else:
                 logger.info(
                     'Retry limit hit for [%s/#%d]. Notifying %s.',
