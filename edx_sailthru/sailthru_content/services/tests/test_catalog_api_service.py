@@ -2,7 +2,7 @@ import responses
 
 from catalog_api_test_mixins import CatalogApiTestMixins
 from fixtures import (
-    SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA, SINGLE_SEARCHABLE_COURSE_DATA
+    SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
 )
 
 
@@ -30,8 +30,9 @@ class CatalogApiServiceTests(CatalogApiTestMixins):
         self.assertEqual(retrieved_program, expected_program)
 
     @responses.activate
-    def test_get_searchable_course_keys(self):
-        self.prepare_searchable_courses()
-        course_keys = self.catalog_api_service.get_searchable_course_run_keys()
+    def test_get_marketable_only_course_runs_keys(self):
+        self.prepare_get_marketable_only_course_runs_keys()
+        course_keys = self.catalog_api_service.get_marketable_only_course_runs_keys()
         self.assertEqual(len(responses.calls), 1)
-        self.assertEqual(course_keys[0], SINGLE_SEARCHABLE_COURSE_DATA['results'][0]['key'])
+        self.assertEqual(len(course_keys), 1)
+        self.assertEqual(course_keys[0], SINGLE_COURSE_DATA['results'][0]['course_runs'][0]['key'])
