@@ -43,10 +43,10 @@ class SailthruTranslationService(object):
         """ Generate 'vars' section of Sailthru data"""
         seat_priority = ['credit', 'professional', 'verified', 'no-id-professional', 'audit', 'honor']
         sailthru_content_vars = {
-            'course_run': True,
+            'course_run': 1,
             'marketing_url': url,
             'course_id': course['key'],
-            'course_run_id': course_run['key']
+            'course_run_id': course_run['key'],
         }
 
         for key in ['enrollment_end', 'enrollment_start', 'course_start', 'course_end']:
@@ -168,15 +168,28 @@ class SailthruTranslationService(object):
 
     def translate_courses(self):
         sailthru_item_array = []
+        course_run_count = 0
+        marketable_course_run_count = 0
         courses = self.data_service.get_courses()
-        serachable_run_keys = self.data_service.get_searchable_course_run_keys()
+        marketable_run_keys = self.data_service.get_marketable_only_course_runs_keys()
         program_dictionary = self.data_service.get_program_dictionary()
         for course in courses:
             course_runs = course.get('course_runs', [])
             for course_run in course_runs:
-                if course_run.get('key') in serachable_run_keys:
-                    sailthru_item_array.append(self.translate_course_run(course_run, course, program_dictionary))
+                course_run_count += 1
+                translated_course_run = self.translate_course_run(course_run, course, program_dictionary)
+                if course_run.get('key') in marketable_run_keys:
+                    # Mark the course_run to be marketable when updated through this script
+                    translated_course_run['vars']['marketable'] = 1
+                    marketable_course_run_count += 1
+                sailthru_item_array.append(translated_course_run)
 
+        logging.info(
+            'Retrieved {} course_runs of which {} tagged marketable'.format(
+                course_run_count,
+                marketable_course_run_count
+            )
+        )
         return sailthru_item_array
 
     def _get_program_image_urls(self, program):

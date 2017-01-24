@@ -39,10 +39,12 @@ class CatalogApiService(object):
                 response = api_endpoint.get(limit=page_size, offset=((page - 1) * page_size), **kwargs)
             else:
                 response = api_endpoint.get(page=page, **kwargs)
+
             if response.get('next'):
                 page += 1
             else:
                 page = -1
+
             results.extend(response.get('results'))
 
         return results
@@ -52,32 +54,33 @@ class CatalogApiService(object):
         return self._get_resource_from_api(
             self.api_client.courses(),
             page_size=COURSES_PAGE_SIZE,
-            marketable_course_runs_only=1,
             exclude_utm=1
         )
 
-    def get_searchable_course_run_keys(self):
-        logger.debug('Get Searchable Course runs called')
-        searchable_course_keys = []
-        searchable_course_runs = self._get_resource_from_api(
-            self.api_client.search().all(),
-            content_type='courserun',
-            partner='edx',
-            published=1,
-            hidden=0
+    def get_marketable_only_course_runs_keys(self):
+        logger.debug('Get marketable only course_runs called')
+        courses = self._get_resource_from_api(
+            self.api_client.courses(),
+            page_size=COURSES_PAGE_SIZE,
+            exclude_utm=1,
+            marketable_course_runs_only=1,
         )
-        for course_run in searchable_course_runs:
-            if course_run.get('key'):
-                searchable_course_keys.append(course_run.get('key'))
+        course_run_keys = []
+        for course in courses:
+            course_runs = course.get('course_runs', [])
+            for course_run in course_runs:
+                course_run_keys.append(course_run.get('key'))
 
-        return searchable_course_keys
+        logging.debug('Retrieved {} marketable course runs'.format(len(course_run_keys)))
+        return course_run_keys
 
     def get_program_dictionary(self):
         if not self._programs_dictionary:
             program_array = self._get_resource_from_api(
                 self.api_client.programs(),
                 PROGRAMS_PAGE_SIZE,
-                marketable_course_runs_only=1
+                marketable_course_runs_only=1,
+                marketable=1
             )
             for program in program_array:
                 self._programs_dictionary[program['uuid']] = program

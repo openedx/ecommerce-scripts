@@ -23,7 +23,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
 
     @responses.activate
     def test_translate_courses(self):
-        self.prepare_searchable_courses()
+        self.prepare_get_marketable_only_course_runs_keys()
         self.prepare_get_courses()
         self.prepare_get_programs()
         translated_course_runs = self.sailthru_translation_service.translate_courses()
@@ -45,6 +45,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 'course_start': '2016-10-18',
                 'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x',
                 'course_type': 'verified',
+                'marketable': 1,
                 'sku': {'verified': 'ghie'}
             },
             'title': 'Ethics of Sports: Do Sports Morally Matter?',
@@ -88,6 +89,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 'content_language': 'en-us',
                 'price_verified': '49.00',
                 'course_start': '2016-10-18',
+                'marketable': 1,
                 'marketing_url': 'https://www.edx.org/course/ethics-sports-do-sports-morally-matter-hamiltonx-phil108x',
                 'course_type': seat_type if seat_type else 'verified'
             },
@@ -119,7 +121,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
     @ddt.data(None, 'professional', 'credit', 'verified')
     def test_translated_vars(self, seat_type):
         self.prepare_get_courses(seat_type)
-        self.prepare_searchable_courses()
+        self.prepare_get_marketable_only_course_runs_keys()
         self.prepare_get_programs()
         translated_course_runs = self.sailthru_translation_service.translate_courses()
         self.assertEqual(len(translated_course_runs), 1)
