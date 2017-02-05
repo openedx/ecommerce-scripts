@@ -232,6 +232,10 @@ def pull(repo):
                     )
                 )
 
+                # Return immediately, without trying to merge the PR. We don't
+                # want to merge PRs without compiled messages.
+                return
+
             retries = 0
             while retries <= MAX_RETRIES:
                 try:
