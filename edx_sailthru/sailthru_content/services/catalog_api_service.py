@@ -25,7 +25,7 @@ class CatalogApiService(object):
                 logger.exception('No access token provided or acquired through client_credential flow.')
                 raise
 
-            logger.info('Token retrieved: %s', access_token)
+            logger.info('Retrieved access token.')
 
         self.api_client = EdxRestApiClient(api_url_root, jwt=self.access_token)
         self._programs_dictionary = {}
