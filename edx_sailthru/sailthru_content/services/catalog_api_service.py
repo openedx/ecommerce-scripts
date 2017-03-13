@@ -4,7 +4,7 @@ from edx_rest_api_client.client import EdxRestApiClient
 
 
 logger = logging.getLogger()
-COURSES_PAGE_SIZE = 500
+COURSES_PAGE_SIZE = 100
 PROGRAMS_PAGE_SIZE = 40
 
 
