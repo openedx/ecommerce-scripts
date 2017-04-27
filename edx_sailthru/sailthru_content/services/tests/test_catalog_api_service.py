@@ -1,7 +1,7 @@
 import responses
 
-from catalog_api_test_mixins import CatalogApiTestMixins
-from fixtures import (
+from .catalog_api_test_mixins import CatalogApiTestMixins
+from .fixtures import (
     SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA
 )
 

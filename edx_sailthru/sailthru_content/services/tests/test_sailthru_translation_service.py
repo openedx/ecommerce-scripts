@@ -5,8 +5,8 @@ import ddt
 import responses
 
 from ..sailthru_translation_service import SailthruTranslationService
-from catalog_api_test_mixins import CatalogApiTestMixins
-from fixtures import SINGLE_COURSE_DATA
+from .catalog_api_test_mixins import CatalogApiTestMixins
+from .fixtures import SINGLE_COURSE_DATA
 
 
 @ddt.ddt

@@ -5,3 +5,6 @@ ddt==1.0.0
 factory_boy==2.7.0
 pytest==3.0.5
 responses==0.5.1
+Faker==0.7.3
+mock==2.0.0
+

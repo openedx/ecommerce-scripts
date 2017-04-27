@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import datetime
 import logging
 
-from constants import GFA_COURSE_RUN_LIST
+from .constants import GFA_COURSE_RUN_LIST
 
 REQUIRED_SEATS_TYPES = ['verified', 'professional']
 DATE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
