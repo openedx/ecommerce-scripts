@@ -1,0 +1,11 @@
+language: python
+python:
+    - "2.7"
+    - "3.5"
+    - "3.6"
+
+install:
+  - pip install -r ./edx_sailthru/requirements/test.txt
+
+script:
+  - pytest
