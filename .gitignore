@@ -61,6 +61,10 @@ target/
 
 .idea/
 
+# pyenv
+.python-version
+
+# macOS
 .DS_Store
 
 # Google Analytics Specific
