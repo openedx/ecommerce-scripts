@@ -62,7 +62,7 @@ class SailthruApiService(object):
         if not library_items:
             return
 
-        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(delete=False, mode='w+t') as tmp_file:
             for item in library_items:
                 json.dump(item, tmp_file)
                 tmp_file.write('\n')

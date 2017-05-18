@@ -1,7 +1,7 @@
 import logging
+from urllib.parse import urlparse, parse_qs
 
 from edx_rest_api_client.client import EdxRestApiClient
-
 
 logger = logging.getLogger()
 COURSES_PAGE_SIZE = 100
@@ -30,22 +30,19 @@ class CatalogApiService(object):
         self.api_client = EdxRestApiClient(api_url_root, jwt=self.access_token)
         self._programs_dictionary = {}
 
-    def _get_resource_from_api(self, api_endpoint, page_size=None, **kwargs):
-        page = 1
+    def _get_resource_from_api(self, api_endpoint, **kwargs):
         results = []
 
-        while page >= 1:
-            if page_size:
-                response = api_endpoint.get(limit=page_size, offset=((page - 1) * page_size), **kwargs)
-            else:
-                response = api_endpoint.get(page=page, **kwargs)
-
-            if response.get('next'):
-                page += 1
-            else:
-                page = -1
-
+        while True:
+            response = api_endpoint.get(**kwargs)
+            next_url = response.get('next')
             results.extend(response.get('results'))
+            if next_url:
+                parsed_url = urlparse(next_url)
+                query_string_dict = parse_qs(parsed_url.query)
+                kwargs = query_string_dict
+            else:
+                break
 
         return results
 
@@ -53,6 +50,7 @@ class CatalogApiService(object):
         logger.debug('Get Courses called')
         return self._get_resource_from_api(
             self.api_client.courses(),
+            page=1,
             page_size=COURSES_PAGE_SIZE,
             exclude_utm=1
         )
@@ -61,6 +59,7 @@ class CatalogApiService(object):
         logger.debug('Get marketable only course_runs called')
         courses = self._get_resource_from_api(
             self.api_client.courses(),
+            page=1,
             page_size=COURSES_PAGE_SIZE,
             exclude_utm=1,
             marketable_course_runs_only=1,
@@ -78,9 +77,9 @@ class CatalogApiService(object):
         if not self._programs_dictionary:
             program_array = self._get_resource_from_api(
                 self.api_client.programs(),
-                PROGRAMS_PAGE_SIZE,
-                marketable_course_runs_only=1,
-                marketable=1
+                page=1,
+                page_size=PROGRAMS_PAGE_SIZE,
+                marketable_course_runs_only=1
             )
             for program in program_array:
                 self._programs_dictionary[program['uuid']] = program

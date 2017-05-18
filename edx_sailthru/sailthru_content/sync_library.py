@@ -134,7 +134,7 @@ def main(argv):
         if args.command == 'upload':
             sailthru_service.upload(sailthru_items, args.report_email)
         else:
-            print json.dumps(sailthru_items)
+            print(json.dumps(sailthru_items))
 
     elif args.command == 'clear':
         sailthru_service.clear()
