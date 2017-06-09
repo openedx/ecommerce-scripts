@@ -14,22 +14,27 @@ settings.yaml, simply run:
 If you want to run the script for a specific repo, provide a clone URL as an argument:
 
     python transifex/pull.py git@github.com:edx/course-discovery.git
+
+If you want to skip the compile messages step, pass the --skip-compilemessages option.
+
+    python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
 """
-import concurrent.futures
-from contextlib import contextmanager
 import logging
-from logging.config import dictConfig
 import os
-from os.path import join, abspath, dirname
 import re
 import subprocess
 import sys
 import time
+from argparse import ArgumentParser
+from contextlib import contextmanager
+from logging.config import dictConfig
+from os.path import abspath, dirname, join
 from urllib.parse import urlparse
 
-from github import Github, GithubException
 import yaml
 
+import concurrent.futures
+from github import Github, GithubException
 
 # Configure logging.
 dictConfig({
@@ -71,7 +76,7 @@ edx = github.get_organization('edx')
 
 class Repo:
     """Utility representing a Git repo."""
-    def __init__(self, clone_url):
+    def __init__(self, clone_url, skip_compilemessages=False):
         # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
         parsed = urlparse(clone_url)
         self.clone_url = '{scheme}://{token}@{netloc}{path}'.format(
@@ -88,7 +93,8 @@ class Repo:
         self.owner = None
         self.branch_name = 'update-translations'
         self.message = 'Update translations'
-        self.is_compiled = True
+        self.skip_compilemessages = skip_compilemessages
+        self.compilemessages_failed = False
 
     def clone(self):
         """Clone the repo."""
@@ -115,6 +121,10 @@ class Repo:
         """
         subprocess.run(['make', 'pull_translations'], check=True)
 
+        if self.skip_compilemessages:
+            logger.info('Skipping compilemessages.')
+            return
+
         # Messages may fail to compile (e.g., a translator may accidentally translate a
         # variable in a Python format string). If this happens, we want to proceed with
         # the PR process and notify the team that messages failed to compile.
@@ -129,7 +139,7 @@ class Repo:
             # of packages which provide installed apps custom to each project.
             subprocess.run(['django-admin.py', 'compilemessages'], check=True)
         except subprocess.CalledProcessError:
-            self.is_compiled = False
+            self.compilemessages_failed = True
 
     def is_changed(self):
         """Determine whether any changes were made."""
@@ -188,7 +198,7 @@ def cd(repo):
     """Utility for changing into and out of a repo."""
     initial_directory = os.getcwd()
     os.chdir(repo.name)
-    
+
     # Exception handler ensures that we always change back to the
     # initial directory, regardless of how control is returned
     # (e.g., an exception is raised while changed into the new directory).
@@ -223,7 +233,7 @@ def pull(repo):
                 logger.info('No changes detected for [%s]. Cleaning up.', repo.name)
 
         if pr:
-            if not repo.is_compiled:
+            if repo.compilemessages_failed:
                 # Notify the team that message compilation failed.
                 pr.create_issue_comment(
                     '@{owner} failing message compilation prevents this PR from being automatically merged. '
@@ -288,12 +298,28 @@ def pull(repo):
         repo.cleanup(pr)
 
 
+def parse_arguments():
+    parser = ArgumentParser()
+    parser.add_argument(
+        'clone_url',
+        nargs='?',
+        help='URL to use to clone the repository. If blank, URLs will be pulled from settings.yaml'
+    )
+    parser.add_argument(
+        '--skip-compilemessages',
+        action='store_true',
+        help='Skip the message compilation step.'
+    )
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    try:
-        clone_url = sys.argv[1]
-        repo = Repo(clone_url)
+    args = parse_arguments()
+
+    if args.clone_url:
+        repo = Repo(args.clone_url, skip_compilemessages=args.skip_compilemessages)
         pull(repo)
-    except IndexError:
+    else:
         logger.info('No arguments provided. Using settings.yaml.')
 
         settings_file = join(abspath(dirname(__file__)), 'settings.yaml')
@@ -302,5 +328,5 @@ if __name__ == '__main__':
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
             for clone_url in settings['repos']:
-                repo = Repo(clone_url)
+                repo = Repo(clone_url, skip_compilemessages=args.skip_compilemessages)
                 executor.submit(pull, repo)
