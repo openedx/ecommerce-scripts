@@ -2,12 +2,13 @@ import logging
 import os
 import re
 import subprocess
+import time
 from contextlib import contextmanager
 from logging.config import dictConfig
 from urllib.parse import urlparse
 
 import yaml
-from github import Github
+from github import Github, GithubException
 
 # Configure logging.
 dictConfig({
@@ -59,6 +60,12 @@ edx = github.get_organization('edx')
 
 
 class Repo:
+    # Combined with exponential backoff, limiting merge retries to 10 results in
+    # a total 34 minutes of sleep time. Status checks should almost always
+    # complete in this period.
+    MAX_MERGE_RETRIES = 10
+
+
     """Utility representing a Git repo."""
     def __init__(self, clone_url, skip_compilemessages=False):
         # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
@@ -161,6 +168,56 @@ class Repo:
             'master',
             self.branch_name
         )
+
+    def merge_pr(self, pr):
+        retries = 0
+        while retries <= self.MAX_MERGE_RETRIES:
+            try:
+                pr.merge()
+                logger.info('Merged [%s/#%d].', self.name, pr.number)
+                break
+            except GithubException as e:
+                # Assumes only one commit is present on the PR.
+                statuses = pr.get_commits()[0].get_statuses()
+
+                # Check for any failing Travis builds. If any are found, notify the team
+                # and move on.
+                if any('travis' in s.context and s.state == 'failure' for s in statuses):
+                    logger.info(
+                        'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
+                        self.name, pr.number, self.owner
+                    )
+
+                    pr.create_issue_comment(
+                        '@{owner} a failed Travis build prevented this PR from being automatically merged.'.format(
+                            owner=self.owner
+                        )
+                    )
+
+                    break
+                else:
+                    logger.info(
+                        'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
+                        self.name, pr.number, retries, self.MAX_MERGE_RETRIES
+                    )
+
+                    retries += 1
+
+                    if retries <= self.MAX_MERGE_RETRIES:
+                        # Exponential backoff.
+                        time.sleep(2 ** retries)
+        else:
+            logger.info(
+                'Retry limit hit for [%s/#%d]. Notifying %s.',
+                self.name, pr.number, self.owner
+            )
+
+            # Retry limit hit. Notify the team and move on.
+            pr.create_issue_comment(
+                '@{owner} pending status checks prevented this PR from being automatically merged.'.format(
+                    owner=self.owner
+                )
+            )
 
     def cleanup(self, pr):
         """Delete the local clone of the repo.

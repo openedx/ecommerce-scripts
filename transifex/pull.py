@@ -19,20 +19,13 @@ If you want to skip the compile messages step, pass the --skip-compilemessages o
 
     python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
 """
-import time
 from argparse import ArgumentParser
 from os.path import abspath, dirname, join
 
 import yaml
-from github import GithubException
 
 import concurrent.futures
 from utils.common import Repo, cd, logger
-
-# Combined with exponential backoff, limiting retries to 10 results in
-# a total 34 minutes of sleep time. Status checks should almost always
-# complete in this period.
-MAX_RETRIES = 10
 
 
 def pull(repo):
@@ -73,54 +66,8 @@ def pull(repo):
                 # want to merge PRs without compiled messages.
                 return
 
-            retries = 0
-            while retries <= MAX_RETRIES:
-                try:
-                    pr.merge()
-                    logger.info('Merged [%s/#%d]. Cleaning up.', repo.name, pr.number)
-                    break
-                except GithubException as e:
-                    # Assumes only one commit is present on the PR.
-                    statuses = pr.get_commits()[0].get_statuses()
+            repo.merge_pr(pr)
 
-                    # Check for any failing Travis builds. If any are found, notify the team
-                    # and move on.
-                    if any('travis' in s.context and s.state == 'failure' for s in statuses):
-                        logger.info(
-                            'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
-                            repo.name, pr.number, repo.owner
-                        )
-
-                        pr.create_issue_comment(
-                            '@{owner} a failed Travis build prevented this PR from being automatically merged.'.format(
-                                owner=repo.owner
-                            )
-                        )
-
-                        break
-                    else:
-                        logger.info(
-                            'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
-                            repo.name, pr.number, retries, MAX_RETRIES
-                        )
-
-                        retries += 1
-
-                        if retries <= MAX_RETRIES:
-                            # Exponential backoff.
-                            time.sleep(2 ** retries)
-            else:
-                logger.info(
-                    'Retry limit hit for [%s/#%d]. Notifying %s.',
-                    repo.name, pr.number, repo.owner
-                )
-
-                # Retry limit hit. Notify the team and move on.
-                pr.create_issue_comment(
-                    '@{owner} pending status checks prevented this PR from being automatically merged.'.format(
-                        owner=repo.owner
-                    )
-                )
     finally:
         repo.cleanup(pr)
 
