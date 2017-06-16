@@ -2,6 +2,7 @@ import logging
 import os
 import re
 import subprocess
+from contextlib import contextmanager
 from logging.config import dictConfig
 from urllib.parse import urlparse
 
@@ -33,6 +34,21 @@ dictConfig({
     },
 })
 logger = logging.getLogger()
+
+
+@contextmanager
+def cd(repo):
+    """Utility for changing into and out of a repo."""
+    initial_directory = os.getcwd()
+    os.chdir(repo.name)
+
+    # Exception handler ensures that we always change back to the
+    # initial directory, regardless of how control is returned
+    # (e.g., an exception is raised while changed into the new directory).
+    try:
+        yield
+    finally:
+        os.chdir(initial_directory)
 
 
 # Initialize GitHub client. For documentation,

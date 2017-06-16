@@ -19,37 +19,20 @@ If you want to skip the compile messages step, pass the --skip-compilemessages o
 
     python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
 """
-import os
 import time
 from argparse import ArgumentParser
-from contextlib import contextmanager
 from os.path import abspath, dirname, join
 
 import yaml
 from github import GithubException
 
 import concurrent.futures
-from utils.common import Repo, logger
+from utils.common import Repo, cd, logger
 
 # Combined with exponential backoff, limiting retries to 10 results in
 # a total 34 minutes of sleep time. Status checks should almost always
 # complete in this period.
 MAX_RETRIES = 10
-
-
-@contextmanager
-def cd(repo):
-    """Utility for changing into and out of a repo."""
-    initial_directory = os.getcwd()
-    os.chdir(repo.name)
-
-    # Exception handler ensures that we always change back to the
-    # initial directory, regardless of how control is returned
-    # (e.g., an exception is raised while changed into the new directory).
-    try:
-        yield
-    finally:
-        os.chdir(initial_directory)
 
 
 def pull(repo):
