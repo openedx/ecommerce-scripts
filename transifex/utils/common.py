@@ -84,6 +84,7 @@ class Repo:
         self.owner = None
         self.branch_name = 'update-translations'
         self.message = 'Update translations'
+        self.pr = None
 
     def clone(self):
         """Clone the repo."""
@@ -137,10 +138,9 @@ class Repo:
             logger.info('Changes detected for [%s]. Pushing them to GitHub and opening a PR.', self.name)
             self.commit()
             self.push()
-            return self.pr()
+            self.open_pr()
         else:
             logger.info('No changes detected for [%s].', repo.name)
-            return
 
     def is_changed(self):
         """Determine whether any changes were made."""
@@ -170,35 +170,59 @@ class Repo:
         """Push branch to the remote."""
         subprocess.run(['git', 'push', '-u', 'origin', self.branch_name], check=True)
 
-    def pr(self):
+    def open_pr(self):
         """Create a new PR on GitHub."""
-        return self.github_repo.create_pull(
+        if self.pr:
+            raise RuntimeError(
+                'A pull request has already been opened. [{repo}/{pr}]'.format(
+                    repo=self.name,
+                    pr=self.pr.number
+                )
+            )
+
+        self.pr = self.github_repo.create_pull(
             self.message,
             'This PR was created by a script.',
             'master',
             self.branch_name
         )
 
-    def merge_pr(self, pr):
+    def merge_pr(self):
+        if not self.pr:
+            raise RuntimeError(
+                'A pull request has not been opened for {repo}:{branch}.'.format(
+                    repo=self.name,
+                    branch=self.branch_name
+                )
+            )
+
+        if self.pr.is_merged():
+            raise RuntimeError(
+                'The pull request [{repo}/{pr}] has already been merged.'.format(
+                    repo=self.name,
+                    pr=self.pr.number
+                )
+            )
+
         retries = 0
         while retries <= self.MAX_MERGE_RETRIES:
             try:
-                pr.merge()
-                logger.info('Merged [%s/#%d].', self.name, pr.number)
+                self.pr.merge()
+                logger.info('Merged [%s/#%d].', self.name, self.pr.number)
                 break
             except GithubException as e:
                 # Assumes only one commit is present on the PR.
-                statuses = pr.get_commits()[0].get_statuses()
+                statuses = self.pr.get_commits()[0].get_statuses()
 
                 # Check for any failing Travis builds. If any are found, notify the team
                 # and move on.
                 if any('travis' in s.context and s.state == 'failure' for s in statuses):
                     logger.info(
                         'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
-                        self.name, pr.number, self.owner
+                        self.name, self.pr.number, self.owner
                     )
 
-                    pr.create_issue_comment(
+                    self.pr.create_issue_comment(
                         '@{owner} a failed Travis build prevented this PR from being automatically merged.'.format(
                             owner=self.owner
                         )
@@ -208,7 +232,7 @@ class Repo:
                 else:
                     logger.info(
                         'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
-                        self.name, pr.number, retries, self.MAX_MERGE_RETRIES
+                        self.name, self.pr.number, retries, self.MAX_MERGE_RETRIES
                     )
 
                     retries += 1
@@ -219,22 +243,22 @@ class Repo:
         else:
             logger.info(
                 'Retry limit hit for [%s/#%d]. Notifying %s.',
-                self.name, pr.number, self.owner
+                self.name, self.pr.number, self.owner
             )
 
             # Retry limit hit. Notify the team and move on.
-            pr.create_issue_comment(
+            self.pr.create_issue_comment(
                 '@{owner} pending status checks prevented this PR from being automatically merged.'.format(
                     owner=self.owner
                 )
             )
 
-    def cleanup(self, pr):
+    def cleanup(self):
         """Delete the local clone of the repo.
 
         If applicable, also deletes the merged branch from GitHub.
         """
-        if pr and pr.is_merged():
+        if self.pr and self.pr.is_merged():
             logger.info('Deleting merged branch %s:%s.', self.name, self.branch_name)
             # Delete branch from remote. See https://developer.github.com/v3/git/refs/#get-a-reference.
             ref = 'heads/{branch}'.format(branch=self.branch_name)

@@ -34,7 +34,6 @@ def pull(repo, skip_compilemessages=False):
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
-    pr = None
     logger.info('Pulling translations for [%s].', repo.name)
 
     try:
@@ -49,12 +48,13 @@ def pull(repo, skip_compilemessages=False):
             else:
                 compilemessages_succeeded = repo.compilemessages()
 
-            pr = repo.commit_push_and_open_pr()
+            repo.commit_push_and_open_pr()
 
-        if pr:
+        if repo.pr:
             if not (skip_compilemessages or compilemessages_succeeded):
+
                 # Notify the team that message compilation failed.
-                pr.create_issue_comment(
+                repo.pr.create_issue_comment(
                     '@{owner} failing message compilation prevents this PR from being automatically merged. '
                     'Refer to the build log for more details.'.format(
                         owner=repo.owner
@@ -65,10 +65,10 @@ def pull(repo, skip_compilemessages=False):
                 # want to merge PRs without compiled messages.
                 return
 
-            repo.merge_pr(pr)
+            repo.merge_pr()
 
     finally:
-        repo.cleanup(pr)
+        repo.cleanup()
 
 
 def parse_arguments():
