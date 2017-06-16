@@ -180,6 +180,23 @@ class Repo:
         except subprocess.CalledProcessError:
             return False
 
+    def extract_translations(self):
+        """Extract translation strings from the source code files in this repo.
+           Assumes this repo defines the `extract_translations` Make target.
+        """
+        subprocess.run(['make', 'extract_translations'], check=True)
+
+    def push_translations(self):
+        """Push translation strings to Transifex.
+
+        Assumes this repo defines the `push_translations` Make target and a
+        project config file at .tx/config. Running the Transifex client also
+        requires specifying Transifex credentials at ~/.transifexrc.
+
+        See http://docs.transifex.com/client/config/.
+        """
+        subprocess.run(['make', 'push_translations'], check=True)
+
     def commit_push_and_open_pr(self):
         """Convenience method that will detect changes that have been made to the repo, commit them, push them
            to Github, and open a PR.
@@ -259,7 +276,7 @@ class Repo:
             try:
                 self.pr.merge(merge_method=self.merge_method)
                 logger.info('Merged [%s/#%d].', self.name, self.pr.number)
-                break
+                return True
             except github.GithubException as e:
                 # Assumes only one commit is present on the PR.
                 statuses = self.pr.get_commits()[0].get_statuses()
@@ -278,7 +295,7 @@ class Repo:
                         )
                     )
 
-                    break
+                    return False
                 else:
                     logger.info(
                         'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
@@ -302,6 +319,7 @@ class Repo:
                     owner=self.owner
                 )
             )
+            return False
 
     def cleanup(self):
         """Delete the local clone of the repo.
