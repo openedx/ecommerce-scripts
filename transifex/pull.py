@@ -19,7 +19,6 @@ If you want to skip the compile messages step, pass the --skip-compilemessages o
 
     python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
 """
-import logging
 import os
 import re
 import subprocess
@@ -27,7 +26,6 @@ import sys
 import time
 from argparse import ArgumentParser
 from contextlib import contextmanager
-from logging.config import dictConfig
 from os.path import abspath, dirname, join
 from urllib.parse import urlparse
 
@@ -36,31 +34,8 @@ import yaml
 import concurrent.futures
 from github import Github, GithubException
 
-# Configure logging.
-dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'standard': {
-            'format': '%(asctime)s %(levelname)s %(process)d [%(filename)s:%(lineno)d] - %(message)s',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'standard',
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False
-        },
-    },
-})
-logger = logging.getLogger()
+from utils.common import logger
+
 
 # Combined with exponential backoff, limiting retries to 10 results in
 # a total 34 minutes of sleep time. Status checks should almost always
