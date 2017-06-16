@@ -15,6 +15,10 @@ If you want to run the script for a specific repo, provide a clone URL as an arg
 
     python transifex/pull.py git@github.com:edx/course-discovery.git
 
+If you want to use a custom merge method pass the --merge-method option.
+
+    python transifex/pull.py git@github.com:edx/course-discovery.git --merge-method rebase
+
 If you want to skip the compile messages step, pass the --skip-compilemessages option.
 
     python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
@@ -25,16 +29,16 @@ from os.path import abspath, dirname, join
 import yaml
 
 import concurrent.futures
-from utils.common import logger, repo_context
+from utils.common import MERGE_METHODS, logger, repo_context
 
 
-def pull(clone_url, skip_compilemessages=False):
+def pull(clone_url, merge_method=None, skip_compilemessages=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
-    with repo_context(clone_url) as repo:
+    with repo_context(clone_url, merge_method=merge_method) as repo:
         logger.info('Pulling translations for [%s].', repo.name)
 
         repo.pull_translations()
@@ -72,6 +76,11 @@ def parse_arguments():
         help='URL to use to clone the repository. If blank, URLs will be pulled from settings.yaml'
     )
     parser.add_argument(
+        '--merge-method',
+        choices=MERGE_METHODS,
+        help='Method to use when merging the PR. See https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button for details.'
+    )
+    parser.add_argument(
         '--skip-compilemessages',
         action='store_true',
         help='Skip the message compilation step.'
@@ -83,7 +92,7 @@ if __name__ == '__main__':
     args = parse_arguments()
 
     if args.clone_url:
-        pull(args.clone_url, skip_compilemessages=args.skip_compilemessages)
+        pull(args.clone_url, merge_method=args.merge_method, skip_compilemessages=args.skip_compilemessages)
     else:
         logger.info('No arguments provided. Using settings.yaml.')
 
@@ -93,4 +102,4 @@ if __name__ == '__main__':
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
             for clone_url in settings['repos']:
-                executor.submit(pull, clone_url, skip_compilemessages=args.skip_compilemessages)
+                executor.submit(pull, clone_url, merge_method=args.merge_method, skip_compilemessages=args.skip_compilemessages)

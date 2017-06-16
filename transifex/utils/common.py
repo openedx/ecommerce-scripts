@@ -8,7 +8,7 @@ from logging.config import dictConfig
 from urllib.parse import urlparse
 
 import yaml
-from github import Github, GithubException
+import github
 
 # Configure logging.
 dictConfig({
@@ -67,11 +67,45 @@ def repo_context(*args, **kwargs):
         repo.cleanup()
 
 
+# Merge methods supported by the Github API. https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button
+MERGE_METHODS = {'merge', 'squash', 'rebase'}
+
+
+GithubPullRequest = github.PullRequest.PullRequest
+class ExtendedPullRequest(GithubPullRequest):
+    def merge(self, commit_message=github.GithubObject.NotSet, merge_method=None):
+        """
+        Reimplemented from https://github.com/PyGithub/PyGithub/blob/v1.29/github/PullRequest.py#L501
+        to enable support for the merge_method option (https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button).
+
+        All of this code was copied exactly from the original version, except for the block between the
+        ## Start custom code ## and ## End custom code ## comments.
+        """
+        assert commit_message is github.GithubObject.NotSet or isinstance(commit_message, str), commit_message
+        post_parameters = dict()
+        if commit_message is not github.GithubObject.NotSet:
+            post_parameters["commit_message"] = commit_message
+
+        ## Start custom code ##
+        if merge_method:
+            if merge_method not in MERGE_METHODS:
+                raise RuntimeError("`{}` is not a supported merge method".format(merge_method))
+            post_parameters["merge_method"] = merge_method
+        ## End custom code ##
+
+        headers, data = self._requester.requestJsonAndCheck(
+            "PUT",
+            self.url + "/merge",
+            input=post_parameters
+        )
+        return github.PullRequestMergeStatus.PullRequestMergeStatus(self._requester, headers, data, completed=True)
+github.PullRequest.PullRequest = ExtendedPullRequest
+
+
 # Initialize GitHub client. For documentation,
 # see http://pygithub.github.io/PyGithub/v1/reference.html.
 github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
-github = Github(github_access_token)
-edx = github.get_organization('edx')
+edx = github.Github(github_access_token).get_organization('edx')
 
 
 class Repo:
@@ -82,7 +116,7 @@ class Repo:
 
 
     """Utility representing a Git repo."""
-    def __init__(self, clone_url):
+    def __init__(self, clone_url, merge_method=None):
         # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
         parsed = urlparse(clone_url)
         self.clone_url = '{scheme}://{token}@{netloc}{path}'.format(
@@ -100,6 +134,7 @@ class Repo:
         self.branch_name = 'update-translations'
         self.message = 'Update translations'
         self.pr = None
+        self.merge_method = merge_method
 
     def clone(self):
         """Clone the repo."""
@@ -222,10 +257,10 @@ class Repo:
         retries = 0
         while retries <= self.MAX_MERGE_RETRIES:
             try:
-                self.pr.merge()
+                self.pr.merge(merge_method=self.merge_method)
                 logger.info('Merged [%s/#%d].', self.name, self.pr.number)
                 break
-            except GithubException as e:
+            except github.GithubException as e:
                 # Assumes only one commit is present on the PR.
                 statuses = self.pr.get_commits()[0].get_statuses()
 
