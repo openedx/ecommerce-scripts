@@ -52,6 +52,21 @@ def cd(repo):
         os.chdir(initial_directory)
 
 
+@contextmanager
+def repo_context(*args, **kwargs):
+    """Utility for cloning a repo, cd'ing to it, creating a working branch, doing some work, and then cleaning
+       everything up.
+    """
+    repo = Repo(*args, **kwargs)
+    try:
+        repo.clone()
+        with cd(repo):
+            repo.branch()
+            yield repo
+    finally:
+        repo.cleanup()
+
+
 # Initialize GitHub client. For documentation,
 # see http://pygithub.github.io/PyGithub/v1/reference.html.
 github_access_token = os.environ['GITHUB_ACCESS_TOKEN']

@@ -25,30 +25,26 @@ from os.path import abspath, dirname, join
 import yaml
 
 import concurrent.futures
-from utils.common import Repo, cd, logger
+from utils.common import logger, repo_context
 
 
-def pull(repo, skip_compilemessages=False):
+def pull(clone_url, skip_compilemessages=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
-    logger.info('Pulling translations for [%s].', repo.name)
+    with repo_context(clone_url) as repo:
+        logger.info('Pulling translations for [%s].', repo.name)
 
-    try:
-        repo.clone()
+        repo.pull_translations()
 
-        with cd(repo):
-            repo.branch()
-            repo.pull_translations()
+        if skip_compilemessages:
+            logger.info('Skipping compilemessages.')
+        else:
+            compilemessages_succeeded = repo.compilemessages()
 
-            if skip_compilemessages:
-                logger.info('Skipping compilemessages.')
-            else:
-                compilemessages_succeeded = repo.compilemessages()
-
-            repo.commit_push_and_open_pr()
+        repo.commit_push_and_open_pr()
 
         if repo.pr:
             if not (skip_compilemessages or compilemessages_succeeded):
@@ -66,9 +62,6 @@ def pull(repo, skip_compilemessages=False):
                 return
 
             repo.merge_pr()
-
-    finally:
-        repo.cleanup()
 
 
 def parse_arguments():
@@ -90,8 +83,7 @@ if __name__ == '__main__':
     args = parse_arguments()
 
     if args.clone_url:
-        repo = Repo(args.clone_url)
-        pull(repo, skip_compilemessages=args.skip_compilemessages)
+        pull(args.clone_url, skip_compilemessages=args.skip_compilemessages)
     else:
         logger.info('No arguments provided. Using settings.yaml.')
 
@@ -101,5 +93,4 @@ if __name__ == '__main__':
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
             for clone_url in settings['repos']:
-                repo = Repo(clone_url)
-                executor.submit(pull, repo, skip_compilemessages=args.skip_compilemessages)
+                executor.submit(pull, clone_url, skip_compilemessages=args.skip_compilemessages)
