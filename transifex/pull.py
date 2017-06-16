@@ -20,152 +20,21 @@ If you want to skip the compile messages step, pass the --skip-compilemessages o
     python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
 """
 import os
-import re
-import subprocess
-import sys
 import time
 from argparse import ArgumentParser
 from contextlib import contextmanager
 from os.path import abspath, dirname, join
-from urllib.parse import urlparse
 
 import yaml
+from github import GithubException
 
 import concurrent.futures
-from github import Github, GithubException
-
-from utils.common import logger
-
+from utils.common import Repo, logger
 
 # Combined with exponential backoff, limiting retries to 10 results in
 # a total 34 minutes of sleep time. Status checks should almost always
 # complete in this period.
 MAX_RETRIES = 10
-
-# Initialize GitHub client. For documentation,
-# see http://pygithub.github.io/PyGithub/v1/reference.html.
-github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
-github = Github(github_access_token)
-edx = github.get_organization('edx')
-
-
-class Repo:
-    """Utility representing a Git repo."""
-    def __init__(self, clone_url, skip_compilemessages=False):
-        # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
-        parsed = urlparse(clone_url)
-        self.clone_url = '{scheme}://{token}@{netloc}{path}'.format(
-            scheme=parsed.scheme,
-            token=github_access_token,
-            netloc=parsed.netloc,
-            path=parsed.path
-        )
-
-        match = re.match(r'.*edx/(?P<name>.*).git', self.clone_url)
-        self.name = match.group('name')
-
-        self.github_repo = edx.get_repo(self.name)
-        self.owner = None
-        self.branch_name = 'update-translations'
-        self.message = 'Update translations'
-        self.skip_compilemessages = skip_compilemessages
-        self.compilemessages_failed = False
-
-    def clone(self):
-        """Clone the repo."""
-        subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
-
-        # Assumes the existence of repo metadata YAML, standardized in
-        # https://open-edx-proposals.readthedocs.io/en/latest/oep-0002.html.
-        with open('{}/openedx.yaml'.format(self.name)) as f:
-            repo_metadata = yaml.load(f)
-            self.owner = repo_metadata['owner']
-
-    def branch(self):
-        """Create and check out a new branch."""
-        subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
-
-    def update_translations(self):
-        """Download and compile messages from Transifex.
-
-        Assumes this repo defines the `pull_translations` Make target and a
-        project config file at .tx/config. Running the Transifex client also
-        requires specifying Transifex credentials at ~/.transifexrc.
-
-        See http://docs.transifex.com/client/config/.
-        """
-        subprocess.run(['make', 'pull_translations'], check=True)
-
-        if self.skip_compilemessages:
-            logger.info('Skipping compilemessages.')
-            return
-
-        # Messages may fail to compile (e.g., a translator may accidentally translate a
-        # variable in a Python format string). If this happens, we want to proceed with
-        # the PR process and notify the team that messages failed to compile.
-        try:
-            # The compilemessages command is a script that (as of Django 1.9) scans the project
-            # tree for .po files to compile and calls GNU gettext's msgfmt command on them. It
-            # doesn't require DJANGO_SETTINGS_MODULE to be defined when run from the project root,
-            # and also doesn't need django.setup() to be run. Because of this, we can get away with
-            # django-admin.py instead of manage.py. The latter defines a default value for
-            # DJANGO_SETTINGS_MODULE and causes django.setup() to run, which is undesirable here for reasons
-            # ranging from Python 2/3 incompatibility errors across projects to forcing the installation
-            # of packages which provide installed apps custom to each project.
-            subprocess.run(['django-admin.py', 'compilemessages'], check=True)
-        except subprocess.CalledProcessError:
-            self.compilemessages_failed = True
-
-    def is_changed(self):
-        """Determine whether any changes were made."""
-        completed_process = subprocess.run(['git', 'status', '--porcelain'], stdout=subprocess.PIPE, check=True)
-        return bool(completed_process.stdout)
-
-    def commit(self):
-        """Commit changes.
-
-        Adds any untracked files, in case new translations are added.
-        """
-        subprocess.run(['git', 'add', '-A'], check=True)
-        try:
-            subprocess.run(['git', 'commit', '-m', self.message], check=True)
-        except subprocess.CalledProcessError:
-            subprocess.run(
-                [
-                    'git',
-                    '-c', 'user.name="{}"'.format(os.environ['GIT_USER_NAME']),
-                    '-c', 'user.email={}'.format(os.environ['GIT_USER_EMAIL']),
-                    'commit', '-m', self.message
-                ],
-                check=True
-            )
-
-    def push(self):
-        """Push branch to the remote."""
-        subprocess.run(['git', 'push', '-u', 'origin', self.branch_name], check=True)
-
-    def pr(self):
-        """Create a new PR on GitHub."""
-        return self.github_repo.create_pull(
-            self.message,
-            'This PR was created by a script.',
-            'master',
-            self.branch_name
-        )
-
-    def cleanup(self, pr):
-        """Delete the local clone of the repo.
-
-        If applicable, also deletes the merged branch from GitHub.
-        """
-        if pr and pr.is_merged():
-            logger.info('Deleting merged branch %s:%s.', self.name, self.branch_name)
-            # Delete branch from remote. See https://developer.github.com/v3/git/refs/#get-a-reference.
-            ref = 'heads/{branch}'.format(branch=self.branch_name)
-            self.github_repo.get_git_ref(ref).delete()
-
-        # Delete cloned repo.
-        subprocess.run(['rm', '-rf', self.name], check=True)
 
 
 @contextmanager
