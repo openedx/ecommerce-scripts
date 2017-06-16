@@ -49,13 +49,7 @@ def pull(repo, skip_compilemessages=False):
             else:
                 compilemessages_succeeded = repo.compilemessages()
 
-            if repo.is_changed():
-                logger.info('Translations have changed for [%s]. Pushing them to GitHub and opening a PR.', repo.name)
-                repo.commit()
-                repo.push()
-                pr = repo.pr()
-            else:
-                logger.info('No changes detected for [%s]. Cleaning up.', repo.name)
+            pr = repo.commit_push_and_open_pr()
 
         if pr:
             if not (skip_compilemessages or compilemessages_succeeded):

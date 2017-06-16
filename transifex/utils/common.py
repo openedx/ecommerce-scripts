@@ -129,6 +129,19 @@ class Repo:
         except subprocess.CalledProcessError:
             return False
 
+    def commit_push_and_open_pr(self):
+        """Convenience method that will detect changes that have been made to the repo, commit them, push them
+           to Github, and open a PR.
+        """
+        if self.is_changed():
+            logger.info('Changes detected for [%s]. Pushing them to GitHub and opening a PR.', self.name)
+            self.commit()
+            self.push()
+            return self.pr()
+        else:
+            logger.info('No changes detected for [%s].', repo.name)
+            return
+
     def is_changed(self):
         """Determine whether any changes were made."""
         completed_process = subprocess.run(['git', 'status', '--porcelain'], stdout=subprocess.PIPE, check=True)
