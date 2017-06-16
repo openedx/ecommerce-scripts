@@ -28,7 +28,7 @@ import concurrent.futures
 from utils.common import Repo, cd, logger
 
 
-def pull(repo):
+def pull(repo, skip_compilemessages=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
@@ -42,7 +42,12 @@ def pull(repo):
 
         with cd(repo):
             repo.branch()
-            repo.update_translations()
+            repo.pull_translations()
+
+            if skip_compilemessages:
+                logger.info('Skipping compilemessages.')
+            else:
+                compilemessages_succeeded = repo.compilemessages()
 
             if repo.is_changed():
                 logger.info('Translations have changed for [%s]. Pushing them to GitHub and opening a PR.', repo.name)
@@ -53,11 +58,11 @@ def pull(repo):
                 logger.info('No changes detected for [%s]. Cleaning up.', repo.name)
 
         if pr:
-            if repo.compilemessages_failed:
+            if not (skip_compilemessages or compilemessages_succeeded):
                 # Notify the team that message compilation failed.
                 pr.create_issue_comment(
                     '@{owner} failing message compilation prevents this PR from being automatically merged. '
-                    'Refer to the Travis build log for more details.'.format(
+                    'Refer to the build log for more details.'.format(
                         owner=repo.owner
                     )
                 )
@@ -91,8 +96,8 @@ if __name__ == '__main__':
     args = parse_arguments()
 
     if args.clone_url:
-        repo = Repo(args.clone_url, skip_compilemessages=args.skip_compilemessages)
-        pull(repo)
+        repo = Repo(args.clone_url)
+        pull(repo, skip_compilemessages=args.skip_compilemessages)
     else:
         logger.info('No arguments provided. Using settings.yaml.')
 
@@ -102,5 +107,5 @@ if __name__ == '__main__':
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
             for clone_url in settings['repos']:
-                repo = Repo(clone_url, skip_compilemessages=args.skip_compilemessages)
-                executor.submit(pull, repo)
+                repo = Repo(clone_url)
+                executor.submit(pull, repo, skip_compilemessages=args.skip_compilemessages)

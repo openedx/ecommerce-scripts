@@ -67,7 +67,7 @@ class Repo:
 
 
     """Utility representing a Git repo."""
-    def __init__(self, clone_url, skip_compilemessages=False):
+    def __init__(self, clone_url):
         # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
         parsed = urlparse(clone_url)
         self.clone_url = '{scheme}://{token}@{netloc}{path}'.format(
@@ -84,8 +84,6 @@ class Repo:
         self.owner = None
         self.branch_name = 'update-translations'
         self.message = 'Update translations'
-        self.skip_compilemessages = skip_compilemessages
-        self.compilemessages_failed = False
 
     def clone(self):
         """Clone the repo."""
@@ -101,8 +99,8 @@ class Repo:
         """Create and check out a new branch."""
         subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
 
-    def update_translations(self):
-        """Download and compile messages from Transifex.
+    def pull_translations(self):
+        """Download translation messages from Transifex.
 
         Assumes this repo defines the `pull_translations` Make target and a
         project config file at .tx/config. Running the Transifex client also
@@ -112,10 +110,8 @@ class Repo:
         """
         subprocess.run(['make', 'pull_translations'], check=True)
 
-        if self.skip_compilemessages:
-            logger.info('Skipping compilemessages.')
-            return
-
+    def compilemessages(self):
+        """Run the django-admin compilemessages command and return a bool indicating whether or not it succeeded. """
         # Messages may fail to compile (e.g., a translator may accidentally translate a
         # variable in a Python format string). If this happens, we want to proceed with
         # the PR process and notify the team that messages failed to compile.
@@ -129,8 +125,9 @@ class Repo:
             # ranging from Python 2/3 incompatibility errors across projects to forcing the installation
             # of packages which provide installed apps custom to each project.
             subprocess.run(['django-admin.py', 'compilemessages'], check=True)
+            return True
         except subprocess.CalledProcessError:
-            self.compilemessages_failed = True
+            return False
 
     def is_changed(self):
         """Determine whether any changes were made."""
