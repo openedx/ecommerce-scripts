@@ -1,4 +1,4 @@
-Django==1.9.12
+Django==1.11.2
 PyGithub==1.29
 PyYAML==3.12
-transifex-client==0.12.2
+transifex-client==0.12.4
