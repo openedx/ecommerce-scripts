@@ -77,7 +77,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
             'site_name': 'HamiltonX',
             'description': '.',
             'vars': {
-                'sku': {u'verified': u'ghie'},
+                'sku': {'verified': 'ghie'},
                 'price_audit': '0.00',
                 'site_name': 'HamiltonX',
                 'course_run': True,

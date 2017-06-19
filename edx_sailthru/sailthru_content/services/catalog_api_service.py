@@ -16,10 +16,9 @@ class CatalogApiService(object):
         if not access_token:
             logger.info('No access token provided. Retrieving access token using client_credential flow...')
             try:
-                self.access_token, expires = EdxRestApiClient.get_oauth_access_token(
-                    '{root}/access_token'.format(root=oauth_host),
-                    oauth_key,
-                    oauth_secret, token_type='jwt'
+                access_token_url = '{}/access_token'.format(oauth_host)
+                self.access_token, __ = EdxRestApiClient.get_oauth_access_token(
+                    access_token_url, oauth_key, oauth_secret, token_type='jwt'
                 )
             except Exception:
                 logger.exception('No access token provided or acquired through client_credential flow.')
