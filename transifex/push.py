@@ -18,11 +18,18 @@ from argparse import ArgumentParser
 from utils.common import MERGE_METHODS, logger, repo_context
 
 
+# The name of the branch to use.
+BRANCH_NAME = 'update-translation-strings'
+
+# The commit message to use.
+MESSAGE = 'Update translation strings'
+
+
 def push(clone_url, merge_method=None):
     """Extracts translations for the given repo, commits them, pushes them to GitHub, opens a PR, waits for status
         checks to pass, merges the PR, deletes the branch, and pushes the updated translation files to transifex.
     """
-    with repo_context(clone_url, merge_method=merge_method) as repo:
+    with repo_context(clone_url, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
         logger.info('Extracting translations for [%s].', repo.name)
         repo.extract_translations()
         repo.commit_push_and_open_pr()

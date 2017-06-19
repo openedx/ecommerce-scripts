@@ -32,13 +32,20 @@ import concurrent.futures
 from utils.common import MERGE_METHODS, logger, repo_context
 
 
+# The name of the branch to use.
+BRANCH_NAME = 'update-translations'
+
+# The commit message to use.
+MESSAGE = 'Update translations'
+
+
 def pull(clone_url, merge_method=None, skip_compilemessages=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
-    with repo_context(clone_url, merge_method=merge_method) as repo:
+    with repo_context(clone_url, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
         logger.info('Pulling translations for [%s].', repo.name)
 
         repo.pull_translations()

@@ -116,7 +116,7 @@ class Repo:
 
 
     """Utility representing a Git repo."""
-    def __init__(self, clone_url, merge_method=None):
+    def __init__(self, clone_url, branch_name, message, merge_method=None):
         # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
         parsed = urlparse(clone_url)
         self.clone_url = '{scheme}://{token}@{netloc}{path}'.format(
@@ -131,8 +131,8 @@ class Repo:
 
         self.github_repo = edx.get_repo(self.name)
         self.owner = None
-        self.branch_name = 'update-translations'
-        self.message = 'Update translations'
+        self.branch_name = branch_name
+        self.message = message
         self.pr = None
         self.merge_method = merge_method
 
