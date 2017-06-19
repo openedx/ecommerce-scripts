@@ -53,7 +53,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 root=self.lms_root,
                 key=SINGLE_COURSE_DATA['results'][0]['course_runs'][0]['key']
             ),
-            'tags': 'subject-Education-Teacher-Training, subject-Philosophy-Ethics, subject-Health-Safety, school-HamiltonX',
+            'tags': 'course-run,subject-Education-Teacher-Training,subject-Philosophy-Ethics,subject-Health-Safety,school-HamiltonX',
             'spider': 0,
             'images': {
                 'thumb': {
@@ -69,8 +69,14 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
         self.prepare_get_courses()
         self.prepare_get_programs()
         translated_programs = self.sailthru_translation_service.translate_programs()
-        self.assertEqual(len(translated_programs), 1)
-        self.assertEqual(len(translated_programs[0]['vars']['course_runs']), 4)
+        assert len(translated_programs) == 1
+
+        program = translated_programs[0]
+        assert len(program['vars']['course_runs']) == 4
+
+        tags = program['tags'].split(',')
+        assert 'program' in tags
+        assert 'program-micromasters' in tags
 
     def _get_expected_sailthru_item(self, seat_type=None):
         expected_sailthru_item = {
@@ -98,7 +104,7 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
                 root=self.lms_root,
                 key=SINGLE_COURSE_DATA['results'][0]['course_runs'][0]['key']
             ),
-            'tags': 'subject-Education-Teacher-Training, subject-Philosophy-Ethics, subject-Health-Safety, school-HamiltonX',
+            'tags': 'course-run,subject-Education-Teacher-Training,subject-Philosophy-Ethics,subject-Health-Safety,school-HamiltonX',
             'spider': 0,
             'images': {
                 'thumb': {
