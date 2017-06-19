@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 import datetime
 import logging
 
+from slugify import slugify
+
 from .constants import GFA_COURSE_RUN_LIST
 
 REQUIRED_SEATS_TYPES = ['verified', 'professional']
@@ -31,7 +33,7 @@ class SailthruTranslationService(object):
             return None
 
     def _convert_tag(self, tagtype, tag):
-        """ Convert string to a valid sailthru tag and add type- to the front if specified"""
+        """ Convert string to a valid Sailthru tag and add type- to the front if specified"""
         if tag:
             resp = tag.replace(' & ', '-').replace(',', '').replace('.', '').replace(' ', '-').replace('--', '-')
             if tagtype:
@@ -137,12 +139,11 @@ class SailthruTranslationService(object):
             sailthru_content['images'] = {'thumb': {'url': course_run['image']['src']}}
 
         # create the interest tags
-        tags = self._get_tags_from_property(course.get('subjects'), 'name', 'subject')
+        tags = ['course-run']
+        tags.extend(self._get_tags_from_property(course.get('subjects'), 'name', 'subject'))
         tags.extend(self._get_tags_from_property(course.get('owners'), 'key', 'school'))
         tags.extend(self._get_tags_from_property(course.get('sponsors'), 'key', 'school'))
-
-        if len(tags) > 0:
-            sailthru_content['tags'] = ", ".join(tags)
+        sailthru_content['tags'] = ','.join(tags)
 
         sailthru_content['vars'] = self._create_course_vars(
             course,
@@ -254,12 +255,12 @@ class SailthruTranslationService(object):
             'spider': 0,
         }
 
-        tags = self._get_tags_from_property(program.get('subjects'), 'name', 'subjects')
+        program_type = program.get('type').lower()
+        tags = ['program', 'program-{}'.format(slugify(program_type))]
+        tags.extend(self._get_tags_from_property(program.get('subjects'), 'name', 'subjects'))
         tags.extend(self._get_tags_from_property(program.get('authoring_organizations'), 'key', 'school'))
-        tags.append(self._convert_tag(program.get('type').lower(), program.get('title')))
-
-        if len(tags) > 0:
-            sailthru_item['tags'] = ", ".join(tags)
+        tags.append(self._convert_tag(program_type, program.get('title')))
+        sailthru_item['tags'] = ','.join(tags)
 
         # now we get the vars
         sailthru_item['vars'] = self._translate_program_specific_data(program)
