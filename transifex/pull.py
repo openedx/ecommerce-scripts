@@ -10,22 +10,26 @@ Run the script from the root of this repo.
 
     python transifex/pull.py git@github.com:edx/course-discovery.git
 
+If you want to use a custom merge method pass the --merge-method option.
+
+    python transifex/pull.py git@github.com:edx/course-discovery.git --merge-method rebase
+
 If you want to skip the compile messages step, pass the --skip-compilemessages option.
 
     python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
 """
 from argparse import ArgumentParser
 
-from utils import logger, repo_context
+from utils import DEFAULT_MERGE_METHOD, MERGE_METHODS, logger, repo_context
 
 
-def pull(clone_url, skip_compilemessages=False):
+def pull(clone_url, merge_method=None, skip_compilemessages=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
-    with repo_context(clone_url) as repo:
+    with repo_context(clone_url, merge_method=merge_method) as repo:
         logger.info('Pulling translations for [%s].', repo.name)
 
         repo.pull_translations()
@@ -60,6 +64,12 @@ def parse_arguments():
     parser.add_argument(
         'clone_url',
         help='URL to use to clone the repository.'
+    )
+    parser.add_argument(
+        '--merge-method',
+        choices=MERGE_METHODS,
+        default=DEFAULT_MERGE_METHOD,
+        help='Method to use when merging the PR. See https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button for details.'
     )
     parser.add_argument(
         '--skip-compilemessages',
