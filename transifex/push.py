@@ -25,7 +25,7 @@ BRANCH_NAME = 'update-translation-strings'
 MESSAGE = 'Update translation strings'
 
 
-def push(clone_url, merge_method=None):
+def push(clone_url, merge_method=DEFAULT_MERGE_METHOD):
     """Extracts translations for the given repo, commits them, pushes them to GitHub, opens a PR, waits for status
         checks to pass, merges the PR, deletes the branch, and pushes the updated translation files to Transifex.
     """
