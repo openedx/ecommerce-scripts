@@ -1,0 +1,3738 @@
+{
+  "lastUpdated": "2017-06-22T05:29:51.203961",
+  "providerName": "edX",
+  "playlists": [
+    {
+      "itemIds": [
+        "block-v1:UQx+Think101x+3T2016+type@video+block@598505eb528a4c1db41b827fa0b5050a",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@a73336e496c24d74a579885f346c9082",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@bd2589c45ae042ca8fefddad7eb90a0a",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@beb5e224521e408b9de9282fef22fde3",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@5ef51624756c4db8aa593233547eac4f",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@20def1cd60284538b958f849e1b35057",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@09b4426cd8fe43d3bbde449a3c694d20",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@55432d869662431eac2a0dd75e301db9",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@e1947255863d4c9da2ba78fd04f2e353",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@48eba1a336274a768ff86ee231773a68",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@6113ff2a441e4927b86d524761b5f104",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@c3cc027c098c4746ae4e79623b211f7a",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0008274c4ece43638c387ca8ddcc878e",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@672d1ede073d410199434ac7142a5527",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@c2ddd723d6944a59b65c4eaefa66091d",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@1a6fe4d1d4234df899cc056cc3352612",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@dd8472ec01b04afabb9ab52d38b17458",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@64aa568c716841f892497c629f9bb2ae",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@f34956d0981b4f2db4092cbf238e29f7",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0ea0cf76005b4fba8e0d2ec0daf0dff4",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@3067d4f76857467ea79130b0b06303ef",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@39f7b0c9c732441fbb1957ea919c82e8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@72d0cb9c12ff44dba246f2604df82942",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@7e1a401b9ae14b0983a7a7707147dab4",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@786cd6d5cdd1406f972265e33686fc5e",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@8c1c5db8d84c401bb0f7306826c64085",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@57853f4b93a94926890e942398d15407",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@5093c79b5fbd497da5730592a864a8b8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@fcf976b296eb4162acd03419a69cda0d",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@a622ae7e33ef450792f9c27dd58ad947",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@726edd0098444f0c8e6f06da6b5cacbf",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@faf3a97e91ba486987ace5879a6915d7",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@52b2907f49e14f0a90dce5ee77f37ce6",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@801ad3413766488fb8f2ca43b73f7a71",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@2ced8c9c988e488d8271fc55127e886a",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@b2863b0c27d04902bf70b01e798eb63e",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@990b6d5fcf0b4591a73424dae3e07f88",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@432a520878ea40caa791163ef54fd462",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@4c511a0154bb4fe0bbd7b292eb6dd90e",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@256687a460324a95af0e47dcacde58f8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@e3935bfc34f94e64a5a3abbd79f9d107",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@e28e6327b9d146819d14b668ece3962f",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@5b5474e7e06546d39f653454991eb9e7",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@e773bdc2fffb4ae982145b21f6656d7c",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@b43067dbdab9407f9a4c1b8dbafa5aac",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@ec865ebfe93042c79284cc8ff773a3e3",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@45c4dfb2e88b4d3bb5dae70e7dd7d926",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0497219c76544153a5bd160125260224",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@036cfb47b726401488a094b0b7b70305",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@6666ed773e8645f7a761434561540dac",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@9da43cbeb11041f292e323422fbd9e50",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@23768e2035854874929bbcdff5c9d5bd",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@c5bd8be23b2043f69491160a1359e92b",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@baf6544223894587849cf894ce27b929",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@976a3c88e2b044f49b73e170d4ebd622",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@a1b05a4b5e07442eb69ad96c77eb1210",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0ca2606ebd0a4faea672f8223be12877",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@feb3251273d14be6a9012cef28724ab9",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@7381c60c990541be9be48fe3dfc45141",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@8762ee35a0cd4fdf91851a9e1bb723e6",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@d48e76bf57b5426cbd8893edba246117",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@3b920c1282154aa48eef159e860c445e",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@8c7d8ff79dec464bb28a8d771b815660",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@cce9063fd1c64e7eb2e450ada7c02bcc",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@e16196f34a99452caee1ce96759f6aed",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@48e2100dfe5e4fb09e5f2ba82c6d6d6e",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@37c53ec8476447809fcad50498c95e0f",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@82af7cc1beb741cca3f44cd7a4c9423f",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@899607a084c044f69d0d3ad6bc9191b0",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@b5b459a784164093abb26d6b91bd68a6",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@9f467eee2bb94b648d4fc73fca9435b8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@563b8c208c62411b933acdb2dfdb6fd8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0f1d65ac89a34cbfb463fa2330ca019f",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@7bfab09c90724b68ac7789991301f956",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@a7d1e64062cf44e6a17bc475a4fd32f2",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@5a41b1a9e21c4c9286baaf6873fcb270",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@2dd6ec7dae7742a1b06b6a44f8174e9c",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@af4cdc45aa78497a8be90462bc1bcb79",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@d962f6a2022d43b5abe2fb2f7b9b857b",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@f8844b85d9b64dbda505b0c40697efdb",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@c08a60d6c5c948aebdd4b179b265ff55",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@5efbba134b3441caa3a591c273c03f82",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@30a2c352054e4e3aaabee87b69161cc4",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@b41581377dc140a3baccda4e332fccf5",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@721d43772a4049d69ac1e6731c81eb21",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@f180f273b8da41b9aa848f51bde3c9f1",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@198504cd3d5147ca85cbb2a086901ea3",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@6c95cc44598c411ebe1bb9a5087dbad0",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@a0ccac6541b7403f970e66894deacf33",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@aaf9ac38182f460bb6aa6465c6c2b0a3",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@49608b99d2d146e7b6f9a7c5e5e83d8c",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@057133fc5dde454390acf53b173a983e",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@3d072c73598e4ee0a2fd96024114f917",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@65307ad6fe32444abc3790ff27fa4101",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@8bb2f4d98ccb4ca09499e699a0d6fb2d",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@14de60a4690643348f6ab8255ee7b812",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@120320ab8bc64e2caf3aa206d4a3c905",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@960a455482fd4eaba23af61e7ab006e3",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@ca5010ed94144c08a7481b81b1655ca4",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0fa229639a204cf79e3e8d09e5537faf",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@ee0aa1f6ba3346c9b6b112337c88a6a8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@4d094877d1e24d7d8fb403114b9b43e8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0a55d04abaff4654a5185f46acd5e875",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@b4b78422d0704764a1882d29ead6ed2f",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@0d0e4593775a4c55b73f82acf778ba48",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@92d31c93470c47a29cab343c66fbc476",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@8df2ff97119a4dab8f17308afd459fc7",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@d3a69b2843ac458984ae02e6c96e6e21",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@233c4e4f2a93497e9ea93652e755f6c8",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@fe4d5ddb3d9f4d05890cdaad09c1f49d",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@c24801e17554427d80e650956771c3e0",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@21885cd697594805af7bd79af86cb5d6",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@b7f570b0a3d34c868ed20b7a08e954a7",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@319879cc1d9941b58c3b456346bc6f79",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@02d83f6950bd4d878ae0ab5ed52f9964",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@549cf534b0e442528d8d9352b124c779",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@289b47db32804597a6be49312d7dd8fb",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@898d9a9c4dfa49e4bf5d4917c97370ec",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@56b8c95de8ea44a38602f8e978ec00dd",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@ce4434f707e9467fae8ab78f64f5cf58",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@c650653a99a04f919556d7d8d85ffe63",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@969dcb501a0f49fc9daa3a9df6704042",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@33d44860ed62421cbbf42e7caec5a96f",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@2a82b8b376824531b78b347f38ca4522",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@907ee0381dde4278afefae31eeba0b79",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@917f7f43d3dd44b4a418f53067bf1adc",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@9cc03c00cf9a4de6ba50ea20a57a7022",
+        "block-v1:UQx+Think101x+3T2016+type@video+block@d79b18bd06694aa2914ab92cce39be45"
+      ],
+      "name": "The Science of Everyday Thinking"
+    }
+  ],
+  "categories": [
+    {
+      "order": "manual",
+      "playlistName": "The Science of Everyday Thinking",
+      "name": "The Science of Everyday Thinking"
+    }
+  ],
+  "shortFormVideos": [
+    {
+      "longDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in aliquet lectus. Cras porttitor, ipsum et pharetra auctor, augue erat efficitur nulla, sed aliquet sem mi nec urna. Aenean non urna orci. Curabitur interdum libero eu odio volutpat porttitor. Proin accumsan eros ut neque faucibus, sit amet imperdiet quam sollicitudin.",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@598505eb528a4c1db41b827fa0b5050a",
+      "releaseDate": "2017-06-22T05:29:51.202214",
+      "content": {
+        "language": "en",
+        "captions": [
+          {
+            "language": "en",
+            "url": "https://raw.githubusercontent.com/edx/ecommerce-scripts/roku/roku/a-taste.srt",
+            "captionType": "SUBTITLE"
+          }
+        ],
+        "duration": 178,
+        "dateAdded": "2017-06-22T05:29:51.202214",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "A taste of things to come",
+      "thumbnail": "https://raw.githubusercontent.com/edx/ecommerce-scripts/roku/roku/a-taste.jpg"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@a73336e496c24d74a579885f346c9082",
+      "releaseDate": "2017-06-22T05:29:51.202480",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 150,
+        "dateAdded": "2017-06-22T05:29:51.202480",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@bd2589c45ae042ca8fefddad7eb90a0a",
+      "releaseDate": "2017-06-22T05:29:51.202496",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 58,
+        "dateAdded": "2017-06-22T05:29:51.202496",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 2\u2026",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+2%E2%80%A6"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@beb5e224521e408b9de9282fef22fde3",
+      "releaseDate": "2017-06-22T05:29:51.202550",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 95,
+        "dateAdded": "2017-06-22T05:29:51.202550",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Episode 2 \u2212 Illusions: Tippity tap",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Episode+2+%E2%88%92+Illusions%3A+Tippity+tap"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@5ef51624756c4db8aa593233547eac4f",
+      "releaseDate": "2017-06-22T05:29:51.202583",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 47,
+        "dateAdded": "2017-06-22T05:29:51.202583",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Now hear this",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Now+hear+this"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@20def1cd60284538b958f849e1b35057",
+      "releaseDate": "2017-06-22T05:29:51.202593",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 435,
+        "dateAdded": "2017-06-22T05:29:51.202593",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "I heard a tapping somewhat louder than before",
+      "thumbnail": "http://via.placeholder.com/800x450?text=I+heard+a+tapping+somewhat+louder+than+before"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@09b4426cd8fe43d3bbde449a3c694d20",
+      "releaseDate": "2017-06-22T05:29:51.202605",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 417,
+        "dateAdded": "2017-06-22T05:29:51.202605",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with John Vokey (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+John+Vokey+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@55432d869662431eac2a0dd75e301db9",
+      "releaseDate": "2017-06-22T05:29:51.202627",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 152,
+        "dateAdded": "2017-06-22T05:29:51.202627",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "What do you expect?",
+      "thumbnail": "http://via.placeholder.com/800x450?text=What+do+you+expect%3F"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@e1947255863d4c9da2ba78fd04f2e353",
+      "releaseDate": "2017-06-22T05:29:51.202641",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 178,
+        "dateAdded": "2017-06-22T05:29:51.202641",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with John Vokey (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+John+Vokey+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@48eba1a336274a768ff86ee231773a68",
+      "releaseDate": "2017-06-22T05:29:51.202656",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 342,
+        "dateAdded": "2017-06-22T05:29:51.202656",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Do you see what I see?",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Do+you+see+what+I+see%3F"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@6113ff2a441e4927b86d524761b5f104",
+      "releaseDate": "2017-06-22T05:29:51.202669",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 422,
+        "dateAdded": "2017-06-22T05:29:51.202669",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Elizabeth Loftus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Elizabeth+Loftus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@c3cc027c098c4746ae4e79623b211f7a",
+      "releaseDate": "2017-06-22T05:29:51.202677",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 230,
+        "dateAdded": "2017-06-22T05:29:51.202677",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The fiction of memory",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+fiction+of+memory"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0008274c4ece43638c387ca8ddcc878e",
+      "releaseDate": "2017-06-22T05:29:51.202685",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 332,
+        "dateAdded": "2017-06-22T05:29:51.202685",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Na\u00efve realism",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Na%C3%AFve+realism"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@672d1ede073d410199434ac7142a5527",
+      "releaseDate": "2017-06-22T05:29:51.202703",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 237,
+        "dateAdded": "2017-06-22T05:29:51.202703",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@c2ddd723d6944a59b65c4eaefa66091d",
+      "releaseDate": "2017-06-22T05:29:51.202711",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 2694,
+        "dateAdded": "2017-06-22T05:29:51.202711",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with John Vokey",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+John+Vokey"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@1a6fe4d1d4234df899cc056cc3352612",
+      "releaseDate": "2017-06-22T05:29:51.202720",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 59,
+        "dateAdded": "2017-06-22T05:29:51.202720",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 3\u2026",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+3%E2%80%A6"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@dd8472ec01b04afabb9ab52d38b17458",
+      "releaseDate": "2017-06-22T05:29:51.202732",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 238,
+        "dateAdded": "2017-06-22T05:29:51.202732",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Strangers to ourselves",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Strangers+to+ourselves"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@64aa568c716841f892497c629f9bb2ae",
+      "releaseDate": "2017-06-22T05:29:51.202743",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 396,
+        "dateAdded": "2017-06-22T05:29:51.202743",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Richard Nisbett (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Richard+Nisbett+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@f34956d0981b4f2db4092cbf238e29f7",
+      "releaseDate": "2017-06-22T05:29:51.202758",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 253,
+        "dateAdded": "2017-06-22T05:29:51.202758",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Predicting badly",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Predicting+badly"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0ea0cf76005b4fba8e0d2ec0daf0dff4",
+      "releaseDate": "2017-06-22T05:29:51.202766",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 185,
+        "dateAdded": "2017-06-22T05:29:51.202766",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Pursuit of happiness",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Pursuit+of+happiness"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@3067d4f76857467ea79130b0b06303ef",
+      "releaseDate": "2017-06-22T05:29:51.202775",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 315,
+        "dateAdded": "2017-06-22T05:29:51.202775",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Richard Nisbett (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Richard+Nisbett+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@39f7b0c9c732441fbb1957ea919c82e8",
+      "releaseDate": "2017-06-22T05:29:51.202789",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 550,
+        "dateAdded": "2017-06-22T05:29:51.202789",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The interview illusion",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+interview+illusion"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@72d0cb9c12ff44dba246f2604df82942",
+      "releaseDate": "2017-06-22T05:29:51.202796",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 238,
+        "dateAdded": "2017-06-22T05:29:51.202796",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@7e1a401b9ae14b0983a7a7707147dab4",
+      "releaseDate": "2017-06-22T05:29:51.202804",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1819,
+        "dateAdded": "2017-06-22T05:29:51.202804",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Richard Nisbett",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Richard+Nisbett"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@786cd6d5cdd1406f972265e33686fc5e",
+      "releaseDate": "2017-06-22T05:29:51.202814",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 60,
+        "dateAdded": "2017-06-22T05:29:51.202814",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 4...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+4..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@8c1c5db8d84c401bb0f7306826c64085",
+      "releaseDate": "2017-06-22T05:29:51.202822",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 105,
+        "dateAdded": "2017-06-22T05:29:51.202822",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Some photos",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Some+photos"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@57853f4b93a94926890e942398d15407",
+      "releaseDate": "2017-06-22T05:29:51.202830",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 404,
+        "dateAdded": "2017-06-22T05:29:51.202830",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Thinking about thinking",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Thinking+about+thinking"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@5093c79b5fbd497da5730592a864a8b8",
+      "releaseDate": "2017-06-22T05:29:51.202840",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 568,
+        "dateAdded": "2017-06-22T05:29:51.202840",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Thinking fast and slow",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Thinking+fast+and+slow"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@fcf976b296eb4162acd03419a69cda0d",
+      "releaseDate": "2017-06-22T05:29:51.202848",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 458,
+        "dateAdded": "2017-06-22T05:29:51.202848",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Daniel Kahneman (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Daniel+Kahneman+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@a622ae7e33ef450792f9c27dd58ad947",
+      "releaseDate": "2017-06-22T05:29:51.202862",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 403,
+        "dateAdded": "2017-06-22T05:29:51.202862",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Pupils and anchors",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Pupils+and+anchors"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@726edd0098444f0c8e6f06da6b5cacbf",
+      "releaseDate": "2017-06-22T05:29:51.202870",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 419,
+        "dateAdded": "2017-06-22T05:29:51.202870",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Availability",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Availability"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@faf3a97e91ba486987ace5879a6915d7",
+      "releaseDate": "2017-06-22T05:29:51.202879",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 234,
+        "dateAdded": "2017-06-22T05:29:51.202879",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Linda the feminist bank teller",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Linda+the+feminist+bank+teller"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@52b2907f49e14f0a90dce5ee77f37ce6",
+      "releaseDate": "2017-06-22T05:29:51.202888",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 278,
+        "dateAdded": "2017-06-22T05:29:51.202888",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Becoming an expert",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Becoming+an+expert"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@801ad3413766488fb8f2ca43b73f7a71",
+      "releaseDate": "2017-06-22T05:29:51.202896",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 450,
+        "dateAdded": "2017-06-22T05:29:51.202896",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Daniel Kahneman (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Daniel+Kahneman+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@2ced8c9c988e488d8271fc55127e886a",
+      "releaseDate": "2017-06-22T05:29:51.202909",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 145,
+        "dateAdded": "2017-06-22T05:29:51.202909",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "In a nutshell",
+      "thumbnail": "http://via.placeholder.com/800x450?text=In+a+nutshell"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@b2863b0c27d04902bf70b01e798eb63e",
+      "releaseDate": "2017-06-22T05:29:51.202919",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 236,
+        "dateAdded": "2017-06-22T05:29:51.202919",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@990b6d5fcf0b4591a73424dae3e07f88",
+      "releaseDate": "2017-06-22T05:29:51.202927",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1784,
+        "dateAdded": "2017-06-22T05:29:51.202927",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Daniel Kahneman",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Daniel+Kahneman"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@432a520878ea40caa791163ef54fd462",
+      "releaseDate": "2017-06-22T05:29:51.202934",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 60,
+        "dateAdded": "2017-06-22T05:29:51.202934",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 5...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+5..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@4c511a0154bb4fe0bbd7b292eb6dd90e",
+      "releaseDate": "2017-06-22T05:29:51.202944",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 489,
+        "dateAdded": "2017-06-22T05:29:51.202944",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "How to boost learning",
+      "thumbnail": "http://via.placeholder.com/800x450?text=How+to+boost+learning"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@256687a460324a95af0e47dcacde58f8",
+      "releaseDate": "2017-06-22T05:29:51.202952",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 446,
+        "dateAdded": "2017-06-22T05:29:51.202952",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with John Dunlosky",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+John+Dunlosky"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@e3935bfc34f94e64a5a3abbd79f9d107",
+      "releaseDate": "2017-06-22T05:29:51.202960",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 249,
+        "dateAdded": "2017-06-22T05:29:51.202960",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The effect of spacing",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+effect+of+spacing"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@e28e6327b9d146819d14b668ece3962f",
+      "releaseDate": "2017-06-22T05:29:51.202968",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 508,
+        "dateAdded": "2017-06-22T05:29:51.202968",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Bob Bjork (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Bob+Bjork+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@5b5474e7e06546d39f653454991eb9e7",
+      "releaseDate": "2017-06-22T05:29:51.202984",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 538,
+        "dateAdded": "2017-06-22T05:29:51.202984",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Learn by doing",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Learn+by+doing"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@e773bdc2fffb4ae982145b21f6656d7c",
+      "releaseDate": "2017-06-22T05:29:51.203000",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 252,
+        "dateAdded": "2017-06-22T05:29:51.203000",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Bob Bjork (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Bob+Bjork+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@b43067dbdab9407f9a4c1b8dbafa5aac",
+      "releaseDate": "2017-06-22T05:29:51.203014",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 429,
+        "dateAdded": "2017-06-22T05:29:51.203014",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Desirable difficulties",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Desirable+difficulties"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@ec865ebfe93042c79284cc8ff773a3e3",
+      "releaseDate": "2017-06-22T05:29:51.203024",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 233,
+        "dateAdded": "2017-06-22T05:29:51.203024",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Learning in Think101x",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Learning+in+Think101x"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@45c4dfb2e88b4d3bb5dae70e7dd7d926",
+      "releaseDate": "2017-06-22T05:29:51.203033",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 243,
+        "dateAdded": "2017-06-22T05:29:51.203033",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0497219c76544153a5bd160125260224",
+      "releaseDate": "2017-06-22T05:29:51.203042",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1319,
+        "dateAdded": "2017-06-22T05:29:51.203042",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Geoff Norman",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Geoff+Norman"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@036cfb47b726401488a094b0b7b70305",
+      "releaseDate": "2017-06-22T05:29:51.203050",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1128,
+        "dateAdded": "2017-06-22T05:29:51.203050",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with John Dunlosky",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+John+Dunlosky"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@6666ed773e8645f7a761434561540dac",
+      "releaseDate": "2017-06-22T05:29:51.203060",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 752,
+        "dateAdded": "2017-06-22T05:29:51.203060",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Bob Bjork",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Bob+Bjork"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@9da43cbeb11041f292e323422fbd9e50",
+      "releaseDate": "2017-06-22T05:29:51.203069",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 61,
+        "dateAdded": "2017-06-22T05:29:51.203069",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 6",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+6"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@23768e2035854874929bbcdff5c9d5bd",
+      "releaseDate": "2017-06-22T05:29:51.203077",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 204,
+        "dateAdded": "2017-06-22T05:29:51.203077",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Science in everyday life",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Science+in+everyday+life"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@c5bd8be23b2043f69491160a1359e92b",
+      "releaseDate": "2017-06-22T05:29:51.203086",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 373,
+        "dateAdded": "2017-06-22T05:29:51.203086",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Micheal Brenner and Pia S\u00f6renson",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Micheal+Brenner+and+Pia+S%C3%B6renson"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@baf6544223894587849cf894ce27b929",
+      "releaseDate": "2017-06-22T05:29:51.203107",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 651,
+        "dateAdded": "2017-06-22T05:29:51.203107",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Everyday experiments",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Everyday+experiments"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@976a3c88e2b044f49b73e170d4ebd622",
+      "releaseDate": "2017-06-22T05:29:51.203117",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 459,
+        "dateAdded": "2017-06-22T05:29:51.203117",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Something out of nothing",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Something+out+of+nothing"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@a1b05a4b5e07442eb69ad96c77eb1210",
+      "releaseDate": "2017-06-22T05:29:51.203125",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 127,
+        "dateAdded": "2017-06-22T05:29:51.203125",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The lady tasting tea",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+lady+tasting+tea"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0ca2606ebd0a4faea672f8223be12877",
+      "releaseDate": "2017-06-22T05:29:51.203136",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 485,
+        "dateAdded": "2017-06-22T05:29:51.203136",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Make tea, not war",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Make+tea%2C+not+war"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@feb3251273d14be6a9012cef28724ab9",
+      "releaseDate": "2017-06-22T05:29:51.203149",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 445,
+        "dateAdded": "2017-06-22T05:29:51.203149",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Antonia Mantonakis",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Antonia+Mantonakis"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@7381c60c990541be9be48fe3dfc45141",
+      "releaseDate": "2017-06-22T05:29:51.203158",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 825,
+        "dateAdded": "2017-06-22T05:29:51.203158",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Too much and too little wine",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Too+much+and+too+little+wine"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@8762ee35a0cd4fdf91851a9e1bb723e6",
+      "releaseDate": "2017-06-22T05:29:51.203167",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 346,
+        "dateAdded": "2017-06-22T05:29:51.203167",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Superstitious belief",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Superstitious+belief"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@d48e76bf57b5426cbd8893edba246117",
+      "releaseDate": "2017-06-22T05:29:51.203177",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 201,
+        "dateAdded": "2017-06-22T05:29:51.203177",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On Campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+Campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@3b920c1282154aa48eef159e860c445e",
+      "releaseDate": "2017-06-22T05:29:51.203186",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 66,
+        "dateAdded": "2017-06-22T05:29:51.203186",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 7...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+7..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@8c7d8ff79dec464bb28a8d771b815660",
+      "releaseDate": "2017-06-22T05:29:51.203195",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 524,
+        "dateAdded": "2017-06-22T05:29:51.203195",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with the MythBusters (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+the+MythBusters+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@cce9063fd1c64e7eb2e450ada7c02bcc",
+      "releaseDate": "2017-06-22T05:29:51.203208",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 499,
+        "dateAdded": "2017-06-22T05:29:51.203208",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Imperfect predictors",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Imperfect+predictors"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@e16196f34a99452caee1ce96759f6aed",
+      "releaseDate": "2017-06-22T05:29:51.203219",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 339,
+        "dateAdded": "2017-06-22T05:29:51.203219",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The drift toward mediocrity",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+drift+toward+mediocrity"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@48e2100dfe5e4fb09e5f2ba82c6d6d6e",
+      "releaseDate": "2017-06-22T05:29:51.203228",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 299,
+        "dateAdded": "2017-06-22T05:29:51.203228",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The ebb and flow of random events",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+ebb+and+flow+of+random+events"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@37c53ec8476447809fcad50498c95e0f",
+      "releaseDate": "2017-06-22T05:29:51.203237",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 603,
+        "dateAdded": "2017-06-22T05:29:51.203237",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Small classes are better",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Small+classes+are+better"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@82af7cc1beb741cca3f44cd7a4c9423f",
+      "releaseDate": "2017-06-22T05:29:51.203247",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 320,
+        "dateAdded": "2017-06-22T05:29:51.203247",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "6 leads of opinion change",
+      "thumbnail": "http://via.placeholder.com/800x450?text=6+leads+of+opinion+change"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@899607a084c044f69d0d3ad6bc9191b0",
+      "releaseDate": "2017-06-22T05:29:51.203256",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 677,
+        "dateAdded": "2017-06-22T05:29:51.203256",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with the MythBusters (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+the+MythBusters+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@b5b459a784164093abb26d6b91bd68a6",
+      "releaseDate": "2017-06-22T05:29:51.203270",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 118,
+        "dateAdded": "2017-06-22T05:29:51.203270",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The story so far",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+story+so+far"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@9f467eee2bb94b648d4fc73fca9435b8",
+      "releaseDate": "2017-06-22T05:29:51.203278",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 178,
+        "dateAdded": "2017-06-22T05:29:51.203278",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@563b8c208c62411b933acdb2dfdb6fd8",
+      "releaseDate": "2017-06-22T05:29:51.203288",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 61,
+        "dateAdded": "2017-06-22T05:29:51.203288",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 8...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+8..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0f1d65ac89a34cbfb463fa2330ca019f",
+      "releaseDate": "2017-06-22T05:29:51.203297",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 109,
+        "dateAdded": "2017-06-22T05:29:51.203297",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "See it in action",
+      "thumbnail": "http://via.placeholder.com/800x450?text=See+it+in+action"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@7bfab09c90724b68ac7789991301f956",
+      "releaseDate": "2017-06-22T05:29:51.203305",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 687,
+        "dateAdded": "2017-06-22T05:29:51.203305",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Susan Blackmore (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Susan+Blackmore+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@a7d1e64062cf44e6a17bc475a4fd32f2",
+      "releaseDate": "2017-06-22T05:29:51.203321",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 161,
+        "dateAdded": "2017-06-22T05:29:51.203321",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Can I believe it?",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Can+I+believe+it%3F"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@5a41b1a9e21c4c9286baaf6873fcb270",
+      "releaseDate": "2017-06-22T05:29:51.203333",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 468,
+        "dateAdded": "2017-06-22T05:29:51.203333",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Richard Wiseman",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Richard+Wiseman"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@2dd6ec7dae7742a1b06b6a44f8174e9c",
+      "releaseDate": "2017-06-22T05:29:51.203342",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 954,
+        "dateAdded": "2017-06-22T05:29:51.203342",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The extraordinary",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+extraordinary"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@af4cdc45aa78497a8be90462bc1bcb79",
+      "releaseDate": "2017-06-22T05:29:51.203350",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 762,
+        "dateAdded": "2017-06-22T05:29:51.203350",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V028000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V028000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "I'll see it when I believe it",
+      "thumbnail": "http://via.placeholder.com/800x450?text=I%27ll+see+it+when+I+believe+it"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@d962f6a2022d43b5abe2fb2f7b9b857b",
+      "releaseDate": "2017-06-22T05:29:51.203367",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 663,
+        "dateAdded": "2017-06-22T05:29:51.203367",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The phone always rings when I'm in the shower.",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+phone+always+rings+when+I%27m+in+the+shower."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@f8844b85d9b64dbda505b0c40697efdb",
+      "releaseDate": "2017-06-22T05:29:51.203383",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 732,
+        "dateAdded": "2017-06-22T05:29:51.203383",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Susan Blackmore (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Susan+Blackmore+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@c08a60d6c5c948aebdd4b179b265ff55",
+      "releaseDate": "2017-06-22T05:29:51.203397",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 200,
+        "dateAdded": "2017-06-22T05:29:51.203397",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Extraordinary claims require extraordinary evidence",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Extraordinary+claims+require+extraordinary+evidence"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@5efbba134b3441caa3a591c273c03f82",
+      "releaseDate": "2017-06-22T05:29:51.203406",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 254,
+        "dateAdded": "2017-06-22T05:29:51.203406",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@30a2c352054e4e3aaabee87b69161cc4",
+      "releaseDate": "2017-06-22T05:29:51.203416",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1551,
+        "dateAdded": "2017-06-22T05:29:51.203416",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V013900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V013900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Susan Blackmore",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Susan+Blackmore"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@b41581377dc140a3baccda4e332fccf5",
+      "releaseDate": "2017-06-22T05:29:51.203425",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1336,
+        "dateAdded": "2017-06-22T05:29:51.203425",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Richard Wiseman",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Richard+Wiseman"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@721d43772a4049d69ac1e6731c81eb21",
+      "releaseDate": "2017-06-22T05:29:51.203434",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1814,
+        "dateAdded": "2017-06-22T05:29:51.203434",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Tom Gilovich",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Tom+Gilovich"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@f180f273b8da41b9aa848f51bde3c9f1",
+      "releaseDate": "2017-06-22T05:29:51.203479",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 61,
+        "dateAdded": "2017-06-22T05:29:51.203479",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 9...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+9..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@198504cd3d5147ca85cbb2a086901ea3",
+      "releaseDate": "2017-06-22T05:29:51.203491",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 419,
+        "dateAdded": "2017-06-22T05:29:51.203491",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Making sense of alternative medicine",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Making+sense+of+alternative+medicine"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@6c95cc44598c411ebe1bb9a5087dbad0",
+      "releaseDate": "2017-06-22T05:29:51.203500",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 478,
+        "dateAdded": "2017-06-22T05:29:51.203500",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Shepard Siegel",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Shepard+Siegel"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@a0ccac6541b7403f970e66894deacf33",
+      "releaseDate": "2017-06-22T05:29:51.203509",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 390,
+        "dateAdded": "2017-06-22T05:29:51.203509",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Mind over matter?",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Mind+over+matter%3F"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@aaf9ac38182f460bb6aa6465c6c2b0a3",
+      "releaseDate": "2017-06-22T05:29:51.203523",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 207,
+        "dateAdded": "2017-06-22T05:29:51.203523",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Like cures like",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Like+cures+like"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@49608b99d2d146e7b6f9a7c5e5e83d8c",
+      "releaseDate": "2017-06-22T05:29:51.203532",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 376,
+        "dateAdded": "2017-06-22T05:29:51.203532",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Jimmy Botella",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Jimmy+Botella"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@057133fc5dde454390acf53b173a983e",
+      "releaseDate": "2017-06-22T05:29:51.203540",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 405,
+        "dateAdded": "2017-06-22T05:29:51.203540",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The man is keepin' me down",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+man+is+keepin%27+me+down"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@3d072c73598e4ee0a2fd96024114f917",
+      "releaseDate": "2017-06-22T05:29:51.203553",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 544,
+        "dateAdded": "2017-06-22T05:29:51.203553",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Ian Frazer ",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Ian+Frazer+"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@65307ad6fe32444abc3790ff27fa4101",
+      "releaseDate": "2017-06-22T05:29:51.203564",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 422,
+        "dateAdded": "2017-06-22T05:29:51.203564",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Cluster buster",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Cluster+buster"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@8bb2f4d98ccb4ca09499e699a0d6fb2d",
+      "releaseDate": "2017-06-22T05:29:51.203573",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 173,
+        "dateAdded": "2017-06-22T05:29:51.203573",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@14de60a4690643348f6ab8255ee7b812",
+      "releaseDate": "2017-06-22T05:29:51.203581",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1793,
+        "dateAdded": "2017-06-22T05:29:51.203581",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Shepard Siegel",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Shepard+Siegel"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@120320ab8bc64e2caf3aa206d4a3c905",
+      "releaseDate": "2017-06-22T05:29:51.203589",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1357,
+        "dateAdded": "2017-06-22T05:29:51.203589",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Ian Frazer",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Ian+Frazer"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@960a455482fd4eaba23af61e7ab006e3",
+      "releaseDate": "2017-06-22T05:29:51.203600",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 57,
+        "dateAdded": "2017-06-22T05:29:51.203600",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 10...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+10..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@ca5010ed94144c08a7481b81b1655ca4",
+      "releaseDate": "2017-06-22T05:29:51.203609",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 195,
+        "dateAdded": "2017-06-22T05:29:51.203609",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Lives at Stake",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Lives+at+Stake"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0fa229639a204cf79e3e8d09e5537faf",
+      "releaseDate": "2017-06-22T05:29:51.203617",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 601,
+        "dateAdded": "2017-06-22T05:29:51.203617",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Scott Allen (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Scott+Allen+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@ee0aa1f6ba3346c9b6b112337c88a6a8",
+      "releaseDate": "2017-06-22T05:29:51.203634",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 591,
+        "dateAdded": "2017-06-22T05:29:51.203634",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V027400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "What's the harm?",
+      "thumbnail": "http://via.placeholder.com/800x450?text=What%27s+the+harm%3F"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@4d094877d1e24d7d8fb403114b9b43e8",
+      "releaseDate": "2017-06-22T05:29:51.203645",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 452,
+        "dateAdded": "2017-06-22T05:29:51.203645",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Scott Allen (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Scott+Allen+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0a55d04abaff4654a5185f46acd5e875",
+      "releaseDate": "2017-06-22T05:29:51.203659",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 244,
+        "dateAdded": "2017-06-22T05:29:51.203659",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Clever hands",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Clever+hands"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@b4b78422d0704764a1882d29ead6ed2f",
+      "releaseDate": "2017-06-22T05:29:51.203667",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 418,
+        "dateAdded": "2017-06-22T05:29:51.203667",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with William Thompson",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+William+Thompson"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@0d0e4593775a4c55b73f82acf778ba48",
+      "releaseDate": "2017-06-22T05:29:51.203678",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 415,
+        "dateAdded": "2017-06-22T05:29:51.203678",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Evidence-based evidence",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Evidence-based+evidence"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@92d31c93470c47a29cab343c66fbc476",
+      "releaseDate": "2017-06-22T05:29:51.203687",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 355,
+        "dateAdded": "2017-06-22T05:29:51.203687",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V014500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Stephan Lewandowsky",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Stephan+Lewandowsky"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@8df2ff97119a4dab8f17308afd459fc7",
+      "releaseDate": "2017-06-22T05:29:51.203695",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 557,
+        "dateAdded": "2017-06-22T05:29:51.203695",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023800_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023800_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Belief in conspiracy theories",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Belief+in+conspiracy+theories"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@d3a69b2843ac458984ae02e6c96e6e21",
+      "releaseDate": "2017-06-22T05:29:51.203705",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 146,
+        "dateAdded": "2017-06-22T05:29:51.203705",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@233c4e4f2a93497e9ea93652e755f6c8",
+      "releaseDate": "2017-06-22T05:29:51.203714",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1902,
+        "dateAdded": "2017-06-22T05:29:51.203714",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018500_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018500_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Scott Allen",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Scott+Allen"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@fe4d5ddb3d9f4d05890cdaad09c1f49d",
+      "releaseDate": "2017-06-22T05:29:51.203723",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 2272,
+        "dateAdded": "2017-06-22T05:29:51.203723",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with William Thompson",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+William+Thompson"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@c24801e17554427d80e650956771c3e0",
+      "releaseDate": "2017-06-22T05:29:51.203731",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1181,
+        "dateAdded": "2017-06-22T05:29:51.203731",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021600_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021600_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Stephan Lewandowsky",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Stephan+Lewandowsky"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@21885cd697594805af7bd79af86cb5d6",
+      "releaseDate": "2017-06-22T05:29:51.203742",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 61,
+        "dateAdded": "2017-06-22T05:29:51.203742",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 11...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+11..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@b7f570b0a3d34c868ed20b7a08e954a7",
+      "releaseDate": "2017-06-22T05:29:51.203753",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 577,
+        "dateAdded": "2017-06-22T05:29:51.203753",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V021900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The weakness of personality",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+weakness+of+personality"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@319879cc1d9941b58c3b456346bc6f79",
+      "releaseDate": "2017-06-22T05:29:51.203762",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 554,
+        "dateAdded": "2017-06-22T05:29:51.203762",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V026400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Ross and Nisbett (Part 1)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Ross+and+Nisbett+%28Part+1%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@02d83f6950bd4d878ae0ab5ed52f9964",
+      "releaseDate": "2017-06-22T05:29:51.203776",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 654,
+        "dateAdded": "2017-06-22T05:29:51.203776",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020300_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V020300_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The strength of the situation",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+strength+of+the+situation"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@549cf534b0e442528d8d9352b124c779",
+      "releaseDate": "2017-06-22T05:29:51.203787",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 355,
+        "dateAdded": "2017-06-22T05:29:51.203787",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V015000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Ross and Nisbett (Part 2)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Ross+and+Nisbett+%28Part+2%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@289b47db32804597a6be49312d7dd8fb",
+      "releaseDate": "2017-06-22T05:29:51.203801",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 215,
+        "dateAdded": "2017-06-22T05:29:51.203801",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "The fundamental shift",
+      "thumbnail": "http://via.placeholder.com/800x450?text=The+fundamental+shift"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@898d9a9c4dfa49e4bf5d4917c97370ec",
+      "releaseDate": "2017-06-22T05:29:51.203809",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 561,
+        "dateAdded": "2017-06-22T05:29:51.203809",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Conversation with Ross and Nisbett (Part 3)",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Conversation+with+Ross+and+Nisbett+%28Part+3%29"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@56b8c95de8ea44a38602f8e978ec00dd",
+      "releaseDate": "2017-06-22T05:29:51.203825",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 510,
+        "dateAdded": "2017-06-22T05:29:51.203825",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016900_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016900_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Shaping behavior",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Shaping+behavior"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@ce4434f707e9467fae8ab78f64f5cf58",
+      "releaseDate": "2017-06-22T05:29:51.203834",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 260,
+        "dateAdded": "2017-06-22T05:29:51.203834",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019400_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V019400_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@c650653a99a04f919556d7d8d85ffe63",
+      "releaseDate": "2017-06-22T05:29:51.203842",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 2755,
+        "dateAdded": "2017-06-22T05:29:51.203842",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Lee Ross",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Lee+Ross"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@969dcb501a0f49fc9daa3a9df6704042",
+      "releaseDate": "2017-06-22T05:29:51.203851",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 1259,
+        "dateAdded": "2017-06-22T05:29:51.203851",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V017100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Uncut conversation with Richard Nisbett",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Uncut+conversation+with+Richard+Nisbett"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@33d44860ed62421cbbf42e7caec5a96f",
+      "releaseDate": "2017-06-22T05:29:51.203861",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 61,
+        "dateAdded": "2017-06-22T05:29:51.203861",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V023200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Coming up in Episode 12...",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Coming+up+in+Episode+12..."
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@2a82b8b376824531b78b347f38ca4522",
+      "releaseDate": "2017-06-22T05:29:51.203870",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 418,
+        "dateAdded": "2017-06-22T05:29:51.203870",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V025700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Bringing it all together",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Bringing+it+all+together"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@907ee0381dde4278afefae31eeba0b79",
+      "releaseDate": "2017-06-22T05:29:51.203879",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 423,
+        "dateAdded": "2017-06-22T05:29:51.203879",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018200_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V018200_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Improve your everyday thinking",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Improve+your+everyday+thinking"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@917f7f43d3dd44b4a418f53067bf1adc",
+      "releaseDate": "2017-06-22T05:29:51.203915",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 242,
+        "dateAdded": "2017-06-22T05:29:51.203915",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022000_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V022000_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "On campus",
+      "thumbnail": "http://via.placeholder.com/800x450?text=On+campus"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@9cc03c00cf9a4de6ba50ea20a57a7022",
+      "releaseDate": "2017-06-22T05:29:51.203925",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 191,
+        "dateAdded": "2017-06-22T05:29:51.203925",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024700_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V024700_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "Make it happen",
+      "thumbnail": "http://via.placeholder.com/800x450?text=Make+it+happen"
+    },
+    {
+      "longDescription": "",
+      "id": "block-v1:UQx+Think101x+3T2016+type@video+block@d79b18bd06694aa2914ab92cce39be45",
+      "releaseDate": "2017-06-22T05:29:51.203934",
+      "content": {
+        "language": "en",
+        "captions": [],
+        "duration": 332,
+        "dateAdded": "2017-06-22T05:29:51.203934",
+        "videos": [
+          {
+            "videoType": "MP4",
+            "bitrate": 600,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016100_MB1.mp4",
+            "quality": "HD"
+          },
+          {
+            "videoType": "MP4",
+            "bitrate": 300,
+            "url": "https://d2f1egay8yehza.cloudfront.net/UQXTHINK/UQXTHINKT216-V016100_MB2.mp4",
+            "quality": "HD"
+          }
+        ]
+      },
+      "shortDescription": "TBD",
+      "title": "How to change the world",
+      "thumbnail": "http://via.placeholder.com/800x450?text=How+to+change+the+world"
+    }
+  ]
+}
