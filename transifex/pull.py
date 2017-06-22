@@ -30,7 +30,7 @@ BRANCH_NAME = 'update-translations'
 MESSAGE = 'Update translations'
 
 
-def pull(clone_url, merge_method=None, skip_compilemessages=False):
+def pull(clone_url, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
@@ -88,4 +88,4 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
-    pull(args.clone_url, skip_compilemessages=args.skip_compilemessages)
+    pull(args.clone_url, merge_method=args.merge_method, skip_compilemessages=args.skip_compilemessages)
