@@ -87,10 +87,10 @@ class SailthruTranslationService(object):
             sailthru_content_vars['course_type'] = 'gfa'
 
         # If the course runs have associated programs, also append programs information
-        course_programs = course.get('programs')
-        if course_programs and program_dictionary:
+        course_run_programs = course_run.get('programs')
+        if course_run_programs and program_dictionary:
             sailthru_content_vars['programs'] = []
-            for program_link in course_programs:
+            for program_link in course_run_programs:
                 program = program_dictionary.get(program_link.get('uuid'))
                 if program:
                     sailthru_content_vars['programs'].append(self._translate_program(program))
