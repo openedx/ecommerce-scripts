@@ -78,7 +78,8 @@ class CatalogApiService(object):
                 self.api_client.programs(),
                 page=1,
                 page_size=PROGRAMS_PAGE_SIZE,
-                marketable_course_runs_only=1
+                marketable_course_runs_only=1,
+                marketable=1
             )
             for program in program_array:
                 self._programs_dictionary[program['uuid']] = program
