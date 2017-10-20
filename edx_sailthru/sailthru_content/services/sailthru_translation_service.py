@@ -110,6 +110,13 @@ class SailthruTranslationService(object):
         """ Return dict of sku for a course run. """
         return {seat['type']: seat['sku'] for seat in seats if seat['type'] in REQUIRED_SEATS_TYPES}
 
+    def get_course_owners(self, course):
+        owners = []
+        for owner in course.get('owners'):
+            #replace underscore in the owner's name if any
+            owners.append(owner['key'].replace('_', ' '))
+        return ' '.join(owners)
+
     def translate_course_run(self, course_run, course, program_dictionary=None):
         # get marketing url
         url = course_run.get('marketing_url', course.get('marketing_url'))
@@ -124,9 +131,9 @@ class SailthruTranslationService(object):
         if course_run.get('short_description'):
             sailthru_content['description'] = course_run.get('short_description')
 
-        # get first owner
+        # get owners
         if course.get('owners') and len(course.get('owners')) > 0:
-            sailthru_content['site_name'] = course['owners'][0]['key'].replace('_', ' ')
+            sailthru_content['site_name'] = self.get_course_owners(course)
 
         # use enrollment_end for sailthru expire_date
         if course_run.get('enrollment_end'):

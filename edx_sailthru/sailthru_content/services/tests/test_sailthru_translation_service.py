@@ -133,3 +133,18 @@ class SailthruTranslationServiceTests(CatalogApiTestMixins):
         self.assertEqual(len(translated_course_runs), 1)
         self.assertDictEqual(translated_course_runs[0], self._get_expected_sailthru_item(seat_type))
         self.remove_seat(seat_type)
+
+    @responses.activate
+    def test_verify_multiple_owners(self):
+        course = {
+            "owners": [
+                {
+                "key": "Adelaide_X"
+                },
+                {
+                "key": "ACCA"
+                }
+            ]
+        }
+        owners = SailthruTranslationService.get_course_owners(self, course)
+        self.assertEqual("Adelaide X ACCA", owners)
