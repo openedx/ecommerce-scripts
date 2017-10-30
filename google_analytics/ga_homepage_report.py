@@ -1,12 +1,12 @@
 import argparse
-import sys
 from datetime import datetime, timedelta
-
 import httplib2
+import sys
+
 from apiclient.discovery import build
 from oauth2client import client, file, tools
 from pandas import DataFrame, ExcelWriter, merge, concat, to_numeric
-
+import xlsxwriter
 
 ################################################################
 #
@@ -170,6 +170,25 @@ def _featuredCardClicks(date, featured_card_click):
 
     return data.get('rows', [])
 
+def featuredSubjectCardClicks(date):
+    featured_subject_card_click = ';'.join([
+        'ga:eventAction==edx.bi.home-page.subject-link',
+        'ga:eventCategory==course',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardClicks(date, featured_subject_card_click)
+
+def featuredHomepageSearchUses(date):
+    featured_homepage_search_uses = ';'.join([
+        'ga:eventAction==edx.bi.user.home-page-hero.search.submitted',
+        'ga:eventCategory==course',
+        'ga:dimension6==true',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardClicks(date, featured_homepage_search_uses)
 
 def featuredCourseCardClicks(date):
     featured_course_card_click = ';'.join([
