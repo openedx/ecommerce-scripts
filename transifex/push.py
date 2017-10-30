@@ -32,9 +32,14 @@ def push(clone_url, merge_method=DEFAULT_MERGE_METHOD):
     with repo_context(clone_url, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
         logger.info('Extracting translations for [%s].', repo.name)
         repo.extract_translations()
-        repo.commit_push_and_open_pr()
 
-        if repo.pr and repo.merge_pr() and repo.pr.is_merged():
+        if repo.is_changed():
+            repo.commit_push_and_open_pr()
+
+            if repo.pr and repo.merge_pr() and repo.pr.is_merged():
+                logger.info('Pushing translations to Transifex for [%s].', repo.name)
+                repo.push_translations()
+        else:
             logger.info('Pushing translations to Transifex for [%s].', repo.name)
             repo.push_translations()
 
