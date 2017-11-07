@@ -7,7 +7,6 @@ from contextlib import contextmanager
 from logging.config import dictConfig
 from urllib.parse import urlparse
 
-import yaml
 import github
 
 # Configure logging.
@@ -120,9 +119,8 @@ class Repo:
     # complete in this period.
     MAX_MERGE_RETRIES = 8
 
-
     """Utility representing a Git repo."""
-    def __init__(self, clone_url, branch_name, message, merge_method=DEFAULT_MERGE_METHOD):
+    def __init__(self, clone_url, repo_owner, branch_name, message, merge_method=DEFAULT_MERGE_METHOD):
         # See https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth.
         parsed = urlparse(clone_url)
         self.clone_url = '{scheme}://{token}@{netloc}{path}'.format(
@@ -136,7 +134,7 @@ class Repo:
         self.name = match.group('name')
 
         self.github_repo = edx.get_repo(self.name)
-        self.owner = None
+        self.owner = repo_owner
         self.branch_name = branch_name
         self.message = message
         self.pr = None
@@ -145,12 +143,6 @@ class Repo:
     def clone(self):
         """Clone the repo."""
         subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
-
-        # Assumes the existence of repo metadata YAML, standardized in
-        # https://open-edx-proposals.readthedocs.io/en/latest/oep-0002.html.
-        with open('{}/openedx.yaml'.format(self.name)) as f:
-            repo_metadata = yaml.load(f)
-            self.owner = repo_metadata['owner']
 
     def branch(self):
         """Create and check out a new branch."""
