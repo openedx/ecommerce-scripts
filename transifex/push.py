@@ -25,11 +25,11 @@ BRANCH_NAME = 'update-translation-strings'
 MESSAGE = 'Update translation strings'
 
 
-def push(clone_url, merge_method=DEFAULT_MERGE_METHOD):
+def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD):
     """Extracts translations for the given repo, commits them, pushes them to GitHub, opens a PR, waits for status
         checks to pass, merges the PR, deletes the branch, and pushes the updated translation files to Transifex.
     """
-    with repo_context(clone_url, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
+    with repo_context(clone_url, repo_owner, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
         logger.info('Extracting translations for [%s].', repo.name)
         repo.extract_translations()
         repo.commit_push_and_open_pr()
@@ -46,6 +46,10 @@ def parse_arguments():
         help='URL to use to clone the repository.'
     )
     parser.add_argument(
+        'repo_owner',
+        help='This is the user/team that will be pinged when errors occur.'
+    )
+    parser.add_argument(
         '--merge-method',
         choices=MERGE_METHODS,
         default=DEFAULT_MERGE_METHOD,
@@ -56,4 +60,4 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
-    push(args.clone_url, merge_method=args.merge_method)
+    push(args.clone_url, args.repo_owner, merge_method=args.merge_method)

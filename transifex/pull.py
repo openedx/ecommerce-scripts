@@ -30,13 +30,13 @@ BRANCH_NAME = 'update-translations'
 MESSAGE = 'Update translations'
 
 
-def pull(clone_url, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False):
+def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
-    with repo_context(clone_url, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
+    with repo_context(clone_url, repo_owner, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
         logger.info('Pulling translations for [%s].', repo.name)
 
         repo.pull_translations()
@@ -73,6 +73,10 @@ def parse_arguments():
         help='URL to use to clone the repository.'
     )
     parser.add_argument(
+        'repo_owner',
+        help='This is the user/team that will be pinged when errors occur.'
+    )
+    parser.add_argument(
         '--merge-method',
         choices=MERGE_METHODS,
         default=DEFAULT_MERGE_METHOD,
@@ -88,4 +92,9 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
-    pull(args.clone_url, merge_method=args.merge_method, skip_compilemessages=args.skip_compilemessages)
+    pull(
+        args.clone_url,
+        args.repo_owner,
+        merge_method=args.merge_method,
+        skip_compilemessages=args.skip_compilemessages
+    )
