@@ -184,7 +184,6 @@ def featuredHomepageSearchUses(date):
     featured_homepage_search_uses = ';'.join([
         'ga:eventAction==edx.bi.user.home-page-hero.search.submitted',
         'ga:eventCategory==course',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -479,6 +478,7 @@ def run(start_date, end_date, filepath):
     course_card_course_enroll_data = featuredCourseCardDrivenCourseEnrollments(start_date)
     course_card_clicks = featuredCourseCardClicks(start_date)
     program_card_clicks = featuredProgramCardClicks(start_date)
+    import pdb; pdb.set_trace()
     print(start_date)
     delta = end_date - start_date
     for i in range(1, delta.days + 1):
