@@ -170,6 +170,15 @@ def _featuredCardClicks(date, featured_card_click):
 
     return data.get('rows', [])
 
+def featuredHomepageSearchUses(date):
+    featured_homepage_search_uses = ';'.join([
+        'ga:eventAction==edx.bi.user.home-page-hero.search.submitted',
+        'ga:eventCategory==course',
+        'ga:pagePath==/',
+    ])
+
+    return _featuredCardClicks(date, featured_homepage_search_uses)
+
 def featuredSubjectCardClicks(date):
     featured_subject_card_click = ';'.join([
         'ga:eventAction==edx.bi.home-page.subject-link',
@@ -180,15 +189,6 @@ def featuredSubjectCardClicks(date):
 
     return _featuredCardClicks(date, featured_subject_card_click)
 
-def featuredHomepageSearchUses(date):
-    featured_homepage_search_uses = ';'.join([
-        'ga:eventAction==edx.bi.user.home-page-hero.search.submitted',
-        'ga:eventCategory==course',
-        'ga:pagePath==/',
-    ])
-
-    return _featuredCardClicks(date, featured_homepage_search_uses)
-
 def featuredCourseCardClicks(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
@@ -198,7 +198,6 @@ def featuredCourseCardClicks(date):
     ])
 
     return _featuredCardClicks(date, featured_course_card_click)
-
 
 def featuredProgramCardClicks(date):
     featured_program_card_click = ';'.join([
