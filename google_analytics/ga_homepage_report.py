@@ -173,7 +173,6 @@ def _featuredCardClicks(date, featured_card_click):
 def featuredHomepageSearchUses(date):
     featured_homepage_search_uses = ';'.join([
         'ga:eventAction==edx.bi.user.home-page-hero.search.submitted',
-        'ga:eventCategory==course',
         'ga:pagePath==/',
     ])
 
@@ -182,8 +181,6 @@ def featuredHomepageSearchUses(date):
 def featuredSubjectCardClicks(date):
     featured_subject_card_click = ';'.join([
         'ga:eventAction==edx.bi.home-page.subject-link',
-        'ga:eventCategory==course',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -478,6 +475,8 @@ def run(start_date, end_date, filepath):
     course_card_clicks = featuredCourseCardClicks(start_date)
     program_card_clicks = featuredProgramCardClicks(start_date)
     import pdb; pdb.set_trace()
+    subject_card_clicks = featuredSubjectCardClicks(start_date)
+    homepage_search_users = featuredHomepageSearchUses(start_date)
     print(start_date)
     delta = end_date - start_date
     for i in range(1, delta.days + 1):
@@ -490,8 +489,11 @@ def run(start_date, end_date, filepath):
         course_card_course_enroll_data += featuredCourseCardDrivenCourseEnrollments(next_date)
         course_card_clicks += featuredCourseCardClicks(next_date)
         program_card_clicks += featuredProgramCardClicks(next_date)
-        print(next_date)
+        subject_card_clicks += featuredSubjectCardClicks(start_date)
+        homepage_search_users += featuredHomepageSearchUses(start_date)
 
+        print(next_date)
+    import pdb; pdb.set_trace()
     subject_dataframe = homePageToSubjectPageDataframe(homepage_to_subject_page_data)
     total_homepage_views = totalHomePageViewsValue(total_homepage_views_data)
     program_card_df, course_card_df = mergeEnrollmentsAndClicksDataframe(
