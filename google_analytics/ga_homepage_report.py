@@ -148,14 +148,10 @@ def featuredCourseCardDrivenCourseEnrollments(date):
 
     return _featuredCardDrivenEnrollments(date, course_enrollment_events, featured_course_card_click)
 
-
-def _featuredCardClicks(date, featured_card_click):
+def _homepageEvents(date, event_filter, dimensions):
     # RETURN total events & unique events
-    # GROUPED BY date, label (course/program id), card index
-    # FOR anyone who clicked a certain featured card
-    # AND whose session sequence was
-    #     featured card click EVENTUALLY FOLLOWED BY
-    #     a set of enrollment events
+    # GROUPED BY passed in dimensions
+    # FOR anyone who emitted the above event on the homepage
     service = get_service()
 
     data = service.data().ga().get(
@@ -164,37 +160,28 @@ def _featuredCardClicks(date, featured_card_click):
         end_date=str(date),
         max_results=10000,
         metrics='ga:totalEvents,ga:uniqueEvents',
-        dimensions='ga:date,ga:eventLabel,ga:dimension5',
-        filters=featured_card_click
+        dimensions=dimensions,
+        filters=';'.join(['ga:pagePath==/', event_filter])
     ).execute()
 
     return data.get('rows', [])
 
 def featuredHomepageSearchUses(date):
-    featured_homepage_search_uses = ';'.join([
-        'ga:eventAction==edx.bi.user.home-page-hero.search.submitted',
-        'ga:pagePath==/',
-    ])
-
-    return _featuredCardClicks(date, featured_homepage_search_uses)
+    dimensions = 'ga:date'
+    return _homepageEvents(date, 'ga:eventAction==edx.bi.user.home-page-hero.search.submitted', dimensions)
 
 def featuredSubjectCardClicks(date):
-    featured_subject_card_click = ';'.join([
-        'ga:eventAction==edx.bi.home-page.subject-link',
-        'ga:pagePath==/',
-    ])
-
-    return _featuredCardClicks(date, featured_subject_card_click)
+    dimensions = 'ga:date,ga:eventLabel'
+    return _homepageEvents(date, 'ga:eventAction==edx.bi.home-page.subject-link', dimensions)
 
 def featuredCourseCardClicks(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==course',
-        'ga:dimension6==true',
-        'ga:pagePath==/',
+        'ga:dimension6==true'
     ])
-
-    return _featuredCardClicks(date, featured_course_card_click)
+    dimensions = 'ga:date,ga:eventLabel,ga:dimension5'
+    return _homepageEvents(date, featured_course_card_click, dimensions)
 
 def featuredProgramCardClicks(date):
     featured_program_card_click = ';'.join([
@@ -203,8 +190,8 @@ def featuredProgramCardClicks(date):
         'ga:dimension6==true',
         'ga:pagePath==/',
     ])
-
-    return _featuredCardClicks(date, featured_program_card_click)
+    dimensions = 'ga:date,ga:eventLabel,ga:dimension5'
+    return _homepageEvents(date, featured_program_card_click, dimensions)
 
 
 def homePageToSubjectPageData(date):
@@ -474,9 +461,8 @@ def run(start_date, end_date, filepath):
     course_card_course_enroll_data = featuredCourseCardDrivenCourseEnrollments(start_date)
     course_card_clicks = featuredCourseCardClicks(start_date)
     program_card_clicks = featuredProgramCardClicks(start_date)
-    import pdb; pdb.set_trace()
     subject_card_clicks = featuredSubjectCardClicks(start_date)
-    homepage_search_users = featuredHomepageSearchUses(start_date)
+    homepage_search_uses = featuredHomepageSearchUses(start_date)
     print(start_date)
     delta = end_date - start_date
     for i in range(1, delta.days + 1):
@@ -490,7 +476,7 @@ def run(start_date, end_date, filepath):
         course_card_clicks += featuredCourseCardClicks(next_date)
         program_card_clicks += featuredProgramCardClicks(next_date)
         subject_card_clicks += featuredSubjectCardClicks(start_date)
-        homepage_search_users += featuredHomepageSearchUses(start_date)
+        homepage_search_uses += featuredHomepageSearchUses(start_date)
 
         print(next_date)
     import pdb; pdb.set_trace()
