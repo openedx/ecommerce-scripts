@@ -174,6 +174,16 @@ def featuredSubjectCardClicks(date):
     dimensions = 'ga:date,ga:eventLabel'
     return _homepageEvents(date, 'ga:eventAction==edx.bi.home-page.subject-link', dimensions)
 
+
+def featured_subject_card_click_enrollments(date):
+    dimensions = 'ga:date,ga:eventLabel'
+    return enrollments(date, 'ga:eventAction==edx.bi.home-page.subject-link', dimensions)
+
+
+def featured_homepage_search_enrollments(date):
+    dimensions = 'ga:date'
+    return enrollments(date, 'ga:eventAction==edx.bi.user.home-page-hero.search.submitted', dimensions)
+
 def featuredCourseCardClicks(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
@@ -248,6 +258,30 @@ def totalHomePageViewsValue(data):
     homepage_view_dataframe = DataFrame(data,columns=['date','views','uniqueViews'])
     homepage_view_dataframe = homepage_view_dataframe.apply(to_numeric, errors='ignore')
     return int(homepage_view_dataframe['uniqueViews'].sum())
+
+
+def subject_enrollments_by_date(enrollments):
+    return DataFrame(enrollments, columns=['date', 'subject', 'enrollments', 'uniqueEnrollments']).apply(to_numeric, errors='ignore') \
+        .groupby(['date'])['enrollments', 'uniqueEnrollments']\
+        .sum()
+
+
+def search_enrollments_by_date(enrollments):
+    return DataFrame(enrollments, columns=['date', 'enrollments', 'uniqueEnrollments']).apply(to_numeric, errors='ignore') \
+        .groupby(['date'])['enrollments', 'uniqueEnrollments']\
+        .sum()
+
+
+def subject_clicks_by_date(clicks):
+    return DataFrame(clicks, columns=['date', 'subject', 'clicks', 'uniqueClicks']).apply(to_numeric, errors='ignore') \
+        .groupby(['date'])['clicks', 'uniqueClicks'] \
+        .sum()
+
+
+def search_clicks_by_date(clicks):
+    return DataFrame(clicks, columns=['date', 'clicks', 'uniqueClicks']).apply(to_numeric, errors='ignore') \
+        .groupby(['date'])['clicks', 'uniqueClicks'] \
+        .sum()
 
 
 def mergeProgramAndCourseDataframe(program_df, course_df, total_homepage_views):
@@ -361,7 +395,34 @@ def strip_edx_page_title(page_title):
     return page_title.replace(' | edX', '')
 
 
-def output_report(filename, total_homepage_views=None, total_course_card_clicks=None, total_program_card_clicks=None, featured_cards=None, homepage_subjects=None):
+def enrollments(date, filters, dimensions):
+    service = get_service()
+
+    data = service.data().ga().get(
+        ids='ga:' + '86300562',
+        start_date=str(date),
+        end_date=str(date),
+        max_results=10000,
+        metrics='ga:totalEvents,ga:uniqueEvents',
+        dimensions=dimensions,
+        filters=';'.join(['ga:pagePath==/', filters]),
+        segment='sessions::sequence::{filters};->>{enrollment_events}'.format(
+            filters=filters,
+            enrollment_events=','.join([
+                'ga:eventAction==edx.bi.user.course-details.enrolled-user.enroll-card',
+                'ga:eventAction==edx.bi.user.course-details.enroll.enroll-card',
+                'ga:eventAction==edx.bi.user.course-details.enroll.discovery-card',
+                'ga:eventAction==edx.bi.user.xseries-details.enroll.discovery-card',
+                'ga:eventAction==edx.bi.user.course-details.enroll.header',
+                'ga:eventAction==edx.bi.user.course-details.enroll.main',
+    ])
+        )
+    ).execute()
+
+    return data.get('rows', [])
+
+
+def output_report(filename, subject_enrollments_by_date, search_enrollments_by_date, subject_clicks_by_date, search_clicks_by_date, total_homepage_views=None, total_course_card_clicks=None, total_program_card_clicks=None, featured_cards=None, homepage_subjects=None):
     writer = ExcelWriter(filename,engine='xlsxwriter')
 
     # Get access to the workbook
@@ -384,6 +445,13 @@ def output_report(filename, total_homepage_views=None, total_course_card_clicks=
 
     # Create the homepage courses worksheet
     if featured_cards is not None:
+        total_search_clicks = int(search_clicks_by_date['uniqueClicks'].sum())
+        total_subject_clicks = int(subject_clicks_by_date['uniqueClicks'].sum())
+        total_search_enrollments = int(search_enrollments_by_date['uniqueEnrollments'].sum())
+        total_subject_enrollments = int(subject_enrollments_by_date['uniqueEnrollments'].sum())
+        search_enrollment_conversion_rate = float(total_search_enrollments) / total_homepage_views
+        subject_enrollment_conversion_rate = float(total_subject_enrollments) / total_homepage_views
+
         featured_cards.to_excel(writer, index=False, sheet_name='Featured Card Report', startrow=18)
         featured_cards_worksheet = writer.sheets['Featured Card Report']
 
@@ -405,11 +473,15 @@ def output_report(filename, total_homepage_views=None, total_course_card_clicks=
         featured_cards_worksheet.write('A6', 'Total feat. Card Clicks on Home Page:', cell_format)
         featured_cards_worksheet.write('A7', '     feat. course clicks', cell_format)
         featured_cards_worksheet.write('A8', '     feat. program clicks', cell_format)
-        featured_cards_worksheet.write('A10', 'Total CTR', cell_format)
+        featured_cards_worksheet.write('A9', '     feat. search clicks', cell_format)
+        featured_cards_worksheet.write('A10', '     feat. subject clicks', cell_format)
+        featured_cards_worksheet.write('A11', 'Total CTR', cell_format)
         featured_cards_worksheet.write('C12', 'card conversion', cell_format)
         featured_cards_worksheet.write('A13', 'Total Enrollments from card clicks:', cell_format)
         featured_cards_worksheet.write('A14', '      enrollment on course about (top+bottom)', cell_format)
         featured_cards_worksheet.write('A15', '      enrolllment on program about', cell_format)
+        featured_cards_worksheet.write('A16', '      enrollment on search', cell_format)
+        featured_cards_worksheet.write('A17', '      enrollment on subject card clicks', cell_format)
         featured_cards_worksheet.write('A18', 'Top Performing Cards + Conversion', cell_format)
 
         featured_cards_worksheet.merge_range('F18:H18', 'enrollment events from card click', merge_format)
@@ -422,13 +494,19 @@ def output_report(filename, total_homepage_views=None, total_course_card_clicks=
         featured_cards_worksheet.write('B6', int(featured_cards['uniqueClicks'].sum()), comma_fmt)
         featured_cards_worksheet.write('B7', total_course_card_clicks, comma_fmt)
         featured_cards_worksheet.write('B8', total_program_card_clicks, comma_fmt)
-        featured_cards_worksheet.write('B10', float(featured_cards['uniqueClicks'].sum())/total_homepage_views, percent_fmt)
-        featured_cards_worksheet.write('B13', int(featured_cards['uniqueEnrolls'].sum()), comma_fmt)
+        featured_cards_worksheet.write('B9', total_search_clicks, comma_fmt)
+        featured_cards_worksheet.write('B10', total_subject_clicks, comma_fmt)
+        featured_cards_worksheet.write('B11', float(featured_cards['uniqueClicks'].sum() + total_search_clicks + total_subject_clicks)/total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('B13', int(featured_cards['uniqueEnrolls'].sum() + total_search_enrollments + total_subject_enrollments), comma_fmt)
         featured_cards_worksheet.write('B14', int(featured_cards['uniqueCourseEnrolls'].sum()), comma_fmt)
         featured_cards_worksheet.write('B15', int(featured_cards['uniqueProgramEnrolls'].sum()), comma_fmt)
-        featured_cards_worksheet.write('C13', float(featured_cards['uniqueEnrolls'].sum())/total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('B16', total_search_enrollments, comma_fmt)
+        featured_cards_worksheet.write('B17', total_subject_enrollments, comma_fmt)
+        featured_cards_worksheet.write('C13', float(featured_cards['uniqueEnrolls'].sum() + total_search_enrollments + total_subject_enrollments)/total_homepage_views, percent_fmt)
         featured_cards_worksheet.write('C14', float(featured_cards['uniqueCourseEnrolls'].sum()) / total_homepage_views, percent_fmt)
         featured_cards_worksheet.write('C15', float(featured_cards['uniqueProgramEnrolls'].sum()) / total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C16', search_enrollment_conversion_rate, percent_fmt)
+        featured_cards_worksheet.write('C17', subject_enrollment_conversion_rate, percent_fmt)
 
     if homepage_subjects is not None:
         homepage_subjects.to_excel(writer, index=False, sheet_name='HomepageSubjects', startrow=2)
@@ -463,7 +541,8 @@ def run(start_date, end_date, filepath):
     program_card_clicks = featuredProgramCardClicks(start_date)
     subject_card_clicks = featuredSubjectCardClicks(start_date)
     homepage_search_uses = featuredHomepageSearchUses(start_date)
-    print(start_date)
+    homepage_search_use_enrollments = featured_homepage_search_enrollments(start_date)
+    subject_card_click_enrollments = featured_subject_card_click_enrollments(start_date)
     delta = end_date - start_date
     for i in range(1, delta.days + 1):
         next_date = start_date + timedelta(days=i)
@@ -477,9 +556,9 @@ def run(start_date, end_date, filepath):
         program_card_clicks += featuredProgramCardClicks(next_date)
         subject_card_clicks += featuredSubjectCardClicks(start_date)
         homepage_search_uses += featuredHomepageSearchUses(start_date)
+        homepage_search_use_enrollments += featured_homepage_search_enrollments(start_date)
+        subject_card_click_enrollments += featured_subject_card_click_enrollments(start_date)
 
-        print(next_date)
-    import pdb; pdb.set_trace()
     subject_dataframe = homePageToSubjectPageDataframe(homepage_to_subject_page_data)
     total_homepage_views = totalHomePageViewsValue(total_homepage_views_data)
     program_card_df, course_card_df = mergeEnrollmentsAndClicksDataframe(
@@ -493,6 +572,11 @@ def run(start_date, end_date, filepath):
 
     total_course_card_clicks = course_card_df['uniqueClicks'].sum()
     total_program_card_clicks = program_card_df['uniqueClicks'].sum()
+
+    rolled_up_subject_enrollments = subject_enrollments_by_date(subject_card_click_enrollments)
+    rolled_up_search_enrollments = search_enrollments_by_date(homepage_search_use_enrollments)
+    rolled_up_subject_clicks = subject_clicks_by_date(subject_card_clicks)
+    rolled_up_search_clicks = search_clicks_by_date(homepage_search_uses)
 
     featured_card_df = mergeProgramAndCourseDataframe(program_card_df, course_card_df, total_homepage_views)
 
@@ -510,7 +594,11 @@ def run(start_date, end_date, filepath):
         total_course_card_clicks=total_course_card_clicks,
         total_program_card_clicks=total_program_card_clicks,
         featured_cards=featured_card_df,
-        homepage_subjects=subject_dataframe
+        homepage_subjects=subject_dataframe,
+        subject_enrollments_by_date=rolled_up_subject_enrollments,
+        search_enrollments_by_date=rolled_up_search_enrollments,
+        subject_clicks_by_date=rolled_up_subject_clicks,
+        search_clicks_by_date=rolled_up_search_clicks
     )
 
 
@@ -518,7 +606,7 @@ def parse_date(date):
     return datetime.strptime(date, '%Y-%m-%d').date()
 
 
-# parse script arguments
+# # parse script arguments
 start_date = parse_date(sys.argv[1])
 end_date = parse_date(sys.argv[2])
 filepath = sys.argv[3]
