@@ -491,7 +491,7 @@ def output_report(filename, subject_enrollments_by_date, search_enrollments_by_d
 
         # Write Overview Data
         featured_cards_worksheet.write('B4', total_homepage_views, comma_fmt)
-        featured_cards_worksheet.write('B6', int(featured_cards['uniqueClicks'].sum()), comma_fmt)
+        featured_cards_worksheet.write('B6', int(featured_cards['uniqueClicks'].sum() + total_search_clicks + total_subject_clicks), comma_fmt)
         featured_cards_worksheet.write('B7', total_course_card_clicks, comma_fmt)
         featured_cards_worksheet.write('B8', total_program_card_clicks, comma_fmt)
         featured_cards_worksheet.write('B9', total_search_clicks, comma_fmt)
