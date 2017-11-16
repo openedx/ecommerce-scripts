@@ -1,5 +1,5 @@
 import argparse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import httplib2
 import sys
 
@@ -284,6 +284,20 @@ def search_clicks_by_date(clicks):
         .sum()
 
 
+def course_card_clicks_by_date(clicks):
+    return DataFrame(clicks, columns=['date', 'course', 'enrollments', 'clicks', 'uniqueClicks']) \
+        .apply(to_numeric, errors='ignore') \
+        .groupby(['date'])['enrollments', 'clicks', 'uniqueClicks'] \
+        .sum()
+
+
+def program_card_clicks_by_date(clicks):
+    return DataFrame(clicks, columns=['date', 'program', 'enrollments', 'clicks', 'uniqueClicks']) \
+        .apply(to_numeric, errors='ignore') \
+        .groupby(['date'])['enrollments', 'clicks', 'uniqueClicks'] \
+        .sum()
+
+
 def mergeProgramAndCourseDataframe(program_df, course_df, total_homepage_views):
     dataframe = concat([program_df, course_df])
     total_clicks = dataframe['uniqueClicks'].sum()
@@ -422,7 +436,11 @@ def enrollments(date, filters, dimensions):
     return data.get('rows', [])
 
 
-def output_report(filename, subject_enrollments_by_date, search_enrollments_by_date, subject_clicks_by_date, search_clicks_by_date, total_homepage_views=None, total_course_card_clicks=None, total_program_card_clicks=None, featured_cards=None, homepage_subjects=None):
+def output_report(
+        filename, subject_enrollments_by_date, search_enrollments_by_date, subject_clicks_by_date,
+        search_clicks_by_date, total_course_card_clicks_by_date, total_program_course_cards_by_date,
+        total_homepage_views=None, total_course_card_clicks=None, total_program_card_clicks=None, featured_cards=None,
+        homepage_subjects=None):
     writer = ExcelWriter(filename,engine='xlsxwriter')
 
     # Get access to the workbook
@@ -451,6 +469,15 @@ def output_report(filename, subject_enrollments_by_date, search_enrollments_by_d
         total_subject_enrollments = int(subject_enrollments_by_date['uniqueEnrollments'].sum())
         search_enrollment_conversion_rate = float(total_search_enrollments) / total_homepage_views
         subject_enrollment_conversion_rate = float(total_subject_enrollments) / total_homepage_views
+
+        # The total course card clicks and total program card clicks values are off so use these instead
+        all_course_cards_clicks = int(total_course_card_clicks_by_date['uniqueClicks'].sum())
+        all_program_course_cards_clicks = int(total_program_course_cards_by_date['uniqueClicks'].sum())
+        all_course_cards_enrolls = int(total_course_card_clicks_by_date['enrollments'].sum())
+        all_program_course_cards_enrolls = int(total_program_course_cards_by_date['enrollments'].sum())
+
+        total_clicks = all_course_cards_clicks + all_program_course_cards_clicks + total_search_clicks + total_subject_clicks
+        total_enrolls = all_course_cards_enrolls + all_program_course_cards_enrolls + total_search_enrollments + total_subject_enrollments
 
         featured_cards.to_excel(writer, index=False, sheet_name='Featured Card Report', startrow=18)
         featured_cards_worksheet = writer.sheets['Featured Card Report']
@@ -491,20 +518,20 @@ def output_report(filename, subject_enrollments_by_date, search_enrollments_by_d
 
         # Write Overview Data
         featured_cards_worksheet.write('B4', total_homepage_views, comma_fmt)
-        featured_cards_worksheet.write('B6', int(featured_cards['uniqueClicks'].sum() + total_search_clicks + total_subject_clicks), comma_fmt)
-        featured_cards_worksheet.write('B7', total_course_card_clicks, comma_fmt)
-        featured_cards_worksheet.write('B8', total_program_card_clicks, comma_fmt)
+        featured_cards_worksheet.write('B6', int(total_clicks), comma_fmt)
+        featured_cards_worksheet.write('B7', all_course_cards_clicks, comma_fmt)
+        featured_cards_worksheet.write('B8', all_program_course_cards_clicks, comma_fmt)
         featured_cards_worksheet.write('B9', total_search_clicks, comma_fmt)
         featured_cards_worksheet.write('B10', total_subject_clicks, comma_fmt)
-        featured_cards_worksheet.write('B11', float(featured_cards['uniqueClicks'].sum() + total_search_clicks + total_subject_clicks)/total_homepage_views, percent_fmt)
-        featured_cards_worksheet.write('B13', int(featured_cards['uniqueEnrolls'].sum() + total_search_enrollments + total_subject_enrollments), comma_fmt)
-        featured_cards_worksheet.write('B14', int(featured_cards['uniqueCourseEnrolls'].sum()), comma_fmt)
-        featured_cards_worksheet.write('B15', int(featured_cards['uniqueProgramEnrolls'].sum()), comma_fmt)
+        featured_cards_worksheet.write('B11', float(total_clicks)/total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('B13', int(total_enrolls), comma_fmt)
+        featured_cards_worksheet.write('B14', int(all_course_cards_enrolls), comma_fmt)
+        featured_cards_worksheet.write('B15', int(all_program_course_cards_enrolls), comma_fmt)
         featured_cards_worksheet.write('B16', total_search_enrollments, comma_fmt)
         featured_cards_worksheet.write('B17', total_subject_enrollments, comma_fmt)
-        featured_cards_worksheet.write('C13', float(featured_cards['uniqueEnrolls'].sum() + total_search_enrollments + total_subject_enrollments)/total_homepage_views, percent_fmt)
-        featured_cards_worksheet.write('C14', float(featured_cards['uniqueCourseEnrolls'].sum()) / total_homepage_views, percent_fmt)
-        featured_cards_worksheet.write('C15', float(featured_cards['uniqueProgramEnrolls'].sum()) / total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C13', float(total_enrolls)/total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C14', float(all_course_cards_enrolls) / total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C15', float(all_program_course_cards_enrolls) / total_homepage_views, percent_fmt)
         featured_cards_worksheet.write('C16', search_enrollment_conversion_rate, percent_fmt)
         featured_cards_worksheet.write('C17', subject_enrollment_conversion_rate, percent_fmt)
 
@@ -556,7 +583,6 @@ def run(start_date, end_date, filepath):
         program_card_clicks += featuredProgramCardClicks(next_date)
         subject_card_clicks += featuredSubjectCardClicks(start_date)
         homepage_search_uses += featuredHomepageSearchUses(start_date)
-        homepage_search_use_enrollments += featured_homepage_search_enrollments(start_date)
         subject_card_click_enrollments += featured_subject_card_click_enrollments(start_date)
 
     subject_dataframe = homePageToSubjectPageDataframe(homepage_to_subject_page_data)
@@ -577,6 +603,8 @@ def run(start_date, end_date, filepath):
     rolled_up_search_enrollments = search_enrollments_by_date(homepage_search_use_enrollments)
     rolled_up_subject_clicks = subject_clicks_by_date(subject_card_clicks)
     rolled_up_search_clicks = search_clicks_by_date(homepage_search_uses)
+    total_course_card_clicks_by_date = course_card_clicks_by_date(course_card_clicks)
+    total_program_course_cards_by_date = program_card_clicks_by_date(program_card_clicks)
 
     featured_card_df = mergeProgramAndCourseDataframe(program_card_df, course_card_df, total_homepage_views)
 
@@ -598,7 +626,9 @@ def run(start_date, end_date, filepath):
         subject_enrollments_by_date=rolled_up_subject_enrollments,
         search_enrollments_by_date=rolled_up_search_enrollments,
         subject_clicks_by_date=rolled_up_subject_clicks,
-        search_clicks_by_date=rolled_up_search_clicks
+        search_clicks_by_date=rolled_up_search_clicks,
+        total_course_card_clicks_by_date=total_course_card_clicks_by_date,
+        total_program_course_cards_by_date=total_program_course_cards_by_date
     )
 
 
