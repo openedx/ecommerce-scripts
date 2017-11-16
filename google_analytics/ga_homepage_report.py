@@ -1,12 +1,12 @@
 import argparse
-from datetime import datetime, timedelta
-import httplib2
 import sys
+from datetime import datetime, timedelta
 
+import httplib2
 from apiclient.discovery import build
 from oauth2client import client, file, tools
 from pandas import DataFrame, ExcelWriter, merge, concat, to_numeric
-import xlsxwriter
+
 
 ################################################################
 #
@@ -70,7 +70,7 @@ def _featuredCardDrivenEnrollments(date, enrollment_events, featured_card_click)
         end_date=str(date),
         max_results=10000,
         metrics='ga:totalEvents,ga:uniqueEvents',
-        dimensions='ga:date,ga:eventLabel,ga:dimension5',
+        dimensions='ga:date,ga:eventLabel',
         filters=featured_card_click,
         segment='sessions::sequence::{featured_card_click};->>{enrollment_events}'.format(
             featured_card_click=featured_card_click,
@@ -92,7 +92,6 @@ def featuredProgramCardDrivenProgramEnrollments(date):
     featured_program_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==program',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -108,7 +107,6 @@ def featuredProgramCardDrivenCourseEnrollments(date):
     featured_program_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==program',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -126,7 +124,6 @@ def featuredCourseCardDrivenProgramEnrollments(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==course',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -142,16 +139,19 @@ def featuredCourseCardDrivenCourseEnrollments(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==course',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
     return _featuredCardDrivenEnrollments(date, course_enrollment_events, featured_course_card_click)
 
-def _homepageEvents(date, event_filter, dimensions):
+
+def _featuredCardClicks(date, featured_card_click):
     # RETURN total events & unique events
-    # GROUPED BY passed in dimensions
-    # FOR anyone who emitted the above event on the homepage
+    # GROUPED BY date, label (course/program id), card index
+    # FOR anyone who clicked a certain featured card
+    # AND whose session sequence was
+    #     featured card click EVENTUALLY FOLLOWED BY
+    #     a set of enrollment events
     service = get_service()
 
     data = service.data().ga().get(
@@ -160,38 +160,31 @@ def _homepageEvents(date, event_filter, dimensions):
         end_date=str(date),
         max_results=10000,
         metrics='ga:totalEvents,ga:uniqueEvents',
-        dimensions=dimensions,
-        filters=';'.join(['ga:pagePath==/', event_filter])
+        dimensions='ga:date,ga:eventLabel',
+        filters=featured_card_click
     ).execute()
 
     return data.get('rows', [])
 
-def featuredHomepageSearchUses(date):
-    dimensions = 'ga:date'
-    return _homepageEvents(date, 'ga:eventAction==edx.bi.user.home-page-hero.search.submitted', dimensions)
-
-def featuredSubjectCardClicks(date):
-    dimensions = 'ga:date,ga:eventLabel'
-    return _homepageEvents(date, 'ga:eventAction==edx.bi.home-page.subject-link', dimensions)
 
 def featuredCourseCardClicks(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==course',
-        'ga:dimension6==true'
+        'ga:pagePath==/',
     ])
-    dimensions = 'ga:date,ga:eventLabel,ga:dimension5'
-    return _homepageEvents(date, featured_course_card_click, dimensions)
+
+    return _featuredCardClicks(date, featured_course_card_click)
+
 
 def featuredProgramCardClicks(date):
     featured_program_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==program',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
-    dimensions = 'ga:date,ga:eventLabel,ga:dimension5'
-    return _homepageEvents(date, featured_program_card_click, dimensions)
+
+    return _featuredCardClicks(date, featured_program_card_click)
 
 
 def homePageToSubjectPageData(date):
@@ -262,7 +255,6 @@ def mergeProgramAndCourseDataframe(program_df, course_df, total_homepage_views):
     dataframe = dataframe.sort_values(by='uniqueEnrolls', ascending=0)
     fields = [
         'cardName',
-        'position',
         'type',
         'uniqueClicks',
         'CTR',
@@ -300,10 +292,10 @@ def mergeEnrollmentsAndClicksDataframe(program_program_enrolls, program_course_e
 
 
 def clicksDataframe(clicks_data):
-    clicks_dataframe = DataFrame(clicks_data, columns=['date', 'cardName', 'position', 'totalClicks', 'uniqueClicks'])
+    clicks_dataframe = DataFrame(clicks_data, columns=['date', 'cardName', 'totalClicks', 'uniqueClicks'])
     clicks_dataframe = clicks_dataframe.apply(to_numeric, errors='ignore')
     clicks_dataframe.drop('date', axis=1, inplace=True)
-    clicks_dataframe = clicks_dataframe.groupby(['cardName','position']).sum().sort_values(by='uniqueClicks',ascending=0)
+    clicks_dataframe = clicks_dataframe.groupby(['cardName']).sum().sort_values(by='uniqueClicks',ascending=0)
     clicks_dataframe.reset_index(inplace=True)
 
     return clicks_dataframe
@@ -315,7 +307,6 @@ def enrollmentDataframe(enrolls_data, card_type, enroll_type):
         columns=[
             'date',
             'cardName',
-            'position',
             'total{type}Enrolls'.format(type=enroll_type),
             'unique{type}Enrolls'.format(type=enroll_type)
         ]
@@ -323,7 +314,7 @@ def enrollmentDataframe(enrolls_data, card_type, enroll_type):
 
     enrolls_dataframe = enrolls_dataframe.apply(to_numeric, errors='ignore')
     enrolls_dataframe.drop('date', axis=1, inplace=True)
-    enrolls_dataframe = enrolls_dataframe.groupby(['cardName','position']).sum().sort_values(by='unique{type}Enrolls'.format(type=enroll_type),ascending=0)
+    enrolls_dataframe = enrolls_dataframe.groupby(['cardName']).sum().sort_values(by='unique{type}Enrolls'.format(type=enroll_type),ascending=0)
     enrolls_dataframe.reset_index(inplace=True)
     enrolls_dataframe['type'] = card_type
 
@@ -334,14 +325,14 @@ def mergeEnrollmentByTypeDataframe(program_enrolls, course_enrolls, clicks):
     dataframe = merge(
         program_enrolls,
         course_enrolls,
-        on=['cardName', 'position', 'type'],
+        on=['cardName', 'type'],
         how='left'
     )
 
     dataframe = merge(
         dataframe,
         clicks,
-        on=['cardName', 'position'],
+        on=['cardName'],
         how='left'
     )
 
@@ -461,8 +452,6 @@ def run(start_date, end_date, filepath):
     course_card_course_enroll_data = featuredCourseCardDrivenCourseEnrollments(start_date)
     course_card_clicks = featuredCourseCardClicks(start_date)
     program_card_clicks = featuredProgramCardClicks(start_date)
-    subject_card_clicks = featuredSubjectCardClicks(start_date)
-    homepage_search_uses = featuredHomepageSearchUses(start_date)
     print(start_date)
     delta = end_date - start_date
     for i in range(1, delta.days + 1):
@@ -475,11 +464,8 @@ def run(start_date, end_date, filepath):
         course_card_course_enroll_data += featuredCourseCardDrivenCourseEnrollments(next_date)
         course_card_clicks += featuredCourseCardClicks(next_date)
         program_card_clicks += featuredProgramCardClicks(next_date)
-        subject_card_clicks += featuredSubjectCardClicks(start_date)
-        homepage_search_uses += featuredHomepageSearchUses(start_date)
-
         print(next_date)
-    import pdb; pdb.set_trace()
+
     subject_dataframe = homePageToSubjectPageDataframe(homepage_to_subject_page_data)
     total_homepage_views = totalHomePageViewsValue(total_homepage_views_data)
     program_card_df, course_card_df = mergeEnrollmentsAndClicksDataframe(
