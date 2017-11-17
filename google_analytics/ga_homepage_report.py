@@ -520,7 +520,7 @@ def output_report(
         featured_cards_worksheet.write('B16', total_search_enrollments, comma_fmt)
         featured_cards_worksheet.write('B17', total_subject_enrollments, comma_fmt)
         featured_cards_worksheet.write('C13', float(total_enrolls)/total_homepage_views, percent_fmt)
-        featured_cards_worksheet.write('C14', float(total_enrolls) / total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C14', float(featured_cards['uniqueCourseEnrolls'].sum()) / total_homepage_views, percent_fmt)
         featured_cards_worksheet.write('C15', float(featured_cards['uniqueProgramEnrolls'].sum()) / total_homepage_views, percent_fmt)
         featured_cards_worksheet.write('C16', search_enrollment_conversion_rate, percent_fmt)
         featured_cards_worksheet.write('C17', subject_enrollment_conversion_rate, percent_fmt)
