@@ -70,7 +70,7 @@ def _featuredCardDrivenEnrollments(date, enrollment_events, featured_card_click)
         end_date=str(date),
         max_results=10000,
         metrics='ga:totalEvents,ga:uniqueEvents',
-        dimensions='ga:date,ga:eventLabel,ga:dimension5',
+        dimensions='ga:date,ga:eventLabel',
         filters=featured_card_click,
         segment='sessions::sequence::{featured_card_click};->>{enrollment_events}'.format(
             featured_card_click=featured_card_click,
@@ -92,7 +92,6 @@ def featuredProgramCardDrivenProgramEnrollments(date):
     featured_program_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==program',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -108,7 +107,6 @@ def featuredProgramCardDrivenCourseEnrollments(date):
     featured_program_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==program',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -126,7 +124,6 @@ def featuredCourseCardDrivenProgramEnrollments(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==course',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -142,7 +139,6 @@ def featuredCourseCardDrivenCourseEnrollments(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==course',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
 
@@ -188,19 +184,17 @@ def featuredCourseCardClicks(date):
     featured_course_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==course',
-        'ga:dimension6==true'
     ])
-    dimensions = 'ga:date,ga:eventLabel,ga:dimension5'
+    dimensions = 'ga:date,ga:eventLabel'
     return _homepageEvents(date, featured_course_card_click, dimensions)
 
 def featuredProgramCardClicks(date):
     featured_program_card_click = ';'.join([
         'ga:eventAction==edx.bi.user.discovery.card.click',
         'ga:eventCategory==program',
-        'ga:dimension6==true',
         'ga:pagePath==/',
     ])
-    dimensions = 'ga:date,ga:eventLabel,ga:dimension5'
+    dimensions = 'ga:date,ga:eventLabel'
     return _homepageEvents(date, featured_program_card_click, dimensions)
 
 
@@ -285,16 +279,16 @@ def search_clicks_by_date(clicks):
 
 
 def course_card_clicks_by_date(clicks):
-    return DataFrame(clicks, columns=['date', 'course', 'enrollments', 'clicks', 'uniqueClicks']) \
+    return DataFrame(clicks, columns=['date', 'course', 'clicks', 'uniqueClicks']) \
         .apply(to_numeric, errors='ignore') \
-        .groupby(['date'])['enrollments', 'clicks', 'uniqueClicks'] \
+        .groupby(['date'])['clicks', 'uniqueClicks'] \
         .sum()
 
 
 def program_card_clicks_by_date(clicks):
-    return DataFrame(clicks, columns=['date', 'program', 'enrollments', 'clicks', 'uniqueClicks']) \
+    return DataFrame(clicks, columns=['date', 'program', 'clicks', 'uniqueClicks']) \
         .apply(to_numeric, errors='ignore') \
-        .groupby(['date'])['enrollments', 'clicks', 'uniqueClicks'] \
+        .groupby(['date'])['clicks', 'uniqueClicks'] \
         .sum()
 
 
@@ -310,7 +304,6 @@ def mergeProgramAndCourseDataframe(program_df, course_df, total_homepage_views):
     dataframe = dataframe.sort_values(by='uniqueEnrolls', ascending=0)
     fields = [
         'cardName',
-        'position',
         'type',
         'uniqueClicks',
         'CTR',
@@ -348,10 +341,10 @@ def mergeEnrollmentsAndClicksDataframe(program_program_enrolls, program_course_e
 
 
 def clicksDataframe(clicks_data):
-    clicks_dataframe = DataFrame(clicks_data, columns=['date', 'cardName', 'position', 'totalClicks', 'uniqueClicks'])
+    clicks_dataframe = DataFrame(clicks_data, columns=['date', 'cardName', 'totalClicks', 'uniqueClicks'])
     clicks_dataframe = clicks_dataframe.apply(to_numeric, errors='ignore')
     clicks_dataframe.drop('date', axis=1, inplace=True)
-    clicks_dataframe = clicks_dataframe.groupby(['cardName','position']).sum().sort_values(by='uniqueClicks',ascending=0)
+    clicks_dataframe = clicks_dataframe.groupby(['cardName']).sum().sort_values(by='uniqueClicks',ascending=0)
     clicks_dataframe.reset_index(inplace=True)
 
     return clicks_dataframe
@@ -363,7 +356,6 @@ def enrollmentDataframe(enrolls_data, card_type, enroll_type):
         columns=[
             'date',
             'cardName',
-            'position',
             'total{type}Enrolls'.format(type=enroll_type),
             'unique{type}Enrolls'.format(type=enroll_type)
         ]
@@ -371,7 +363,7 @@ def enrollmentDataframe(enrolls_data, card_type, enroll_type):
 
     enrolls_dataframe = enrolls_dataframe.apply(to_numeric, errors='ignore')
     enrolls_dataframe.drop('date', axis=1, inplace=True)
-    enrolls_dataframe = enrolls_dataframe.groupby(['cardName','position']).sum().sort_values(by='unique{type}Enrolls'.format(type=enroll_type),ascending=0)
+    enrolls_dataframe = enrolls_dataframe.groupby(['cardName']).sum().sort_values(by='unique{type}Enrolls'.format(type=enroll_type),ascending=0)
     enrolls_dataframe.reset_index(inplace=True)
     enrolls_dataframe['type'] = card_type
 
@@ -382,14 +374,14 @@ def mergeEnrollmentByTypeDataframe(program_enrolls, course_enrolls, clicks):
     dataframe = merge(
         program_enrolls,
         course_enrolls,
-        on=['cardName', 'position', 'type'],
+        on=['cardName', 'type'],
         how='left'
     )
 
     dataframe = merge(
         dataframe,
         clicks,
-        on=['cardName', 'position'],
+        on=['cardName'],
         how='left'
     )
 
@@ -473,11 +465,9 @@ def output_report(
         # The total course card clicks and total program card clicks values are off so use these instead
         all_course_cards_clicks = int(total_course_card_clicks_by_date['uniqueClicks'].sum())
         all_program_course_cards_clicks = int(total_program_course_cards_by_date['uniqueClicks'].sum())
-        all_course_cards_enrolls = int(total_course_card_clicks_by_date['enrollments'].sum())
-        all_program_course_cards_enrolls = int(total_program_course_cards_by_date['enrollments'].sum())
 
         total_clicks = all_course_cards_clicks + all_program_course_cards_clicks + total_search_clicks + total_subject_clicks
-        total_enrolls = all_course_cards_enrolls + all_program_course_cards_enrolls + total_search_enrollments + total_subject_enrollments
+        total_enrolls = int(featured_cards['uniqueEnrolls'].sum()) + total_search_enrollments + total_subject_enrollments
 
         featured_cards.to_excel(writer, index=False, sheet_name='Featured Card Report', startrow=18)
         featured_cards_worksheet = writer.sheets['Featured Card Report']
@@ -525,13 +515,13 @@ def output_report(
         featured_cards_worksheet.write('B10', total_subject_clicks, comma_fmt)
         featured_cards_worksheet.write('B11', float(total_clicks)/total_homepage_views, percent_fmt)
         featured_cards_worksheet.write('B13', int(total_enrolls), comma_fmt)
-        featured_cards_worksheet.write('B14', int(all_course_cards_enrolls), comma_fmt)
-        featured_cards_worksheet.write('B15', int(all_program_course_cards_enrolls), comma_fmt)
+        featured_cards_worksheet.write('B14', int(featured_cards['uniqueCourseEnrolls'].sum()), comma_fmt)
+        featured_cards_worksheet.write('B15', int(featured_cards['uniqueProgramEnrolls'].sum()), comma_fmt)
         featured_cards_worksheet.write('B16', total_search_enrollments, comma_fmt)
         featured_cards_worksheet.write('B17', total_subject_enrollments, comma_fmt)
         featured_cards_worksheet.write('C13', float(total_enrolls)/total_homepage_views, percent_fmt)
-        featured_cards_worksheet.write('C14', float(all_course_cards_enrolls) / total_homepage_views, percent_fmt)
-        featured_cards_worksheet.write('C15', float(all_program_course_cards_enrolls) / total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C14', float(total_enrolls) / total_homepage_views, percent_fmt)
+        featured_cards_worksheet.write('C15', float(featured_cards['uniqueProgramEnrolls'].sum()) / total_homepage_views, percent_fmt)
         featured_cards_worksheet.write('C16', search_enrollment_conversion_rate, percent_fmt)
         featured_cards_worksheet.write('C17', subject_enrollment_conversion_rate, percent_fmt)
 
@@ -603,6 +593,7 @@ def run(start_date, end_date, filepath):
     rolled_up_search_enrollments = search_enrollments_by_date(homepage_search_use_enrollments)
     rolled_up_subject_clicks = subject_clicks_by_date(subject_card_clicks)
     rolled_up_search_clicks = search_clicks_by_date(homepage_search_uses)
+
     total_course_card_clicks_by_date = course_card_clicks_by_date(course_card_clicks)
     total_program_course_cards_by_date = program_card_clicks_by_date(program_card_clicks)
 
