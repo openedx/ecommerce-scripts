@@ -453,7 +453,7 @@ def output_report(
     )
 
 
-    # Create the homepage courses worksheet
+    # Create the homepage courses featured_cards_worksheet
     if featured_cards is not None:
         total_search_clicks = int(search_clicks_by_date['uniqueClicks'].sum())
         total_subject_clicks = int(subject_clicks_by_date['uniqueClicks'].sum())
@@ -487,7 +487,7 @@ def output_report(
         )
         featured_cards_worksheet.write('A3', 'Overview', cell_format)
         featured_cards_worksheet.write('A4', 'Total Homepage Views:', cell_format)
-        featured_cards_worksheet.write('A6', 'Total feat. Card Clicks on Home Page:', cell_format)
+        featured_cards_worksheet.write('A6', 'Total Clicks on Home Page:', cell_format)
         featured_cards_worksheet.write('A7', '     feat. course clicks', cell_format)
         featured_cards_worksheet.write('A8', '     feat. program clicks', cell_format)
         featured_cards_worksheet.write('A9', '     feat. search clicks', cell_format)
