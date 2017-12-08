@@ -271,53 +271,50 @@ class Repo:
 
         retries = 0
         while retries <= self.MAX_MERGE_RETRIES:
-            try:
-                self.pr.merge(merge_method=self.merge_method)
-                logger.info('Merged [%s/#%d].', self.name, self.pr.number)
-                return True
-            except github.GithubException as e:
-                # Assumes only one commit is present on the PR.
-                statuses = self.pr.get_commits()[0].get_statuses()
+            # Assumes only one commit is present on the PR.
+            status = self.pr.get_commits()[0].get_combined_status()
 
-                # Check for any failing Travis builds. If any are found, notify the team
-                # and move on.
-                if any('travis' in s.context and s.state == 'failure' for s in statuses):
-                    logger.info(
-                        'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
-                        self.name, self.pr.number, self.owner
-                    )
-
-                    self.pr.create_issue_comment(
-                        '@{owner} a failed Travis build prevented this PR from being automatically merged.'.format(
-                            owner=self.owner
-                        )
-                    )
-
-                    return False
-                else:
-                    retries += 1
-
-                    if retries <= self.MAX_MERGE_RETRIES:
-                        logger.info(
-                            'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
-                            self.name, self.pr.number, retries, self.MAX_MERGE_RETRIES
-                        )
-
-                        # Poll every 5 minutes
-                        time.sleep(60 * 5)
-        else:
-            logger.info(
-                'Retry limit hit for [%s/#%d]. Notifying %s.',
-                self.name, self.pr.number, self.owner
-            )
-
-            # Retry limit hit. Notify the team and move on.
-            self.pr.create_issue_comment(
-                '@{owner} pending status checks prevented this PR from being automatically merged.'.format(
-                    owner=self.owner
+            if status.state == 'failure':
+                logger.info(
+                    'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
+                    self.name, self.pr.number, self.owner
                 )
-            )
-            return False
+
+                self.pr.create_issue_comment(
+                    '@{owner} a failed Travis build prevented this PR from being automatically merged.'.format(
+                        owner=self.owner
+                    )
+                )
+                return False
+            elif status.state == 'success':
+                try:
+                    self.pr.merge(merge_method=self.merge_method)
+                    logger.info('Merged [%s/#%d].', self.name, self.pr.number)
+                    return True
+                except github.GithubException as e:
+                    logger.info(
+                        'Failed to merge [%s/#%d], because of the exception [%s]',
+                        self.name, self.pr.number, e,
+                    )
+                    return False
+            else:
+                retries += 1
+                if retries <= self.MAX_MERGE_RETRIES:
+                    logger.info(
+                        'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
+                        self.name, self.pr.number, retries, self.MAX_MERGE_RETRIES
+                    )
+
+                    # Poll every 5 minutes
+                    time.sleep(60 * 5)
+
+        logger.info('Retry limit hit for [%s/#%d]. Notifying %s.', self.name, self.pr.number, self.owner)
+
+        # Retry limit hit. Notify the team and move on.
+        self.pr.create_issue_comment(
+            '@{owner} pending status checks prevented this PR from being automatically merged.'.format(owner=self.owner)
+        )
+        return False
 
     def cleanup(self):
         """Delete the local clone of the repo.
