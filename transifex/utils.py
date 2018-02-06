@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 import re
@@ -135,7 +136,7 @@ class Repo:
 
         self.github_repo = edx.get_repo(self.name)
         self.owner = repo_owner
-        self.branch_name = branch_name
+        self.branch_name = branch_name + str(datetime.date.today())
         self.message = message
         self.pr = None
         self.merge_method = merge_method
@@ -321,8 +322,8 @@ class Repo:
 
         If applicable, also deletes the merged branch from GitHub.
         """
-        if self.pr and self.pr.is_merged():
-            logger.info('Deleting merged branch %s:%s.', self.name, self.branch_name)
+        if self.pr:
+            logger.info('Deleting branch %s:%s.', self.name, self.branch_name)
             # Delete branch from remote. See https://developer.github.com/v3/git/refs/#get-a-reference.
             ref = 'heads/{branch}'.format(branch=self.branch_name)
             self.github_repo.get_git_ref(ref).delete()
