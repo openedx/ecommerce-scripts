@@ -24,7 +24,7 @@ from utils import DEFAULT_MERGE_METHOD, MERGE_METHODS, logger, repo_context
 
 
 # The name of the branch to use.
-BRANCH_NAME = 'update-translations'
+BRANCH_NAME = 'transifex-bot-update-translations'
 
 # The commit message to use.
 MESSAGE = 'Update translations'

@@ -106,7 +106,6 @@ def main(argv):
     args = get_args(argv)
 
     sailthru_service = SailthruApiService(args.sailthru_key, args.sailthru_secret, args.lms_url)
-
     if args.command == 'list':
         sailthru_service.list()
     elif args.command in ('upload', 'preview'):
