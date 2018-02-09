@@ -142,7 +142,10 @@ class Repo:
 
     def clone(self):
         """Clone the repo."""
-        subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
+        #subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
+
+        # Clone my branch, for testing purposes
+        subprocess.run(['git', 'clone', '--depth', '1', '-b', 'efischer/jenkins_test_run', self.clone_url], check=True)
 
     def branch(self):
         """Create and check out a new branch."""
