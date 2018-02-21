@@ -297,6 +297,17 @@ class Repo:
                         'Failed to merge [%s/#%d], because of the exception [%s]',
                         self.name, self.pr.number, e,
                     )
+                    try:
+                        # If it's possible, a PR message would be appreciated in these cases.
+                        # Github may just be super borked though, hence the empty catch.
+                        self.pr.create_issue_comment(
+                            '@{owner} a github exception prevented this PR from being automatically merged:\n`{error}`'.format(
+                                owner=self.owner,
+                                error=e
+                            )
+                        )
+                    except:
+                        pass
                     return False
             else:
                 retries += 1
