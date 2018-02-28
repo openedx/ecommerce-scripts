@@ -48,8 +48,9 @@ class SailthruApiServiceTests(unittest.TestCase):
         mock_get_result = mock.Mock(json=error_result)
         mock_get_result.is_ok.return_value = False
         mock_api_get.return_value = mock_get_result
-        sailthru_item_collection = self.sailthru_client.list()
-        self.assertEqual(len(sailthru_item_collection), 0)
+
+        with self.assertRaises(RuntimeError):
+            self.sailthru_client.list()
         self.assertTrue(mock_error_log.called)
 
     @mock.patch('sailthru.sailthru_client.SailthruClient.api_get')
@@ -126,5 +127,6 @@ class SailthruApiServiceTests(unittest.TestCase):
         post_response_mock.get_error.return_value = error_mock
         mock_api_post.return_value = post_response_mock
 
-        self.sailthru_client._upload_batch_file(self.faker.uri_path())
+        with self.assertRaises(RuntimeError):
+            self.sailthru_client._upload_batch_file(self.faker.uri_path())
         self.assertTrue(mock_error_log.called)
