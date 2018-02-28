@@ -59,9 +59,9 @@ def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilem
                     )
                 )
 
-                # Return immediately, without trying to merge the PR. We don't
+                # Fail job immediately, without trying to merge the PR. We don't
                 # want to merge PRs without compiled messages.
-                return
+                raise RuntimeError('Failed to compile messages.')
 
             repo.merge_pr()
 

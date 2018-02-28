@@ -23,6 +23,7 @@ class SailthruApiService(object):
                 response.json['error'],
                 response.json['errormsg']
             )
+            raise RuntimeError('Failed to connect with Sailthru API')
         else:
             for body in response.json['content']:
                 logging.info(body)
@@ -57,6 +58,7 @@ class SailthruApiService(object):
             logging.error("Error: " + error.get_message())
             logging.error("Status Code: " + str(response.get_status_code()))
             logging.error("Error Code: " + str(error.get_error_code()))
+            raise RuntimeError('Failed to connect with Sailthru API')
 
     def upload(self, library_items, report_email=None):
         if not library_items:
@@ -80,7 +82,7 @@ class SailthruApiService(object):
                     response.json['error'],
                     response.json['errormsg']
                 )
-                return
+                raise RuntimeError('Failed to connect with Sailthru API')
 
             sailthru_content = response.json['content']
             if not sailthru_content:

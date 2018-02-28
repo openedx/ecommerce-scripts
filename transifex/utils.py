@@ -276,7 +276,7 @@ class Repo:
             status = self.pr.get_commits()[0].get_combined_status()
 
             if status.state == 'failure':
-                logger.info(
+                logger.error(
                     'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
                     self.name, self.pr.number, self.owner
                 )
@@ -286,18 +286,18 @@ class Repo:
                         owner=self.owner
                     )
                 )
-                return False
+                raise RuntimeError('A failed Travis build prevented this PR from being automatically merged.')
             elif status.state == 'success':
                 try:
                     self.pr.merge(merge_method=self.merge_method)
                     logger.info('Merged [%s/#%d].', self.name, self.pr.number)
                     return True
                 except github.GithubException as e:
-                    logger.info(
+                    logger.error(
                         'Failed to merge [%s/#%d], because of the exception [%s]',
                         self.name, self.pr.number, e,
                     )
-                    return False
+                    raise RuntimeError('Failed to merge.')
             else:
                 retries += 1
                 if retries <= self.MAX_MERGE_RETRIES:
@@ -315,7 +315,7 @@ class Repo:
         self.pr.create_issue_comment(
             '@{owner} pending status checks prevented this PR from being automatically merged.'.format(owner=self.owner)
         )
-        return False
+        raise RuntimeError('Pending status checks prevented this PR from being automatically merged')
 
     def cleanup(self):
         """Delete the local clone of the repo.
