@@ -194,6 +194,7 @@ class Repo:
 
         See http://docs.transifex.com/client/config/.
         """
+        logger.info('Pushing translations to Transifex for [%s].', self.name)
         subprocess.run(['make', 'push_translations'], check=True)
 
     def commit_push_and_open_pr(self):

@@ -25,7 +25,7 @@ BRANCH_NAME = 'transifex-bot-update-translation-strings'
 MESSAGE = 'Update translation strings'
 
 
-def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, no_commit=False):
+def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_commit=False):
     """Extracts translations for the given repo, commits them, pushes them to GitHub, opens a PR, waits for status
         checks to pass, merges the PR, deletes the branch, and pushes the updated translation files to Transifex.
     """
@@ -33,7 +33,7 @@ def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, no_commit=Fal
         logger.info('Extracting translations for [%s].', repo.name)
         repo.extract_translations()
 
-        if not no_commit:
+        if not skip_commit:
             repo.commit_push_and_open_pr()
             if repo.pr and repo.merge_pr() and repo.pr.is_merged():
                 push_translations_to_transifex(repo)
@@ -45,7 +45,6 @@ def push_translations_to_transifex(repo):
     """
     Calls the push translations make target to push new translation strings to Transifex.
     """
-    logger.info('Pushing translations to Transifex for [%s].', repo.name)
     repo.push_translations()
 
 
@@ -66,7 +65,7 @@ def parse_arguments():
         help='Method to use when merging the PR. See https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button for details.'
     )
     parser.add_argument(
-        '--no-commit',
+        '--skip_commit',
         action='store_true',
         help='Use this if you do not want to commit changes to repo.'
     )
@@ -75,4 +74,4 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
-    push(args.clone_url, args.repo_owner, merge_method=args.merge_method, no_commit=args.no_commit)
+    push(args.clone_url, args.repo_owner, merge_method=args.merge_method, skip_commit=args.skip_commit)
