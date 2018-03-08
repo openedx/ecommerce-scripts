@@ -148,6 +148,7 @@ class Repo:
 
     def branch(self):
         """Create and check out a new branch."""
+        subprocess.run(['git', 'fetch'], check=True)
         subprocess.run(['git', 'reset', '--hard', '3af204a76718ca50cd22938b1c42139129a724c1'], check=True)
         subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
 
