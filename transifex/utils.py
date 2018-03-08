@@ -148,7 +148,7 @@ class Repo:
 
     def branch(self):
         """Create and check out a new branch."""
-        subprocess.run(['(>&2 pwd) && (>&2 ls) && (>&2 git fetch -v --all) && (>&2 git checkout origin/efischer/reactifex)'], check=True, shell=True)
+        subprocess.run(['(>&2 pwd) && (>&2 ls) && (>&2 git branch -r) && (>&2 git checkout origin/efischer/reactifex)'], check=True, shell=True)
         subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
 
     def pull_translations(self):
