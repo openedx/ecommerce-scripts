@@ -143,6 +143,7 @@ class Repo:
 
     def clone(self):
         """Clone the repo."""
+        subprocess.run(['rm', '-rf', 'studio-frontend'], check=True)
         subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
 
     def branch(self):
