@@ -143,10 +143,12 @@ class Repo:
 
     def clone(self):
         """Clone the repo."""
+        subprocess.run(['rm', '-rf', 'studio-frontend'], check=True)
         subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
 
     def branch(self):
         """Create and check out a new branch."""
+        subprocess.run(['git', 'reset', '--hard', '3af204a76718ca50cd22938b1c42139129a724c1'], check=True)
         subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
 
     def pull_translations(self):
