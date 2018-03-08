@@ -143,10 +143,12 @@ class Repo:
 
     def clone(self):
         """Clone the repo."""
+        subprocess.run(['rm', '-rf', 'studio-frontend'], check=True)
         subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
 
     def branch(self):
         """Create and check out a new branch."""
+        subprocess.run(['(>&2 pwd) && (>&2 git remote show origin) && (>&2 git branch -a) && (>&2 git remote update) && (>&2 git config --list) && (>&2 git checkout origin/efischer/reactifex)'], check=True, shell=True)
         subprocess.run(['git', 'checkout', '-b', self.branch_name], check=True)
 
     def pull_translations(self):
