@@ -145,7 +145,7 @@ class Repo:
         """Clone the repo."""
         subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
         # branch test - NOMERGE
-        subprocess.run(['git', 'reset', '--hard', 'origin/efischer/reactifex'], check=True)
+        subprocess.run(['git', 'reset', '--hard', '3af204a76718ca50cd22938b1c42139129a724c1'], check=True)
 
     def branch(self):
         """Create and check out a new branch."""
