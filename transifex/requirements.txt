@@ -1,5 +1,5 @@
 Django==1.11.2
-edx-i18n-tools==0.4.2
+edx-i18n-tools==0.4.5
 PyGithub==1.29
 PyYAML==3.12
 transifex-client==0.12.4
