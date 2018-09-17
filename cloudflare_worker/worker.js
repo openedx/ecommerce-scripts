@@ -5,94 +5,160 @@ addEventListener('fetch', event => {
 })
 
 async function fetchAndApply(request) {
+  const headers = rolloutGroupHeaders(request)
+  const modifiedRequest = updateRequest(request, headers.request_headers)
+
+  const response = await fetch(modifiedRequest)
+  const modifiedResponse = updateResponse(response, headers.response_headers)
+
+  return modifiedResponse
+}
+
+function updateRequest(request, newHeaders){
+  const modifiedHeaders = new Headers(request.headers)
+  newHeaders.forEach(function(header){
+    modifiedHeaders.set(header.name, header.value)
+  })
+
+  return new Request(request.url, {
+    method: request.method,
+    headers: modifiedHeaders
+  })
+}
+
+function updateResponse(response, newHeaders){
+  const modifiedHeaders = new Headers(response.headers)
+  newHeaders.forEach(function(header){
+    console.log(header.name, ": ", header.value)
+    modifiedHeaders.set(header.name, header.value)
+  })
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: modifiedHeaders
+  })
+}
+
+function rolloutGroupHeaders(request){
+  //////////////////////////////////////////////////////////////////////
+  //
+  // THIS IS THE ONLY THING WE SHOULD BE EDITING DURING ROLLOUT
+  //
+  const percent_in_test_group = 0.5
+  //
+  //
+  //
+  //////////////////////////////////////////////////////////////////////
+
+  const cookie_name = getCookieName(request)
   const test_group_name = 'test'
   const control_group_name = 'control'
-  const cookie_name = getCookieName(request)
   const control_cookie_pattern = `${cookie_name}=${control_group_name}`
   const test_cookie_pattern = `${cookie_name}=${test_group_name}`
 
-  const percent_in_test_group = 0.5
   let group          // 'control' or 'test', set below
   let cookie_group   // How the assignment was made + which group was assigned
   let isNew = false  // is the group newly-assigned?
 
-  let debugMsg = ''
-  debugMsg += "CONTROL: "
-  debugMsg += presortToControl(request, control_cookie_pattern, control_group_name)
-
-  debugMsg += "; TEST: "
-  debugMsg += presortToTest(request, test_cookie_pattern, test_group_name)
-
-
-
   // Determine which group this request is in.
   let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name)
   let testAssignment = presortToTest(request, test_cookie_pattern, test_group_name)
-  if( controlAssignment ){
+  if( controlAssignment.assignment ){
     group = control_group_name
-    cookie_group = `${controlAssignment}_${group}`
-  } else if ( testAssignment ){
+    cookie_group = `${group}_${controlAssignment.assignment}`
+    isNew = controlAssignment.isNew
+  } else if ( testAssignment.assignment ){
     group = test_group_name
-    cookie_group = `${testAssignment}_${group}`
+    cookie_group = `${group}_${testAssignment.assignment}`
+    isNew = testAssignment.isNew
   } else {
     group = Math.random() < percent_in_test_group ? test_group_name : control_group_name
-
+    cookie_group = `${group}_random`
     isNew = true
-    debugMsg += `; ASSIGN => ${group};`
   }
 
-  const modifiedHeaders = new Headers(request.headers)
-  modifiedHeaders.set('x-rollout-group', group)
-
-  const modifiedRequest = new Request(request.url, {
-    method: request.method,
-    headers: modifiedHeaders
-  })
-
-  const response = await fetch(modifiedRequest)
-
-  const newHeaders = new Headers(response.headers)
-  if (isNew) {
-    newHeaders.append('Set-Cookie', `${cookie_name}=${group}`)
+  let headers = {
+    request_headers: [
+      {
+        name: 'x-rollout-group',
+        value: group
+      }
+    ],
+    response_headers: [
+    ]
   }
-  newHeaders.append('X-debug', debugMsg)
-  return new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers: newHeaders
-  })
+
+  if( isNew ){
+
+    headers.response_headers.push(
+      {
+        name: 'Set-Cookie',
+        value: `${cookie_name}=${cookie_group}`
+      }
+    )
+  }
+
+  return headers
 }
 
 function presortToControl(request, control_cookie_pattern, control_group){
-  // Always sort search engines and other crawlers to control
-  if( isSearchEngine(request)){
-    return "crawler"
+  let responseObj = {
+    assignment: '',
+    isNew: false,
   }
-
 
   // If a user has a control cookie, keep them in the control group
   const cookie = request.headers.get('Cookie')
-  return ( cookie && cookie.includes(control_cookie_pattern) )
+  if ( cookie && cookie.includes(control_cookie_pattern) ){
+    responseObj.assignment =  assignmentMethod(cookie, control_cookie_pattern)
+    return responseObj
+  }
+
+  // Always sort search engines and other crawlers to control
+  if( isSearchEngine(request)){
+    responseObj.assignment = "crawler"
+    responseObj.isNew = true
+    return responseObj
+  }
 
 
   // if query string include control param
   const url = new URL(request.url)
   if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === control_group){
-    return "query"
+    responseObj.assignment =  "query"
+    responseObj.isNew = true
   }
 
-  return ''
+  return responseObj
 }
 
 function presortToTest(request, test_cookie_pattern, test_group){
-  const url = new URL(request.url)
-  if(url.searchParams.has("rollout")){
-    return url.searchParams.get("rollout") === test_group
+  let responseObj = {
+    assignment: '',
+    isNew: false,
   }
 
   // If a user has a test cookie, keep them in the test group
   const cookie = request.headers.get('Cookie')
-  return ( cookie && cookie.includes(test_cookie_pattern) )
+  if ( cookie && cookie.includes(test_cookie_pattern) ){
+    responseObj.assignment = assignmentMethod(cookie, test_cookie_pattern)
+    return responseObj
+  }
+
+  const url = new URL(request.url)
+  if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === test_group){
+    responseObj.assignment = "query"
+    responseObj.isNew = true
+  }
+
+  return responseObj
+}
+
+function assignmentMethod(cookie, pattern){
+  const indexOfCookieStart = cookie.indexOf(pattern+'_')
+  const indexOfCookieEnd = cookie.indexOf(';', indexOfCookieStart+1)
+  return cookie.substring(indexOfCookieStart + pattern.length, indexOfCookieEnd)
 }
 
 function getCookieName(request) {
@@ -101,7 +167,6 @@ function getCookieName(request) {
   const prodEdxUrlPattern = /www\.edx\.org/
 
   if(request.url.match(prodEdxUrlPattern)){
-    debugMsg += 'prod'
     return prodCookieName
   }
 
