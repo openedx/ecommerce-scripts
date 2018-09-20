@@ -5,7 +5,11 @@ addEventListener('fetch', event => {
 })
 
 async function fetchAndApply(request) {
-  const headers = rolloutGroupHeaders(request)
+  //////////////////////////////////////////////////////////////////////
+  // SWITCHING THIS TO TRUE WILL UNSET ALL COOKIES AND HEADERS TO BE CONTROL
+  const killswitch = false
+  //////////////////////////////////////////////////////////////////////
+  const headers = rolloutGroupHeaders(request, killswitch)
   const modifiedRequest = updateRequest(request, headers.request_headers)
 
   const response = await fetch(modifiedRequest)
@@ -40,7 +44,7 @@ function updateResponse(response, newHeaders){
   })
 }
 
-function rolloutGroupHeaders(request){
+function rolloutGroupHeaders(request, killswitch){
   //////////////////////////////////////////////////////////////////////
   //
   // THIS IS THE ONLY THING WE SHOULD BE EDITING DURING ROLLOUT
@@ -62,9 +66,13 @@ function rolloutGroupHeaders(request){
   let isNew = false  // is the group newly-assigned?
 
   // Determine which group this request is in.
-  let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name)
+  let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name, killswitch)
   let testAssignment = presortToTest(request, test_cookie_pattern, test_group_name)
-  if( controlAssignment.assignment ){
+  if (killswitch) {
+    group = control_group_name
+    cookie_group = `${group}_forced`
+    isNew = controlAssignment.isNew
+  } else if( controlAssignment.assignment ){
     group = control_group_name
     cookie_group = `${group}_${controlAssignment.assignment}`
     isNew = controlAssignment.isNew
@@ -102,15 +110,23 @@ function rolloutGroupHeaders(request){
   return headers
 }
 
-function presortToControl(request, control_cookie_pattern, control_group){
+function presortToControl(request, control_cookie_pattern, control_group, killswitch){
   let responseObj = {
     assignment: '',
     isNew: false,
   }
-
-  // If a user has a control cookie, keep them in the control group
   const cookie = request.headers.get('Cookie')
-  if ( cookie && cookie.includes(control_cookie_pattern) ){
+  // If the killswitch is on, a user has a control cookie, and that cookie is forced, don't set isNew
+  if (killswitch) {
+    if (cookie && cookie.includes('forced')) {
+      return responseObj
+    } else {
+      responseObj.isNew = true
+      return responseObj
+    }
+  }
+  // If a user has a control cookie, keep them in the control group, unless that cookie is forced
+  if ( cookie && cookie.includes(control_cookie_pattern)){
     responseObj.assignment =  assignmentMethod(cookie, control_cookie_pattern)
     return responseObj
   }
