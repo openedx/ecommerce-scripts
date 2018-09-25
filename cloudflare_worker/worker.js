@@ -19,29 +19,21 @@ async function fetchAndApply(request) {
 }
 
 function updateRequest(request, newHeaders){
-  const modifiedHeaders = new Headers(request.headers)
+  const newRequest = new Request(request)
   newHeaders.forEach(function(header){
-    modifiedHeaders.set(header.name, header.value)
+    newRequest.headers.set(header.name, header.value)
   })
 
-  return new Request(request.url, {
-    method: request.method,
-    headers: modifiedHeaders
-  })
+  return newRequest
 }
 
 function updateResponse(response, newHeaders){
-  const modifiedHeaders = new Headers(response.headers)
+  const newResponse = new Response(response.body, response)
   newHeaders.forEach(function(header){
     console.log(header.name, ": ", header.value)
-    modifiedHeaders.set(header.name, header.value)
+    newResponse.headers.set(header.name, header.value)
   })
-
-  return new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers: modifiedHeaders
-  })
+  return newResponse
 }
 
 function rolloutGroupHeaders(request, killswitch){
@@ -49,7 +41,7 @@ function rolloutGroupHeaders(request, killswitch){
   //
   // THIS IS THE ONLY THING WE SHOULD BE EDITING DURING ROLLOUT
   //
-  const percent_in_test_group = 0.5
+  const percent_in_test_group = 0
   //
   //
   //
@@ -102,7 +94,7 @@ function rolloutGroupHeaders(request, killswitch){
     headers.response_headers.push(
       {
         name: 'Set-Cookie',
-        value: `${cookie_name}=${cookie_group}`
+        value: `${cookie_name}=${cookie_group}; Path=/`
       }
     )
   }
@@ -126,7 +118,7 @@ function presortToControl(request, control_cookie_pattern, control_group, killsw
     }
   }
   // If a user has a control cookie, keep them in the control group, unless that cookie is forced
-  if ( cookie && cookie.includes(control_cookie_pattern)){
+  if ( cookie && cookie.includes(control_cookie_pattern) && !cookie.includes('forced')){
     responseObj.assignment =  assignmentMethod(cookie, control_cookie_pattern)
     return responseObj
   }
