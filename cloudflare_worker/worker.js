@@ -1,8 +1,21 @@
 addEventListener('fetch', event => {
   event.passThroughOnException()
-
-  event.respondWith(fetchAndApply(event.request))
+  console.log(event.request.url)
+  if (
+    event.request.url.indexOf('/admin') === -1 &&
+    event.request.url.indexOf('/user') === -1 &&
+    event.request.url.indexOf('/api') === -1
+  ) {
+    event.respondWith(fetchAndApply(event.request))
+  } else {
+    event.respondWith(fetchAndApplyDefault(event.request))
+  }
 })
+
+async function fetchAndApplyDefault(request) {
+  const response = await fetch(request)
+  return response
+}
 
 async function fetchAndApply(request) {
   //////////////////////////////////////////////////////////////////////
@@ -60,11 +73,7 @@ function rolloutGroupHeaders(request, killswitch){
   // Determine which group this request is in.
   let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name, killswitch)
   let testAssignment = presortToTest(request, test_cookie_pattern, test_group_name)
-  if (killswitch) {
-    group = control_group_name
-    cookie_group = `${group}_forced`
-    isNew = controlAssignment.isNew
-  } else if( controlAssignment.assignment ){
+  if( controlAssignment.assignment ){
     group = control_group_name
     cookie_group = `${group}_${controlAssignment.assignment}`
     isNew = controlAssignment.isNew
@@ -76,6 +85,22 @@ function rolloutGroupHeaders(request, killswitch){
     group = Math.random() < percent_in_test_group ? test_group_name : control_group_name
     cookie_group = `${group}_random`
     isNew = true
+  }
+  // Override for querystring
+  if( controlAssignment.assignment === 'query' ){
+    group = control_group_name
+    cookie_group = `${group}_${controlAssignment.assignment}`
+    isNew = controlAssignment.isNew
+  } else if ( testAssignment.assignment === 'query' ) {
+    group = test_group_name
+    cookie_group = `${group}_${testAssignment.assignment}`
+    isNew = testAssignment.isNew
+  }
+  // Override for killswitch
+  if (killswitch) {
+    group = control_group_name
+    cookie_group = `${group}_forced`
+    isNew = controlAssignment.isNew
   }
 
   let headers = {
@@ -117,6 +142,15 @@ function presortToControl(request, control_cookie_pattern, control_group, killsw
       return responseObj
     }
   }
+
+  // if query string include control param
+  const url = new URL(request.url)
+  if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === control_group){
+    responseObj.assignment =  "query"
+    responseObj.isNew = true
+    return responseObj
+  }
+
   // If a user has a control cookie, keep them in the control group, unless that cookie is forced
   if ( cookie && cookie.includes(control_cookie_pattern) && !cookie.includes('forced')){
     responseObj.assignment =  assignmentMethod(cookie, control_cookie_pattern)
@@ -130,14 +164,6 @@ function presortToControl(request, control_cookie_pattern, control_group, killsw
     return responseObj
   }
 
-
-  // if query string include control param
-  const url = new URL(request.url)
-  if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === control_group){
-    responseObj.assignment =  "query"
-    responseObj.isNew = true
-  }
-
   return responseObj
 }
 
@@ -147,17 +173,18 @@ function presortToTest(request, test_cookie_pattern, test_group){
     isNew: false,
   }
 
+  const url = new URL(request.url)
+  if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === test_group){
+    responseObj.assignment = "query"
+    responseObj.isNew = true
+    return responseObj
+  }
+
   // If a user has a test cookie, keep them in the test group
   const cookie = request.headers.get('Cookie')
   if ( cookie && cookie.includes(test_cookie_pattern) ){
     responseObj.assignment = assignmentMethod(cookie, test_cookie_pattern)
     return responseObj
-  }
-
-  const url = new URL(request.url)
-  if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === test_group){
-    responseObj.assignment = "query"
-    responseObj.isNew = true
   }
 
   return responseObj
