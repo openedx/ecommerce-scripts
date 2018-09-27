@@ -54,7 +54,7 @@ function rolloutGroupHeaders(request, killswitch){
   //
   // THIS IS THE ONLY THING WE SHOULD BE EDITING DURING ROLLOUT
   //
-  const percent_in_test_group = 0
+  const percent_in_test_group = .5
   //
   //
   //
@@ -83,7 +83,7 @@ function rolloutGroupHeaders(request, killswitch){
     isNew = testAssignment.isNew
   } else {
     group = Math.random() < percent_in_test_group ? test_group_name : control_group_name
-    cookie_group = `${group}_random`
+    cookie_group = `${group}_random1`
     isNew = true
   }
   // Override for querystring
