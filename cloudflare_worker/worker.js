@@ -1,6 +1,5 @@
 addEventListener('fetch', event => {
   event.passThroughOnException()
-  console.log(event.request.url)
   if (
     event.request.url.indexOf('/admin') === -1 &&
     event.request.url.indexOf('/user') === -1 &&
@@ -143,9 +142,9 @@ function presortToControl(request, control_cookie_pattern, control_group, killsw
     }
   }
 
-  // if query string include control param
+  // if query string includes the control param at the start (index 0)
   const url = new URL(request.url)
-  if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === control_group){
+  if(url.searchParams.has("rollout") && url.searchParams.get("rollout").indexOf(control_group) === 0){
     responseObj.assignment =  "query"
     responseObj.isNew = true
     return responseObj
@@ -173,8 +172,9 @@ function presortToTest(request, test_cookie_pattern, test_group){
     isNew: false,
   }
 
+  // if query string includes test param at the start (index 0)
   const url = new URL(request.url)
-  if(url.searchParams.has("rollout") && url.searchParams.get("rollout") === test_group){
+  if(url.searchParams.has("rollout") && url.searchParams.get("rollout").indexOf(test_group) === 0){
     responseObj.assignment = "query"
     responseObj.isNew = true
     return responseObj
