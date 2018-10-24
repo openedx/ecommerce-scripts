@@ -53,7 +53,7 @@ function rolloutGroupHeaders(request, killswitch){
   //
   // THIS IS THE ONLY THING WE SHOULD BE EDITING DURING ROLLOUT
   //
-  const percent_in_test_group = .5
+  const percent_in_test_group = 1
   //
   //
   //
@@ -70,8 +70,8 @@ function rolloutGroupHeaders(request, killswitch){
   let isNew = false  // is the group newly-assigned?
 
   // Determine which group this request is in.
-  let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name, killswitch)
-  let testAssignment = presortToTest(request, test_cookie_pattern, test_group_name)
+  let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name, percent_in_test_group, killswitch)
+  let testAssignment = presortToTest(request, test_cookie_pattern, test_group_name, percent_in_test_group)
   if( controlAssignment.assignment ){
     group = control_group_name
     cookie_group = `${group}_${controlAssignment.assignment}`
@@ -126,7 +126,7 @@ function rolloutGroupHeaders(request, killswitch){
   return headers
 }
 
-function presortToControl(request, control_cookie_pattern, control_group, killswitch){
+function presortToControl(request, control_cookie_pattern, control_group, rollout_percentage, killswitch){
   let responseObj = {
     assignment: '',
     isNew: false,
@@ -156,8 +156,8 @@ function presortToControl(request, control_cookie_pattern, control_group, killsw
     return responseObj
   }
 
-  // Always sort search engines and other crawlers to control
-  if( isSearchEngine(request)){
+  // Always sort search engines and other crawlers to control if the rollout is less than 100%
+  if( isSearchEngine(request) && rollout_percentage < 1){
     responseObj.assignment = "crawler"
     responseObj.isNew = true
     return responseObj
@@ -166,7 +166,7 @@ function presortToControl(request, control_cookie_pattern, control_group, killsw
   return responseObj
 }
 
-function presortToTest(request, test_cookie_pattern, test_group){
+function presortToTest(request, test_cookie_pattern, test_group, rollout_percentage){
   let responseObj = {
     assignment: '',
     isNew: false,
@@ -184,6 +184,13 @@ function presortToTest(request, test_cookie_pattern, test_group){
   const cookie = request.headers.get('Cookie')
   if ( cookie && cookie.includes(test_cookie_pattern) ){
     responseObj.assignment = assignmentMethod(cookie, test_cookie_pattern)
+    return responseObj
+  }
+
+  // Always sort search engines and other crawlers to test if the rollout is at 100%
+  if( isSearchEngine(request) && rollout_percentage >= 1){
+    responseObj.assignment = "crawler"
+    responseObj.isNew = true
     return responseObj
   }
 
