@@ -85,21 +85,19 @@ function rolloutGroupHeaders(request, killswitch){
     cookie_group = `${group}_random1`
     isNew = true
   }
-  // Override for querystring
-  if( controlAssignment.assignment === 'query' ){
-    group = control_group_name
-    cookie_group = `${group}_${controlAssignment.assignment}`
-    isNew = controlAssignment.isNew
-  } else if ( testAssignment.assignment === 'query' ) {
-    group = test_group_name
-    cookie_group = `${group}_${testAssignment.assignment}`
-    isNew = testAssignment.isNew
-  }
+
   // Override for killswitch
   if (killswitch) {
     group = control_group_name
     cookie_group = `${group}_forced`
     isNew = controlAssignment.isNew
+  }
+
+  // Override the group to be test_rolledout
+  if (percent_in_test_group >= 1 && group == control_group_name) {
+    group = test_group_name;
+    cookie_group = `${test_group_name}_rolledout`;
+    isNew = true;
   }
 
   let headers = {
