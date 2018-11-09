@@ -115,10 +115,10 @@ edx = github.Github(github_access_token).get_organization('edx')
 
 
 class Repo:
-    # Make 18 attempts to merge the PR (the original attempt plus 17 retries), sleeping for 5 minutes between each
+    # Make 24 attempts to merge the PR (the original attempt plus 23 retries), sleeping for 5 minutes between each
     # attempt. This should result in a total 90 minutes of sleep time. Status checks should almost always
     # complete in this period.
-    MAX_MERGE_RETRIES = 17
+    MAX_MERGE_RETRIES = 23
 
     """Utility representing a Git repo."""
     def __init__(self, clone_url, repo_owner, branch_name, message, merge_method=DEFAULT_MERGE_METHOD):
