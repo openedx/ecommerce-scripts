@@ -274,9 +274,10 @@ class Repo:
         retries = 0
         while retries <= self.MAX_MERGE_RETRIES:
             # Assumes only one commit is present on the PR.
-            status = self.pr.get_commits()[0].get_combined_status()
+            time.sleep(60 * 5)
+            state = self._get_tests_combined_status()
 
-            if status.state == 'failure':
+            if state == 'failure':
                 logger.error(
                     'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
                     self.name, self.pr.number, self.owner
@@ -288,7 +289,7 @@ class Repo:
                     )
                 )
                 raise RuntimeError('A failed Travis build prevented this PR from being automatically merged.')
-            elif status.state == 'success':
+            elif state == 'success':
                 try:
                     self.pr.merge(merge_method=self.merge_method)
                     logger.info('Merged [%s/#%d].', self.name, self.pr.number)
@@ -307,8 +308,6 @@ class Repo:
                         self.name, self.pr.number, retries, self.MAX_MERGE_RETRIES
                     )
 
-                    # Poll every 5 minutes
-                    time.sleep(60 * 5)
 
         logger.info('Retry limit hit for [%s/#%d]. Notifying %s.', self.name, self.pr.number, self.owner)
 
@@ -317,6 +316,33 @@ class Repo:
             '@{owner} pending status checks prevented this PR from being automatically merged.'.format(owner=self.owner)
         )
         raise RuntimeError('Pending status checks prevented this PR from being automatically merged')
+
+    def _get_tests_combined_status(self):
+        """ Returns combined status of pr tests """
+        commit = self.pr.get_commits()[0]
+        combined_statuses = commit.get_combined_status()
+        if combined_statuses.total_count > 0:
+            return combined_statuses.state
+
+        # Remove this code once pyGithub supports github checks api
+        requester = getattr(commit, '_requester')
+        __, response = requester.requestJsonAndCheck(
+            "GET",
+            commit.url + "/check-runs",
+            headers={'Accept': 'application/vnd.github.antiope-preview+json'}
+        )
+        conclusions = []
+        for check_run in response['check_runs']:
+            conclusion = check_run['conclusion']
+            # consider all statuses failure other than success.
+            if conclusion and conclusion != 'success':
+                return 'failure'
+            elif conclusion and conclusion == 'success':
+                conclusions.append('success')
+        if len(conclusions) == len(response['check_runs']):
+            return 'success'
+        else:
+            return 'pending'
 
     def cleanup(self):
         """Delete the local clone of the repo.
