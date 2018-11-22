@@ -25,7 +25,7 @@ BRANCH_NAME = 'transifex-bot-update-translation-strings'
 MESSAGE = 'Update translation strings'
 
 
-def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_commit=False):
+def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_commit=False, skip_check_changes=False):
     """Extracts translations for the given repo, commits them, pushes them to GitHub, opens a PR, waits for status
         checks to pass, merges the PR, deletes the branch, and pushes the updated translation files to Transifex.
     """
@@ -34,7 +34,7 @@ def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_commit=F
         repo.extract_translations()
 
         if not skip_commit:
-            repo.commit_push_and_open_pr()
+            repo.commit_push_and_open_pr(skip_check_changes)
             if repo.pr and repo.merge_pr() and repo.pr.is_merged():
                 push_translations_to_transifex(repo)
         else:
@@ -69,9 +69,15 @@ def parse_arguments():
         action='store_true',
         help='Use this if you do not want to commit changes to repo.'
     )
+    parser.add_argument(
+        '--skip-check-changes',
+        action='store_true',
+        help='Skip the check changes step.'
+    )
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = parse_arguments()
-    push(args.clone_url, args.repo_owner, merge_method=args.merge_method, skip_commit=args.skip_commit)
+    push(args.clone_url, args.repo_owner, merge_method=args.merge_method, skip_commit=args.skip_commit,
+         skip_check_changes=args.skip_check_changes)

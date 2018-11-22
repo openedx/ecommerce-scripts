@@ -30,7 +30,8 @@ BRANCH_NAME = 'transifex-bot-update-translations'
 MESSAGE = 'Update translations'
 
 
-def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False):
+def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False,
+         skip_check_changes=False):
     """Pulls translations for the given repo.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
@@ -46,7 +47,7 @@ def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilem
         else:
             compilemessages_succeeded = repo.compilemessages()
 
-        repo.commit_push_and_open_pr()
+        repo.commit_push_and_open_pr(skip_check_changes)
 
         if repo.pr:
             if not (skip_compilemessages or compilemessages_succeeded):
@@ -87,6 +88,11 @@ def parse_arguments():
         action='store_true',
         help='Skip the message compilation step.'
     )
+    parser.add_argument(
+        '--skip-check-changes',
+        action='store_true',
+        help='Skip the check changes step.'
+    )
     return parser.parse_args()
 
 
@@ -96,5 +102,6 @@ if __name__ == '__main__':
         args.clone_url,
         args.repo_owner,
         merge_method=args.merge_method,
-        skip_compilemessages=args.skip_compilemessages
+        skip_compilemessages=args.skip_compilemessages,
+        skip_check_changes=args.skip_check_changes,
     )

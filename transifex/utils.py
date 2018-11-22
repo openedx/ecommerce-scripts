@@ -197,11 +197,11 @@ class Repo:
         logger.info('Pushing translations to Transifex for [%s].', self.name)
         subprocess.run(['make', 'push_translations'], check=True)
 
-    def commit_push_and_open_pr(self):
+    def commit_push_and_open_pr(self, skip_check_changes):
         """Convenience method that will detect changes that have been made to the repo, commit them, push them
            to Github, and open a PR.
         """
-        if self.is_changed():
+        if self.is_changed(skip_check_changes):
             logger.info('Changes detected for [%s]. Pushing them to GitHub and opening a PR.', self.name)
             self.commit()
             self.push()
@@ -209,10 +209,12 @@ class Repo:
         else:
             logger.info('No changes detected for [%s].', self.name)
 
-    def is_changed(self):
+    def is_changed(self, skip_check_changes):
         """Determine whether any changes were made."""
-        completed_process = subprocess.run(['git', 'status', '--porcelain'], stdout=subprocess.PIPE, check=True)
-        return bool(completed_process.stdout)
+        if skip_check_changes:
+            return True
+        changed = subprocess.run(['make', 'detect_changed_source_translations'])
+        return bool(changed.returncode)
 
     def commit(self):
         """Commit changes.
@@ -339,6 +341,7 @@ class Repo:
                 return 'failure'
             elif conclusion and conclusion == 'success':
                 conclusions.append('success')
+        logger.info('[%d] of [%d] tests passed for pr.', len(conclusions), len(response['check_runs']))
         if len(conclusions) == len(response['check_runs']):
             return 'success'
         else:
