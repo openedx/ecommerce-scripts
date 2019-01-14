@@ -140,6 +140,16 @@ class Repo:
         self.message = message
         self.pr = None
         self.merge_method = merge_method
+        try:
+            logger.info(
+                'setting global git config user.name=[%s] user.email=[%s]',
+                os.environ['GIT_USER_NAME'],
+                os.environ['GIT_USER_EMAIL']
+            )
+            subprocess.run(['git', 'config', '--global', 'user.name', os.environ['GIT_USER_NAME']], check=True)
+            subprocess.run(['git', 'config', '--global', 'user.email', os.environ['GIT_USER_EMAIL']], check=True)
+        except subprocess.CalledProcessError as err:
+            logger.error('Could not initialize git config [%s].', err)
 
     def clone(self):
         """Clone the repo."""
@@ -221,10 +231,13 @@ class Repo:
 
         Adds any untracked files, in case new translations are added.
         """
+        logger.info('calling git add')
         subprocess.run(['git', 'add', '-A'], check=True)
         try:
+            logger.info('calling git commit')
             subprocess.run(['git', 'commit', '-m', self.message], check=True)
         except subprocess.CalledProcessError:
+            logger.error('error in git commit, now calling with -c')
             subprocess.run(
                 [
                     'git',
