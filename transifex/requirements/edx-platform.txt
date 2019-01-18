@@ -7,5 +7,8 @@ PyGithub==1.43.3
 PyYAML==3.12
 transifex-client==0.12.4
 
-# Python libraries to be installed directly from github
-git+https://github.com/edx/django-wiki.git@v0.0.19#egg=django-wiki
+# third-party
+edx-proctoring-proctortrack==1.0.1
+
+# third-party Python libraries to be installed directly from github
+git+https://github.com/edx/django-wiki.git@v0.0.20#egg=django-wiki
