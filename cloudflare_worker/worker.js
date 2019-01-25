@@ -17,11 +17,7 @@ async function fetchAndApplyDefault(request) {
 }
 
 async function fetchAndApply(request) {
-  //////////////////////////////////////////////////////////////////////
-  // SWITCHING THIS TO TRUE WILL UNSET ALL COOKIES AND HEADERS TO BE CONTROL
-  const killswitch = false
-  //////////////////////////////////////////////////////////////////////
-  const headers = rolloutGroupHeaders(request, killswitch)
+  const headers = rolloutGroupHeaders(request)
   const modifiedRequest = updateRequest(request, headers.request_headers)
 
   const response = await fetch(modifiedRequest)
@@ -48,7 +44,7 @@ function updateResponse(response, newHeaders){
   return newResponse
 }
 
-function rolloutGroupHeaders(request, killswitch){
+function rolloutGroupHeaders(request){
   //////////////////////////////////////////////////////////////////////
   //
   // THIS IS THE ONLY THING WE SHOULD BE EDITING DURING ROLLOUT
@@ -61,6 +57,16 @@ function rolloutGroupHeaders(request, killswitch){
 
   const cookie_name = getCookieName(request)
   const test_group_name = 'test'
+  // test_cs;control_biz_random
+  // test_cs;test_biz_random
+  // control_cs;control_biz_random
+  // control_cs;test_biz_random
+
+  // test_cs;control_biz_forced
+  // test_cs;test_biz_forced
+  // control_cs;control_biz_forced
+  // control_cs;test_biz_forced
+
   const control_group_name = 'control'
   const control_cookie_pattern = `${cookie_name}=${control_group_name}`
   const test_cookie_pattern = `${cookie_name}=${test_group_name}`
@@ -70,7 +76,7 @@ function rolloutGroupHeaders(request, killswitch){
   let isNew = false  // is the group newly-assigned?
 
   // Determine which group this request is in.
-  let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name, percent_in_test_group, killswitch)
+  let controlAssignment = presortToControl(request, control_cookie_pattern, control_group_name, percent_in_test_group)
   let testAssignment = presortToTest(request, test_cookie_pattern, test_group_name, percent_in_test_group)
   if( controlAssignment.assignment ){
     group = control_group_name
@@ -84,13 +90,6 @@ function rolloutGroupHeaders(request, killswitch){
     group = Math.random() < percent_in_test_group ? test_group_name : control_group_name
     cookie_group = `${group}_random1`
     isNew = true
-  }
-
-  // Override for killswitch
-  if (killswitch) {
-    group = control_group_name
-    cookie_group = `${group}_forced`
-    isNew = controlAssignment.isNew
   }
 
   // Override the group to be test_rolledout
@@ -124,21 +123,12 @@ function rolloutGroupHeaders(request, killswitch){
   return headers
 }
 
-function presortToControl(request, control_cookie_pattern, control_group, rollout_percentage, killswitch){
+function presortToControl(request, control_cookie_pattern, control_group, rollout_percentage){
   let responseObj = {
     assignment: '',
     isNew: false,
   }
   const cookie = request.headers.get('Cookie')
-  // If the killswitch is on, a user has a control cookie, and that cookie is forced, don't set isNew
-  if (killswitch) {
-    if (cookie && cookie.includes('forced')) {
-      return responseObj
-    } else {
-      responseObj.isNew = true
-      return responseObj
-    }
-  }
 
   // if query string includes the control param at the start (index 0)
   const url = new URL(request.url)
