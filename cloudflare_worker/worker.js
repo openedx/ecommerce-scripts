@@ -53,7 +53,7 @@ function rolloutGroupHeaders(request, killswitch){
   //
   // THIS IS THE ONLY THING WE SHOULD BE EDITING DURING ROLLOUT
   //
-  const percent_in_test_group = 1
+  const percent_in_test_group = 1.0
   //
   //
   //
@@ -154,13 +154,6 @@ function presortToControl(request, control_cookie_pattern, control_group, rollou
     return responseObj
   }
 
-  // Always sort search engines and other crawlers to control if the rollout is less than 100%
-  if( isSearchEngine(request) && rollout_percentage < 1){
-    responseObj.assignment = "crawler"
-    responseObj.isNew = true
-    return responseObj
-  }
-
   return responseObj
 }
 
@@ -182,13 +175,6 @@ function presortToTest(request, test_cookie_pattern, test_group, rollout_percent
   const cookie = request.headers.get('Cookie')
   if ( cookie && cookie.includes(test_cookie_pattern) ){
     responseObj.assignment = assignmentMethod(cookie, test_cookie_pattern)
-    return responseObj
-  }
-
-  // Always sort search engines and other crawlers to test if the rollout is at 100%
-  if( isSearchEngine(request) && rollout_percentage >= 1){
-    responseObj.assignment = "crawler"
-    responseObj.isNew = true
     return responseObj
   }
 
