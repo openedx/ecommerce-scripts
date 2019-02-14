@@ -22,7 +22,7 @@ from utils import DEFAULT_MERGE_METHOD, MERGE_METHODS, logger, repo_context
 BRANCH_NAME = 'transifex-bot-update-translation-strings'
 
 # The commit message to use.
-MESSAGE = 'Update translation strings'
+MESSAGE = 'fix(i18n): update translation strings'
 
 
 def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_commit=False, skip_check_changes=False):
