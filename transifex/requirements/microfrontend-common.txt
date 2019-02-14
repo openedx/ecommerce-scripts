@@ -1,0 +1,3 @@
+-r ../requirements.txt
+
+nodeenv==1.3.0
