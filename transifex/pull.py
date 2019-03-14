@@ -27,7 +27,7 @@ from utils import DEFAULT_MERGE_METHOD, MERGE_METHODS, logger, repo_context
 BRANCH_NAME = 'transifex-bot-update-translations'
 
 # The commit message to use.
-MESSAGE = 'Update translations'
+MESSAGE = 'fix(i18n): update translations'
 
 
 def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False,
