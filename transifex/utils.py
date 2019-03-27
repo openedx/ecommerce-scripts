@@ -57,6 +57,7 @@ def repo_context(*args, **kwargs):
     """Utility for cloning a repo, cd'ing to it, creating a working branch, doing some work, and then cleaning
        everything up.
     """
+    import pudb; pudb.set_trace()
     repo = Repo(*args, **kwargs)
     try:
         repo.clone()
@@ -143,7 +144,7 @@ class Repo:
 
     def clone(self):
         """Clone the repo."""
-        subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
+        subprocess.run(['git', 'clone', '--depth', '1', '-b', 'bessiesteinberg/fix-translations-push', self.clone_url], check=True)
 
     def branch(self):
         """Create and check out a new branch."""
@@ -248,7 +249,7 @@ class Repo:
                     pr=self.pr.number
                 )
             )
-
+        # TODO: switch back to master
         self.pr = self.github_repo.create_pull(
             self.message,
             'This PR was created by a script.',

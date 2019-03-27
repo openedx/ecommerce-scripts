@@ -30,6 +30,7 @@ def push(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_commit=F
         checks to pass, merges the PR, deletes the branch, and pushes the updated translation files to Transifex.
     """
     with repo_context(clone_url, repo_owner, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
+        import pudb; pudb.set_trace()
         logger.info('Extracting translations for [%s].', repo.name)
         repo.extract_translations()
 
@@ -78,6 +79,7 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
+    import pudb; pudb.set_trace()
     args = parse_arguments()
     push(args.clone_url, args.repo_owner, merge_method=args.merge_method, skip_commit=args.skip_commit,
          skip_check_changes=args.skip_check_changes)
