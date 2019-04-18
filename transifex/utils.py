@@ -111,7 +111,9 @@ github.PullRequest.PullRequest = ExtendedPullRequest
 # Initialize GitHub client. For documentation,
 # see http://pygithub.github.io/PyGithub/v1/reference.html.
 github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
+logger.info('Token recieved from github is [%s]', github_access_token)
 edx = github.Github(github_access_token).get_organization('edx')
+logger.info('org received from github is [%s]', edx)
 
 
 class Repo:
