@@ -1,3 +1,4 @@
+-c ./constraints.txt
 Django==1.11.2
 edx-i18n-tools==0.4.6
 PyGithub==1.43.3
