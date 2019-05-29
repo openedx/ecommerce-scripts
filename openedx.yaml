@@ -1,0 +1,13 @@
+owner: cpennington
+supporting_teams:
+    - edx/ecommerce
+    - edx/rev-team
+
+oeps:
+    oep-2: true
+    oep-7: false
+    oep-18: false
+
+tags:
+    - backend-tooling
+    - scripts
