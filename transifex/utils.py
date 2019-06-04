@@ -337,10 +337,11 @@ class Repo:
         for check_run in response['check_runs']:
             conclusion = check_run['conclusion']
             # consider all statuses failure other than success.
-            if conclusion and conclusion != 'success':
-                return 'failure'
-            elif conclusion and conclusion == 'success':
+            if conclusion and (conclusion == 'success' or conclusion == 'neutral'):
                 conclusions.append('success')
+            elif conclusion:
+                return 'failure'
+
         logger.info('[%d] of [%d] tests passed for pr.', len(conclusions), len(response['check_runs']))
         if len(conclusions) == len(response['check_runs']):
             return 'success'
