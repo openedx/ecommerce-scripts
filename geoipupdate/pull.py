@@ -74,6 +74,7 @@ def parse_arguments():
     parser.add_argument(
         '--skip-check-changes',
         action='store_true',
+        default=True,
         help='Skip the check changes step.'
     )
     return parser.parse_args()
