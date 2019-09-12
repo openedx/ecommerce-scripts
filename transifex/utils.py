@@ -357,7 +357,11 @@ class Repo:
             logger.info('Deleting branch %s:%s.', self.name, self.branch_name)
             # Delete branch from remote. See https://developer.github.com/v3/git/refs/#get-a-reference.
             ref = 'heads/{branch}'.format(branch=self.branch_name)
-            self.github_repo.get_git_ref(ref).delete()
+            # This line is in a try/except because some repos auto-delete branches.
+            try:
+                self.github_repo.get_git_ref(ref).delete()
+            except github.UnknownObjectException:
+                logger.info('Branch not found %s:%s.', self.name, self.branch_name)
 
         # Delete cloned repo.
         subprocess.run(['rm', '-rf', self.name], check=True)
