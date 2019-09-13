@@ -360,7 +360,7 @@ class Repo:
             # This line is in a try/except because some repos auto-delete branches.
             try:
                 self.github_repo.get_git_ref(ref).delete()
-            except github.GithubException.UnknownObjectException:
+            except github.UnknownObjectException:
                 logger.info('Branch not found %s:%s.', self.name, self.branch_name)
 
         # Delete cloned repo.
