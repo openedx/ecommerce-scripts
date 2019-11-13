@@ -1,7 +1,7 @@
 Babel==1.3
-django==1.11.14
+django>=2.2,<2.3
 django-babel-underscore==0.5.2
-edx-i18n-tools==0.4.6
+-e git+https://github.com/edx/i18n-tools.git@a0004420cbeab4ce50f0b02c656ae8c870d87243#egg=edx-i18n-tools
 mako==1.0.7
 PyGithub==1.43.3
 PyYAML==3.12

@@ -1,6 +1,6 @@
 -c ./constraints.txt
-Django==1.11.2
-edx-i18n-tools==0.4.6
+django>=2.2,<2.3
+-e git+https://github.com/edx/i18n-tools.git@a0004420cbeab4ce50f0b02c656ae8c870d87243#egg=edx-i18n-tools
 PyGithub==1.43.3
 PyYAML==3.12
 transifex-client==0.12.4
