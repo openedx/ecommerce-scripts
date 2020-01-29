@@ -4,7 +4,6 @@ django-babel-underscore==0.5.2
 edx-i18n-tools==0.4.6
 mako==1.0.7
 PyGithub==1.43.3
-PyYAML==3.12
 transifex-client==0.12.4
 
 # third-party
@@ -12,3 +11,32 @@ edx-proctoring-proctortrack==1.0.1
 
 # third-party Python libraries to be installed directly from github
 git+https://github.com/edx/django-wiki.git@v0.0.20#egg=django-wiki
+
+# used by paver
+argh==0.26.2              # via watchdog
+certifi==2019.11.28       # via requests
+chardet==3.0.4            # via requests
+edx-opaque-keys==2.0.1
+idna==2.8                 # via requests
+lazy==1.1
+markupsafe==1.1.1
+mock==3.0.5
+path.py==8.2.1
+pathtools==0.1.2          # via watchdog
+paver==1.3.4
+pbr==5.4.4                # via stevedore
+psutil==1.2.1
+pymongo==3.9.0
+python-memcached==1.59
+pyyaml==5.3               # via watchdog
+requests==2.22.0
+six==1.13.0               # via edx-opaque-keys, libsass, mock, paver, python-memcached, stevedore
+stevedore==1.31.0
+urllib3==1.25.7           # via requests
+watchdog==0.9.0
+
+
+boto3==1.4.8
+boto==2.39.0
+botocore==1.8.17
+bleach==3.1.0
