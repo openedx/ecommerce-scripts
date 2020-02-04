@@ -160,6 +160,13 @@ class Repo:
         """
         subprocess.run(['make', 'pull_translations'], check=True)
 
+    def compilejs_translations(self):
+        """
+        Build djangojs.js files using paver i18n_compilejs
+        command in platform
+        """
+        subprocess.run(['paver', 'i18n_compilejs'], check=True)
+
     def compilemessages(self):
         """Run the django-admin compilemessages command and return a bool indicating whether or not it succeeded. """
         # Messages may fail to compile (e.g., a translator may accidentally translate a
