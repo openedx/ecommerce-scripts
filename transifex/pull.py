@@ -18,6 +18,9 @@ If you want to skip the compile messages step, pass the --skip-compilemessages o
 
     python transifex/pull.py git@github.com:edx/course-discovery.git --skip-compilemessages
 """
+import os
+import shutil
+
 from argparse import ArgumentParser
 
 from utils import DEFAULT_MERGE_METHOD, MERGE_METHODS, logger, repo_context
@@ -29,6 +32,16 @@ BRANCH_NAME = 'transifex-bot-update-translations'
 # The commit message to use.
 MESSAGE = 'fix(i18n): update translations'
 
+# Environment variable needed to run paver compilejsi18n command
+os.environ['LMS_CFG']='../lms.yml'
+os.environ['STUDIO_CFG'] = '../studio.yml'
+os.environ['REVISION_CFG'] = ''
+os.environ['SKIP_NPM_INSTALL'] = 'True'
+os.environ['LANG'] = 'C.UTF-8'
+
+# Configuration repo to fetch lms/studio settings
+CONFIGURATION_REPO_URL = 'https://github.com/edx/configuration.git'
+
 
 def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False,
          skip_check_changes=False):
@@ -37,10 +50,17 @@ def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilem
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
     """
+    with repo_context(CONFIGURATION_REPO_URL, repo_owner, BRANCH_NAME, MESSAGE, merge_method=merge_method) as config_repo:
+        logger.info('Pulling lms/studio settings from [%s].', config_repo.name)
+
+        shutil.copy('./docker/build/edxapp/lms.yml', '../')
+        shutil.copy('./docker/build/edxapp/studio.yml', '../')
+
     with repo_context(clone_url, repo_owner, BRANCH_NAME, MESSAGE, merge_method=merge_method) as repo:
         logger.info('Pulling translations for [%s].', repo.name)
 
         repo.pull_translations()
+        repo.compilejs_translations()
 
         if skip_compilemessages:
             logger.info('Skipping compilemessages.')
