@@ -60,7 +60,6 @@ def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilem
         logger.info('Pulling translations for [%s].', repo.name)
 
         repo.pull_translations()
-        repo.compilejs_translations()
 
         if skip_compilemessages:
             logger.info('Skipping compilemessages.')
