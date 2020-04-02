@@ -1,45 +1,53 @@
 import shutil
 import unittest
 import tempfile
+import os
 
 
 from unittest.mock import patch, MagicMock, mock_open
+from testfixtures import TempDirectory
 
-from ..geoip import match_md5, write, download_file
+from ..geoip import match_sha256, write, download_file
 
 
 class GeoipTestCases(unittest.TestCase):
 
     @patch('urllib.request.urlopen')
-    def test_md5_mismatch(self, mock_urlopen='http://foo'):
-        mock_md5 = MagicMock()
-        mock_md5.getcode.return_value = 200
-        mock_md5.read.return_value = '4059D862F09C315470DC8FF0FF6EBCAF'.encode('utf-8')
-        mock_urlopen.return_value = mock_md5
+    def test_sha256_mismatch(self, mock_urlopen='http://foo'):
+        mock_sha256 = MagicMock()
+        mock_sha256.getcode.return_value = 200
+        mock_sha256.read.return_value = '29cd163ffacb8fef0441ab3b7c246b64db4a7148362ed35ef59a5d64f' \
+                                        'bbd7f5c'.encode('utf-8')
+        mock_urlopen.return_value = mock_sha256
 
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        with temp_file as f:
-            f.write('testing md5'.encode('utf-8'))
-            f.seek(0)
-            value = match_md5(f, mock_urlopen)
+        temp_dir = TempDirectory()
+        temp_dir.write('file.txt', 'testing sha256'.encode('utf-8'))
+
+        file_path = os.path.join(temp_dir.path, 'file.txt')
+        value = match_sha256(file_path, mock_urlopen)
 
         self.assertEqual(False, value)
 
-    @patch('urllib.request.urlopen')
-    def test_md5_match(self, mock_urlopen='http://foo'):
-        mg = MagicMock()
-        mg.getcode.return_value = 200
-        mg.read.return_value = '4059d862f09c315470dc8ff0ff6ebcaf'.encode('utf-8')
-        mg.__enter__.return_value = mg
-        mock_urlopen.return_value = mg
+        temp_dir.cleanup()
 
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        with temp_file as f:
-            f.write('testing md5'.encode('utf-8'))
-            f.seek(0)
-            value = match_md5(f, mock_urlopen)
+    @patch('urllib.request.urlopen')
+    def test_sha256_match(self, mock_urlopen='http://foo'):
+        mock_sha256 = MagicMock()
+        mock_sha256.getcode.return_value = 200
+        mock_sha256.read.return_value = '78553549e63a1ad55ff0af86d3c23c7e5e8b6146d09fab87009ec769a3f' \
+                                        'f8fce'.encode('utf-8')
+        mock_sha256.__enter__.return_value = mock_sha256
+        mock_urlopen.return_value = mock_sha256
+
+        temp_dir = TempDirectory()
+        temp_dir.write('file.txt', 'testing sha256'.encode('utf-8'))
+
+        file_path = os.path.join(temp_dir.path, 'file.txt')
+        value = match_sha256(file_path, mock_urlopen)
 
         self.assertEqual(True, value)
+
+        temp_dir.cleanup()
 
     def test_shutil_raise(self):
         out_file = tempfile.NamedTemporaryFile(delete=False)
@@ -66,15 +74,13 @@ class GeoipTestCases(unittest.TestCase):
     def test_raise_value_error(self, mock_urlretrieve, mock_urlopen):
         mock_urlretrieve.return_value = MagicMock()
 
-        mock_md5 = MagicMock()
-        mock_md5.getcode.return_value = 200
-        mock_md5.read.return_value = '4059d862f09c315470dc8ff0ff6ebcaw'.encode('utf-8')
-        mock_urlopen.return_value = mock_md5
+        mock_sha256 = MagicMock()
+        mock_sha256.getcode.return_value = 200
+        mock_sha256.read.return_value = 'cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e8' \
+                                        '7dfc9a90'.encode('utf-8')
+        mock_urlopen.return_value = mock_sha256
 
         mock_open = unittest.mock.mock_open(read_data='testing'.encode('utf-8'))
 
-        with patch('gzip.open', mock_open, create=True):
+        with patch('builtins.open', mock_open, create=True):
             self.assertRaises(ValueError, download_file, 'path')
-
-
-

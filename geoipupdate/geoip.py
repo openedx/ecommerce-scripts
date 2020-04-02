@@ -1,37 +1,40 @@
 import hashlib
 import os
 import urllib
-import gzip
+import tarfile
 import shutil
 import logging
 
 
-MAXMIND_URL = 'http://geolite.maxmind.com/download/geoip/database/'
-MAXMIND_FILENAME = 'GeoLite2-Country.mmdb.gz'
+license_key = os.environ['LICENSE-KEY']
+MAXMIND_URL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country' \
+              '&license_key={key}&suffix=tar.gz'.format(key=license_key)
+MAXMIND_SHA256_URL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country' \
+                     '&license_key={key}&suffix=tar.gz.sha256'.format(key=license_key)
 LOCAL_FILENAME = 'GeoLite2-Country.mmdb'
 GEOIP_PATH = "/common/static/data/geoip/"
 
 
-def match_md5(fp, md5_url):
+def match_sha256(_file, sha256_url):
     """
 
     Purpose of the method to make sure downloaded file is accurate.
 
     Args:
-         fp (file): downloaded file
-         md5_url (str): url to read md5 hash of file
+         _file (file): downloaded file
+         sha256_url (str): url to read sha256 hash of file
 
     Returns:
         bool: Returns True if downloaded file hash and hash returned by url
         are same otherwise returns False
 
     """
-    md5 = urllib.request.urlopen(md5_url).read()
-    m = hashlib.md5()
-    for line in fp:
-        m.update(line)
-    fp.seek(0)
-    return m.hexdigest() == md5.decode()
+    sha256 = urllib.request.urlopen(sha256_url).read()
+    hash_object = hashlib.sha256()
+    file_content = open(_file, 'rb').read()
+    hash_object.update(file_content)
+
+    return hash_object.hexdigest() in sha256.decode()
 
 
 def write(outfile, existing_file):
@@ -61,7 +64,7 @@ def write(outfile, existing_file):
 def download_file(current_directory):
     """
 
-    Downloads the file and check md5 hash to make sure file is downloaded correctly. If doesn't
+    Downloads the file and check sha256 hash to make sure file is downloaded correctly. If doesn't
     match then it would abort operation otherwise continue copying the file
 
     Args:
@@ -71,30 +74,29 @@ def download_file(current_directory):
         None
 
     Raises:
-        ValueError: if md5 hash of downloaded file doesn't match
+        ValueError: if sha256 hash of downloaded file doesn't match
 
     """
-    logging.info("Downloading maxmind geoip2 country database  ")
-    downloaded_file = os.path.join(current_directory + GEOIP_PATH, MAXMIND_FILENAME)
+    logging.info("Downloading maxmind geoip2 country database.")
     existing_file = os.path.join(current_directory + GEOIP_PATH, LOCAL_FILENAME)
-    urllib.request.urlretrieve(
-        urllib.parse.urljoin(MAXMIND_URL, MAXMIND_FILENAME),
-        downloaded_file
+    downloaded_file, headers = urllib.request.urlretrieve(
+        MAXMIND_URL
     )
-    logging.info("Downloading completed geoip2 country database  ")
-    with gzip.open(downloaded_file, 'rb') as outfile:
+    logging.info("Downloading completed geoip2 country database.")
 
-        md5_url = urllib.parse.urljoin(
-            MAXMIND_URL,
-            MAXMIND_FILENAME.split('.', 1)[0] + '.md5'
-        )
-        if not match_md5(outfile, md5_url):
-            logging.info("Downloaded file hash did't matched. Aborting the operation")
-            try:
-                os.remove(downloaded_file)
-            finally:
-                raise ValueError(
-                    'md5 of %s doesn\'t match the signature.' % downloaded_file
-                )
-        write(outfile, existing_file)
-    os.remove(downloaded_file)
+    if match_sha256(downloaded_file, MAXMIND_SHA256_URL):
+
+        with tarfile.open(downloaded_file, 'r:gz') as outfile:
+            for member in outfile.getmembers():
+                if LOCAL_FILENAME in member.name:
+                    _file = outfile.extractfile(member)
+                    write(_file, existing_file)
+        os.remove(downloaded_file)
+    else:
+        logging.info("Downloaded file hash did't matched. Aborting the operation")
+        try:
+            os.remove(downloaded_file)
+        finally:
+            raise ValueError(
+                'sha256 of %s doesn\'t match the signature.' % downloaded_file
+            )

@@ -34,7 +34,7 @@ MESSAGE = 'geoip2: update maxmind geolite country database'
 
 def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD,
          skip_check_changes=True):
-    """Pulls translations for the given repo.
+    """Pulls geoipdatabase for the given edx-platform.
 
     If applicable, commits them, pushes them to GitHub, opens a PR, waits for
     status checks to pass, then merges the PR and deletes the branch.
