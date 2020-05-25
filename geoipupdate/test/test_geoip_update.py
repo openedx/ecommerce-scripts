@@ -51,8 +51,8 @@ class GeoipTestCases(unittest.TestCase):
 
     def test_shutil_raise(self):
         out_file = tempfile.NamedTemporaryFile(delete=False)
-        existing_file_as_string = 'random'
-        self.assertRaises(shutil.Error, write(out_file, existing_file_as_string))
+        existing_file_as_string = 'invalid/path/file'
+        self.assertRaises(FileNotFoundError, write, out_file, existing_file_as_string)
 
     def test_file_content(self):
         existing_file = tempfile.NamedTemporaryFile(delete=False)
