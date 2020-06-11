@@ -1,5 +1,5 @@
 # base transifex push/pull script requirements
-Django==1.11.2
+Django==1.11.29
 edx-i18n-tools==0.4.5
 PyGithub==1.43.3
 PyYAML==3.12

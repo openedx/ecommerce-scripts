@@ -1,5 +1,5 @@
 babel==2.8.0
-django==2.2.12
+django==1.11.29
 edx-i18n-tools==0.4.6
 enmerkar-underscore==1.0.0
 enmerkar==0.7.1 
