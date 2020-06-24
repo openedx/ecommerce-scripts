@@ -1,15 +1,14 @@
-from __future__ import unicode_literals
+
 import json
 import unittest
 
-from faker import Factory
 import responses
+from faker import Factory
 
-
-from ..catalog_api_service import CatalogApiService
 from .fixtures import (
     SINGLE_COURSE_DATA, SINGLE_PROGRAM_DATA,
 )
+from ..catalog_api_service import CatalogApiService
 
 
 class CatalogApiTestMixins(unittest.TestCase):

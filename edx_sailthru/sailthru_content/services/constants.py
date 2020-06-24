@@ -1,8 +1,5 @@
 """Constants for Sailthru content service."""
 
-from __future__ import unicode_literals
-
-
 GFA_COURSE_RUN_LIST = [
     'course-v1:ASUx+ENG101x+2171A',
     'course-v1:ASUx+ASM246+2171A',
