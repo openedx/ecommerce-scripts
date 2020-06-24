@@ -1,12 +1,12 @@
-from __future__ import unicode_literals
 
-from faker import Factory
+
 import ddt
 import responses
+from faker import Factory
 
-from ..sailthru_translation_service import SailthruTranslationService
 from .catalog_api_test_mixins import CatalogApiTestMixins
 from .fixtures import SINGLE_COURSE_DATA
+from ..sailthru_translation_service import SailthruTranslationService
 
 
 @ddt.ddt
