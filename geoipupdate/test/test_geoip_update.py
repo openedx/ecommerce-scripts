@@ -49,7 +49,7 @@ class GeoipTestCases(unittest.TestCase):
 
         temp_dir.cleanup()
 
-    def test_shutil_raise(self):
+    def test_file_not_found_raise(self):
         out_file = tempfile.NamedTemporaryFile(delete=False)
         existing_file_as_string = 'invalid/path/file'
         self.assertRaises(FileNotFoundError, write, out_file, existing_file_as_string)
