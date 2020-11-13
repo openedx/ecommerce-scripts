@@ -1,6 +1,6 @@
 babel==2.8.0
 django==2.2.12
-edx-i18n-tools==0.4.6
+edx-i18n-tools==0.5.3
 enmerkar-underscore==1.0.0
 enmerkar==0.7.1 
 mako==1.0.7
@@ -12,7 +12,7 @@ transifex-client==0.12.4
 edx-proctoring-proctortrack==1.0.1
 
 # third-party Python libraries to be installed directly from github
-git+https://github.com/edx/django-wiki.git@v0.0.20#egg=django-wiki
+git+https://github.com/edx/django-wiki.git@0.1.1#egg=django-wiki
 
 # used by paver
 argh==0.26.2              # via watchdog
