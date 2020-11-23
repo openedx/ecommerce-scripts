@@ -1,5 +1,5 @@
 -c ./constraints.txt
-Django==2.2.12
+Django==2.2.13
 edx-i18n-tools==0.5.3
 PyGithub==1.53
 PyYAML==3.12
