@@ -1,7 +1,7 @@
 # base transifex push/pull script requirements
 Django==1.11.2
 edx-i18n-tools==0.4.5
-PyGithub==1.43.3
+PyGithub==1.53
 PyYAML==3.12
 transifex-client==0.12.4
 
