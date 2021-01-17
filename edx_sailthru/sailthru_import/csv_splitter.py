@@ -76,7 +76,7 @@ def main():
     args = parser.parse_args()
     logging.info("Input file: " + args.input_file)
 
-    split(open(args.input_file, 'r'))
+    split(open(args.input_file))
 
 
 if __name__ == "__main__":

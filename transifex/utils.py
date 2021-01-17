@@ -95,7 +95,7 @@ class ExtendedPullRequest(GithubPullRequest):
         ## Start custom code ##
         if merge_method:
             if merge_method not in MERGE_METHODS:
-                raise RuntimeError("`{}` is not a supported merge method".format(merge_method))
+                raise RuntimeError(f"`{merge_method}` is not a supported merge method")
             post_parameters["merge_method"] = merge_method
         ## End custom code ##
 
@@ -316,7 +316,7 @@ class Repo:
 
         # Retry limit hit. Notify the team and move on.
         self.pr.create_issue_comment(
-            '@{owner} pending status checks prevented this PR from being automatically merged.'.format(owner=self.owner)
+            f'@{self.owner} pending status checks prevented this PR from being automatically merged.'
         )
         raise RuntimeError('Pending status checks prevented this PR from being automatically merged')
 
@@ -357,7 +357,7 @@ class Repo:
         if self.pr:
             logger.info('Deleting branch %s:%s.', self.name, self.branch_name)
             # Delete branch from remote. See https://developer.github.com/v3/git/refs/#get-a-reference.
-            ref = 'heads/{branch}'.format(branch=self.branch_name)
+            ref = f'heads/{self.branch_name}'
             # This line is in a try/except because some repos auto-delete branches.
             try:
                 self.github_repo.get_git_ref(ref).delete()

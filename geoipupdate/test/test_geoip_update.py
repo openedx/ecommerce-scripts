@@ -16,12 +16,12 @@ class GeoipTestCases(unittest.TestCase):
     def test_sha256_mismatch(self, mock_urlopen='http://foo'):
         mock_sha256 = MagicMock()
         mock_sha256.getcode.return_value = 200
-        mock_sha256.read.return_value = '29cd163ffacb8fef0441ab3b7c246b64db4a7148362ed35ef59a5d64f' \
-                                        'bbd7f5c'.encode('utf-8')
+        mock_sha256.read.return_value = b'29cd163ffacb8fef0441ab3b7c246b64db4a7148362ed35ef59a5d64f' \
+                                        b'bbd7f5c'
         mock_urlopen.return_value = mock_sha256
 
         temp_dir = TempDirectory()
-        temp_dir.write('file.txt', 'testing sha256'.encode('utf-8'))
+        temp_dir.write('file.txt', b'testing sha256')
 
         file_path = os.path.join(temp_dir.path, 'file.txt')
         value = match_sha256(file_path, mock_urlopen)
@@ -34,13 +34,13 @@ class GeoipTestCases(unittest.TestCase):
     def test_sha256_match(self, mock_urlopen='http://foo'):
         mock_sha256 = MagicMock()
         mock_sha256.getcode.return_value = 200
-        mock_sha256.read.return_value = '78553549e63a1ad55ff0af86d3c23c7e5e8b6146d09fab87009ec769a3f' \
-                                        'f8fce'.encode('utf-8')
+        mock_sha256.read.return_value = b'78553549e63a1ad55ff0af86d3c23c7e5e8b6146d09fab87009ec769a3f' \
+                                        b'f8fce'
         mock_sha256.__enter__.return_value = mock_sha256
         mock_urlopen.return_value = mock_sha256
 
         temp_dir = TempDirectory()
-        temp_dir.write('file.txt', 'testing sha256'.encode('utf-8'))
+        temp_dir.write('file.txt', b'testing sha256')
 
         file_path = os.path.join(temp_dir.path, 'file.txt')
         value = match_sha256(file_path, mock_urlopen)
@@ -59,7 +59,7 @@ class GeoipTestCases(unittest.TestCase):
         existing_file.close()
         out_file = tempfile.NamedTemporaryFile(delete=False)
         with out_file as f:
-            f.write('testing'.encode('utf-8'))
+            f.write(b'testing')
             out_file.seek(0)
             write(f, existing_file.name)
 
@@ -76,11 +76,11 @@ class GeoipTestCases(unittest.TestCase):
 
         mock_sha256 = MagicMock()
         mock_sha256.getcode.return_value = 200
-        mock_sha256.read.return_value = 'cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e8' \
-                                        '7dfc9a90'.encode('utf-8')
+        mock_sha256.read.return_value = b'cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e8' \
+                                        b'7dfc9a90'
         mock_urlopen.return_value = mock_sha256
 
-        mock_open = unittest.mock.mock_open(read_data='testing'.encode('utf-8'))
+        mock_open = unittest.mock.mock_open(read_data=b'testing')
 
         with patch('builtins.open', mock_open, create=True):
             self.assertRaises(ValueError, download_file, 'path')

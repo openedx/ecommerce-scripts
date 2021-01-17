@@ -6,7 +6,7 @@ from edx_rest_api_client.client import EdxRestApiClient
 logger = logging.getLogger()
 
 
-class CatalogApiService(object):
+class CatalogApiService:
     """The service to interface with Catalog"""
 
     def __init__(self, oauth_access_token_url, oauth_key, oauth_secret, api_url_root):

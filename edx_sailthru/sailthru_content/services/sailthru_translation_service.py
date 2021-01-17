@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 import datetime
 import logging
 
@@ -12,7 +9,7 @@ REQUIRED_SEATS_TYPES = ['verified', 'professional']
 DATE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
 
-class SailthruTranslationService(object):
+class SailthruTranslationService:
     """This is the service that converts the data in edX into what Sailthru can consume"""
     def __init__(self, data_service, lms_root, fixups=None):
         self.data_service = data_service

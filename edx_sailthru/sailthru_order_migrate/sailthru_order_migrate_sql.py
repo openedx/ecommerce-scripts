@@ -139,14 +139,14 @@ def process_load(args, lms_url):
                     if current_orders > max_orders:
                         f.close()
                         fileno += 1
-                        f = open(args.result_save + '{}.txt'.format(fileno), 'w')
+                        f = open(args.result_save + f'{fileno}.txt', 'w')
                         current_orders = 1
                     json.dump(param, f)
                     f.write('\n')
                     added += 1
 
         total += added
-        logger.info("Date {} done, added={}, total={}".format(date, added, total))
+        logger.info(f"Date {date} done, added={added}, total={total}")
         added = 0
         date += datetime.timedelta(days=1)
 
@@ -200,8 +200,8 @@ def _build_purchase_parameters(email, number, date_placed, cost, mode, course_id
 
     # build item description
     item = {
-        'id': '{}-{}'.format(course_id, mode),
-        'url': '{}/courses/{}/info'.format(lms_url, course_id),
+        'id': f'{course_id}-{mode}',
+        'url': f'{lms_url}/courses/{course_id}/info',
         'price': cost_in_cents,
         'qty': 1,
         'title': title,
@@ -455,7 +455,7 @@ def _get_access_token(args):
 
         try:
             access_token, expires = EdxRestApiClient.get_oauth_access_token(
-                '{root}/access_token'.format(root=args.oauth_host),
+                f'{args.oauth_host}/access_token',
                 args.oauth_key,
                 args.oauth_secret, token_type='jwt')
         except Exception:

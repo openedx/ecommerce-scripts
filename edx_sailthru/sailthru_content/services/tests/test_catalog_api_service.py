@@ -8,7 +8,7 @@ from .fixtures import (
 
 class CatalogApiServiceTests(CatalogApiTestMixins):
     def setUp(self):
-        super(CatalogApiServiceTests, self).setUp()
+        super().setUp()
 
     @responses.activate
     def test_get_courses(self):
