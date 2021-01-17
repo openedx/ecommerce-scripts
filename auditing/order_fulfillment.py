@@ -140,7 +140,7 @@ def run_audit():
 
     unfulfilled_orders = identify_missing_enrollments(orders, enrollments)
     if len(unfulfilled_orders) > 0:
-        logger.error(u'Identified [%d] unfulfilled order(s):\n%s',
+        logger.error('Identified [%d] unfulfilled order(s):\n%s',
                      len(unfulfilled_orders), unfulfilled_orders.to_string(index=False))
         return False
 

@@ -96,7 +96,7 @@ def load_fixups(filename):
     if not filename:
         return []
 
-    with open(filename, 'rt') as f:
+    with open(filename) as f:
         reader = csv.reader(f)
         return list(reader)
 

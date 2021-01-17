@@ -1,6 +1,6 @@
 import unittest
 
-from mock import patch
+from unittest.mock import patch
 
 from edx_sailthru.sailthru_import import sailthru_import
 

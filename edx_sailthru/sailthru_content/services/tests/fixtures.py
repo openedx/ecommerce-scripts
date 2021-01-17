@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 SINGLE_PROGRAM_DATA = {
     "count": 1,
     "results": [

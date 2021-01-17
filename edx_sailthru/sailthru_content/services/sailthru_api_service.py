@@ -7,7 +7,7 @@ import time
 from sailthru.sailthru_client import SailthruClient
 
 
-class SailthruApiService(object):
+class SailthruApiService:
     """The service to interface with Sailthru API"""
     def __init__(self, sailthru_key, sailthru_secret, content_url_root):
         self.sailthru_client = SailthruClient(sailthru_key, sailthru_secret)

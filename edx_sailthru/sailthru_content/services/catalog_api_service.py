@@ -8,7 +8,7 @@ COURSES_PAGE_SIZE = 100
 PROGRAMS_PAGE_SIZE = 40
 
 
-class CatalogApiService(object):
+class CatalogApiService:
     """The service to interface with edX catalog API"""
 
     def __init__(self, access_token, oauth_host, oauth_key, oauth_secret, api_url_root):
@@ -16,7 +16,7 @@ class CatalogApiService(object):
         if not access_token:
             logger.info('No access token provided. Retrieving access token using client_credential flow...')
             try:
-                access_token_url = '{}/access_token'.format(oauth_host)
+                access_token_url = f'{oauth_host}/access_token'
                 self.access_token, __ = EdxRestApiClient.get_oauth_access_token(
                     access_token_url, oauth_key, oauth_secret, token_type='jwt'
                 )

@@ -1,5 +1,3 @@
-
-
 import ddt
 import responses
 from faker import Factory
@@ -13,7 +11,7 @@ from ..sailthru_translation_service import SailthruTranslationService
 class SailthruTranslationServiceTests(CatalogApiTestMixins):
 
     def setUp(self):
-        super(SailthruTranslationServiceTests, self).setUp()
+        super().setUp()
         self.faker = Factory.create()
         self.lms_root = 'http://' + self.faker.domain_name()
         self.sailthru_translation_service = SailthruTranslationService(

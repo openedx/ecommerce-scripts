@@ -356,14 +356,14 @@ def enrollmentDataframe(enrolls_data, card_type, enroll_type):
         columns=[
             'date',
             'cardName',
-            'total{type}Enrolls'.format(type=enroll_type),
-            'unique{type}Enrolls'.format(type=enroll_type)
+            f'total{enroll_type}Enrolls',
+            f'unique{enroll_type}Enrolls'
         ]
     )
 
     enrolls_dataframe = enrolls_dataframe.apply(to_numeric, errors='ignore')
     enrolls_dataframe.drop('date', axis=1, inplace=True)
-    enrolls_dataframe = enrolls_dataframe.groupby(['cardName']).sum().sort_values(by='unique{type}Enrolls'.format(type=enroll_type),ascending=0)
+    enrolls_dataframe = enrolls_dataframe.groupby(['cardName']).sum().sort_values(by=f'unique{enroll_type}Enrolls',ascending=0)
     enrolls_dataframe.reset_index(inplace=True)
     enrolls_dataframe['type'] = card_type
 
@@ -482,7 +482,7 @@ def output_report(
         # Write headings
         featured_cards_worksheet.write(
             'A1',
-            'Homepage Course Enrollments, Data from {start} to {end}'.format(start=start_date, end=end_date),
+            f'Homepage Course Enrollments, Data from {start_date} to {end_date}',
             cell_format
         )
         featured_cards_worksheet.write('A3', 'Overview', cell_format)
