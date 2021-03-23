@@ -3,7 +3,6 @@ python:
     - "3.8"
 
 install:
-  - pip install -r ./edx_sailthru/requirements/test.txt
   - pip install -r ./geoipupdate/requirements.txt
 
 script:

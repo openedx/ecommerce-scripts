@@ -1,9 +1,0 @@
-# Packages required for testing
--r base.txt
-
-ddt==1.1.1
-factory_boy==2.8.1
-Faker==0.7.17
-mock==2.0.0
-pytest==3.1.2
-responses==0.5.1
