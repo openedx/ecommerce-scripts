@@ -1,3 +1,0 @@
-edx-rest-api-client==1.7.1
-python-slugify==1.2.4
-sailthru-client==2.3.1
