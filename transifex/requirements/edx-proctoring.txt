@@ -1,0 +1,3 @@
+-r ./edx-platform.txt
+
+django-simple-history==3.0.0
