@@ -30,7 +30,7 @@ from utils import DEFAULT_MERGE_METHOD, MERGE_METHODS, logger, repo_context
 BRANCH_NAME = 'transifex-bot-update-translations'
 
 # The commit message to use.
-MESSAGE = 'fix(i18n): update translations'
+MESSAGE = 'chore(i18n): update translations'
 
 # Environment variable needed to run paver compilejsi18n command
 os.environ['LMS_CFG']='../lms.yml'
