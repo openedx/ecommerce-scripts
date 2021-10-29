@@ -282,16 +282,16 @@ class Repo:
 
             if state == 'failure':
                 logger.error(
-                    'A failing Travis build prevents [%s/#%d] from being merged. Notifying %s.',
+                    'A failing CI build prevents [%s/#%d] from being merged. Notifying %s.',
                     self.name, self.pr.number, self.owner
                 )
 
                 self.pr.create_issue_comment(
-                    '@{owner} a failed Travis build prevented this PR from being automatically merged.'.format(
+                    '@{owner} a failed CI build prevented this PR from being automatically merged.'.format(
                         owner=self.owner
                     )
                 )
-                raise RuntimeError('A failed Travis build prevented this PR from being automatically merged.')
+                raise RuntimeError('A failed CI build prevented this PR from being automatically merged.')
             elif state == 'success':
                 try:
                     self.pr.merge(merge_method=self.merge_method)
