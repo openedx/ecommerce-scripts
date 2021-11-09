@@ -1,2 +1,2 @@
 # transifex-client 0.12.4 did not pin urllib3, but requests cannot work with urllib3 1.25.2 (https://github.com/transifex/transifex-client/blob/128b212a5f07d1a1475ebd10fda0bf6dbbe2c055/requirements.txt)
-urllib3<1.25
+urllib3<1.27
