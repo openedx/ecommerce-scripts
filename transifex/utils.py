@@ -5,6 +5,7 @@ import re
 import subprocess
 import time
 from contextlib import contextmanager
+from github.GithubException import BadCredentialsException
 from logging.config import dictConfig
 from urllib.parse import urlparse
 
@@ -111,7 +112,10 @@ github.PullRequest.PullRequest = ExtendedPullRequest
 # Initialize GitHub client. For documentation,
 # see http://pygithub.github.io/PyGithub/v1/reference.html.
 github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
-edx = github.Github(github_access_token).get_organization('edx')
+github_orgs = [
+    github.Github(github_access_token).get_organization('openedx'),
+    github.Github(github_access_token).get_organization('edx'),
+]
 
 
 class Repo:
@@ -134,12 +138,31 @@ class Repo:
         match = re.match(r'.*edx/(?P<name>.*).git', self.clone_url)
         self.name = match.group('name')
 
-        self.github_repo = edx.get_repo(self.name)
+        self.github_repo = self._get_repo(self.name)
         self.owner = repo_owner
         self.branch_name = branch_name + str(datetime.date.today())
         self.message = message
         self.pr = None
         self.merge_method = merge_method
+
+    def _get_repo(self, name):
+        """Get repository object by name"""
+        github_repo = None
+        for github_org in github_orgs:
+            try:
+                github_repo = github_org.get_repo(self.name)
+            except BadCredentialsException:
+                # this exception occurs also when we are looking in
+                # the incorrect organization for this repository
+                pass
+        if not github_repo:
+            raise RuntimeError(
+                "Either the repository could not be found in either "
+                "the edx or openedx repository, or the credentials used "
+                "for contacting github are faulty."
+            )
+        return github_repo
+        
 
     def clone(self):
         """Clone the repo."""
