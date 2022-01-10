@@ -111,7 +111,7 @@ github.PullRequest.PullRequest = ExtendedPullRequest
 # Initialize GitHub client. For documentation,
 # see http://pygithub.github.io/PyGithub/v1/reference.html.
 github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
-edx = github.Github(github_access_token).get_organization('edx')
+github_org = github.Github(github_access_token).get_organization('openedx')
 
 
 class Repo:
@@ -134,7 +134,7 @@ class Repo:
         match = re.match(r'.*edx/(?P<name>.*).git', self.clone_url)
         self.name = match.group('name')
 
-        self.github_repo = edx.get_repo(self.name)
+        self.github_repo = github_org.get_repo(self.name)
         self.owner = repo_owner
         self.branch_name = branch_name + str(datetime.date.today())
         self.message = message
