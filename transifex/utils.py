@@ -5,7 +5,7 @@ import re
 import subprocess
 import time
 from contextlib import contextmanager
-from github.GithubException import BadCredentialsException
+from github.GithubException import BadCredentialsException, UnknownObjectException
 from logging.config import dictConfig
 from urllib.parse import urlparse
 
@@ -150,8 +150,8 @@ class Repo:
         github_repo = None
         for github_org in github_orgs:
             try:
-                github_repo = github_org.get_repo(self.name)
-            except BadCredentialsException:
+                github_repo = github_org.get_repo(name)
+            except (BadCredentialsException, UnknownObjectException):
                 # this exception occurs also when we are looking in
                 # the incorrect organization for this repository
                 pass
