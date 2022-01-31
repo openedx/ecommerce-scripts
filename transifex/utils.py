@@ -345,7 +345,7 @@ class Repo:
 
     def _get_tests_combined_status(self):
         """ Returns combined status of pr tests """
-        commit = self.pr.get_commits()[-1]
+        commit = self.pr.get_commits()[0]
         combined_statuses = commit.get_combined_status()
         if combined_statuses.total_count > 0:
             return combined_statuses.state
