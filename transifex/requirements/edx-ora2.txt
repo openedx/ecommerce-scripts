@@ -1,0 +1,5 @@
+-r ./edx-platform.txt
+
+django-waffle==2.3.0
+xblock-sdk==0.4.0
+edx-submissions==3.5.1
