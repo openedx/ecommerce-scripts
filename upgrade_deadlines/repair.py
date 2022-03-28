@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 import datetime
+import json
 import logging
 import os
 from collections import namedtuple
 from time import sleep
 
 import dryscrape
+import requests
 from dateutil.parser import parse
-from edx_rest_api_client.client import EdxRestApiClient
-
 
 logger = logging.getLogger(__name__)
 
 Run = namedtuple('Run', ['key', 'upgrade_deadline', 'end'])
 
-OIDC_URL = os.environ.get('OIDC_URL', 'https://courses.edx.org/oauth2')
-OIDC_KEY = os.environ.get('OIDC_KEY')
-OIDC_SECRET = os.environ.get('OIDC_SECRET')
+OAUTH_ACCESS_TOKEN_URL = os.environ.get('OAUTH_ACCESS_TOKEN_URL', 'https://courses.edx.org/oauth2')
+OAUTH_KEY = os.environ.get('OAUTH_KEY')
+OAUTH_SECRET = os.environ.get('OAUTH_SECRET')
 
 DISCOVERY_API_URL = os.environ.get('DISCOVERY_API_URL', 'https://prod-edx-discovery.edx.org/api/v1/')
 ECOMMERCE_URL = os.environ.get('ECOMMERCE_URL', 'https://ecommerce.edx.org')
@@ -25,20 +25,50 @@ LMS_EMAIL = os.environ.get('LMS_EMAIL')
 LMS_PASSWORD = os.environ.get('LMS_PASSWORD')
 
 
+def get_access_token():
+    response = requests.post(
+        f'{OAUTH_ACCESS_TOKEN_URL}/access_token',
+        data={
+            'grant_type': 'client_credentials',
+            'client_id': OAUTH_KEY,
+            'client_secret': OAUTH_SECRET,
+            'token_type': 'jwt',
+        },
+        headers={
+            'User-Agent': 'ecommerce-scripts',
+        },
+        timeout=(3.1, 5)
+    )
+
+    try:
+        data = response.json()
+        access_token = data['access_token']
+    except (KeyError, json.decoder.JSONDecodeError) as json_error:
+        logger.exception('Failed to get access token from response.')
+        raise requests.RequestException(response=response) from json_error
+    return access_token
+
+
+def get_course_runs(jwt, querystring):
+    headers = {'Authorization': "JWT {}".format(jwt)}
+    response = requests.get(
+        f'{DISCOVERY_API_URL}course_runs/',
+        params=querystring,
+        headers=headers
+    )
+    try:
+        data = response.json()
+    except json.decoder.JSONDecodeError as json_error:
+        raise requests.RequestException(response=response) from json_error
+    return data
+
+
 class DiscoveryClient:
     """
     Interface to the discovery service.
     """
     def __init__(self):
-        jwt, __ = EdxRestApiClient.get_oauth_access_token(
-            f'{OIDC_URL}/access_token',
-            OIDC_KEY,
-            OIDC_SECRET,
-            token_type='jwt'
-        )
-
-        self.client = EdxRestApiClient(DISCOVERY_API_URL, jwt=jwt)
-
+        self.jwt = get_access_token()
         self.deadline_empty_with_end = []
         self.deadline_empty_without_end = []
         self.deadline_after_end = []
@@ -57,8 +87,8 @@ class DiscoveryClient:
         while next_page:
             number = querystring['page']
             logger.info(f'Requesting page {number}.')
+            data = get_course_runs(self.jwt, querystring)
 
-            data = self.client.course_runs.get(**querystring)
             course_runs = data['results']
             next_page = data['next']
             if next_page:
