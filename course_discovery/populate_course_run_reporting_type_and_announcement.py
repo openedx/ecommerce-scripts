@@ -1,13 +1,12 @@
 import argparse
 import csv
-import datetime
-import json
 import logging
 import os
 
 from dateutil.parser import parse
 
 from services import CatalogApiService
+
 
 def process_line(line):
     announcement = line.get('announcement')
@@ -21,9 +20,8 @@ def process_line(line):
     return line['course_run_key'], data
 
 def update_course_run(key, data, catalog_api_service):
-    course_runs_endpoint = catalog_api_service.api_client.course_runs(key)
     try:
-        response = course_runs_endpoint.patch(data=data)
+        catalog_api_service.update_course_run(key, data)
         logging.info(f'{key} update succeeded')
     except:
         logging.exception('Failed to update course run [%s]', key)
@@ -59,7 +57,7 @@ def main():
         args.oauth_access_token_url,
         args.oauth_key,
         args.oauth_secret,
-        args.catalog_api_url
+        args.catalog_api_url,
     )
 
     with open(args.filename) as f:

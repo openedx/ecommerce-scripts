@@ -1,3 +1,2 @@
 dryscrape==1.0
-edx-rest-api-client==1.7.1
 python-dateutil==2.6.0
