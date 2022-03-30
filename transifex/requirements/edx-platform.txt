@@ -1,6 +1,6 @@
 babel==2.8.0
 django==2.2.20
-edx-i18n-tools==0.5.3
+edx-i18n-tools==0.9.1
 enmerkar-underscore==1.0.0
 enmerkar==0.7.1 
 mako==1.0.7
