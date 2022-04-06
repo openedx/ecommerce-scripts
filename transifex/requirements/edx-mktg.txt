@@ -5,5 +5,5 @@ PyGithub==1.53
 PyYAML==5.4
 
 # edx-mktg requirements
-babel==2.5.3
+babel==2.9.1
 django-babel-underscore==0.5.2
