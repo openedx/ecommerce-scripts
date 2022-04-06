@@ -6,7 +6,6 @@ enmerkar==0.7.1
 mako==1.0.7
 markey==0.8
 PyGithub==1.53
-transifex-client==0.12.4
 
 # third-party
 edx-proctoring-proctortrack==1.1.0
