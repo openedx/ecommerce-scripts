@@ -3,7 +3,6 @@ Django==2.2.20
 edx-i18n-tools==0.4.5
 PyGithub==1.53
 PyYAML==5.4
-transifex-client==0.12.4
 
 # edx-mktg requirements
 babel==2.5.3
