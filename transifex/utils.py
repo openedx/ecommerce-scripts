@@ -5,7 +5,7 @@ import re
 import subprocess
 import time
 from contextlib import contextmanager
-from github.GithubException import BadCredentialsException, UnknownObjectException
+from github.GithubException import BadCredentialsException, GithubException, UnknownObjectException
 from logging.config import dictConfig
 from urllib.parse import urlparse
 
@@ -320,7 +320,7 @@ class Repo:
                     self.pr.merge(merge_method=self.merge_method)
                     logger.info('Merged [%s/#%d].', self.name, self.pr.number)
                     return True
-                except github.GithubException as e:
+                except GithubException as e:
                     logger.error(
                         'Failed to merge [%s/#%d], because of the exception [%s]',
                         self.name, self.pr.number, e,
