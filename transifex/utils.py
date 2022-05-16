@@ -135,7 +135,7 @@ class Repo:
             path=parsed.path
         )
 
-        match = re.match(r'.*edx/(?P<name>.*).git', self.clone_url)
+        match = re.fullmatch(r'.*edx/(?P<name>[a-zA-Z0-9_-]*)\.git', self.clone_url)
         self.name = match.group('name')
 
         self.github_repo = self._get_repo(self.name)
@@ -166,6 +166,8 @@ class Repo:
 
     def clone(self):
         """Clone the repo."""
+        # First clear out any preexisting stale checkout (e.g. from a previous, interrupted run)
+        subprocess.run(['rm', '-rf', '--', self.name], check=True)
         subprocess.run(['git', 'clone', '--depth', '1', self.clone_url], check=True)
 
     def branch(self):
@@ -279,6 +281,7 @@ class Repo:
             'master',
             self.branch_name
         )
+        logger.info(f"Opened PR: {self.pr.html_url}")
 
     def merge_pr(self):
         if not self.pr:
@@ -301,21 +304,17 @@ class Repo:
         while retries <= self.MAX_MERGE_RETRIES:
             # Assumes only one commit is present on the PR.
             time.sleep(60 * 5)
-            state = self._get_tests_combined_status()
 
-            if state == 'failure':
-                logger.error(
-                    'A failing CI build prevents [%s/#%d] from being merged. Notifying %s.',
-                    self.name, self.pr.number, self.owner
-                )
+            # Update our local PR object from the server. Undocumented in PyGithub, so here's an
+            # issue suggesting doc'ing it: https://github.com/PyGithub/PyGithub/issues/2237
+            self.pr.update()
+            # Not fully documented[1] in regular API, but this looks like the same thing in the GraphQL docs:
+            # https://docs.github.com/en/graphql/reference/enums#mergestatestatus
+            #
+            # [1] https://github.community/t/pullrequest-mergeable-state-possible-values/13926/3
+            state = self.pr.mergeable_state
 
-                self.pr.create_issue_comment(
-                    '@{owner} a failed CI build prevented this PR from being automatically merged.'.format(
-                        owner=self.owner
-                    )
-                )
-                raise RuntimeError('A failed CI build prevented this PR from being automatically merged.')
-            elif state == 'success':
+            if state == 'clean':  # "Mergeable and passing commit status"
                 try:
                     self.pr.merge(merge_method=self.merge_method)
                     logger.info('Merged [%s/#%d].', self.name, self.pr.number)
@@ -330,47 +329,16 @@ class Repo:
                 retries += 1
                 if retries <= self.MAX_MERGE_RETRIES:
                     logger.info(
-                        'Status checks on [%s/#%d] are pending. This is retry [%d] of [%d].',
-                        self.name, self.pr.number, retries, self.MAX_MERGE_RETRIES
+                        f"Status checks on {self.name}/#{self.pr.number} are pending or PR is otherwise unmergeable. "
+                        f"This is retry {retries} of {self.MAX_MERGE_RETRIES}."
                     )
 
-
-        logger.info('Retry limit hit for [%s/#%d]. Notifying %s.', self.name, self.pr.number, self.owner)
-
         # Retry limit hit. Notify the team and move on.
+        logger.info(f"Retry limit hit for {self.name}/#{self.pr.number}. Notifying {self.owner}.")
         self.pr.create_issue_comment(
-            f'@{self.owner} pending status checks prevented this PR from being automatically merged.'
+            f'@{self.owner} Pending status checks or other failure prevented this PR from being automatically merged.'
         )
-        raise RuntimeError('Pending status checks prevented this PR from being automatically merged')
-
-    def _get_tests_combined_status(self):
-        """ Returns combined status of pr tests """
-        commit = self.pr.get_commits().reversed[0]
-        combined_statuses = commit.get_combined_status()
-        if combined_statuses.total_count > 0:
-            return combined_statuses.state
-
-        # Remove this code once pyGithub supports github checks api
-        requester = getattr(commit, '_requester')
-        __, response = requester.requestJsonAndCheck(
-            "GET",
-            commit.url + "/check-runs",
-            headers={'Accept': 'application/vnd.github.antiope-preview+json'}
-        )
-        conclusions = []
-        for check_run in response['check_runs']:
-            conclusion = check_run['conclusion']
-            # consider all statuses failure other than success.
-            if conclusion and (conclusion == 'success' or conclusion == 'neutral'):
-                conclusions.append('success')
-            elif conclusion:
-                return 'failure'
-
-        logger.info('[%d] of [%d] tests passed for pr.', len(conclusions), len(response['check_runs']))
-        if len(conclusions) == len(response['check_runs']):
-            return 'success'
-        else:
-            return 'pending'
+        raise RuntimeError('Pending status checks or other failure prevented this PR from being automatically merged')
 
     def cleanup(self):
         """Delete the local clone of the repo.
