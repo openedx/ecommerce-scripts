@@ -78,6 +78,12 @@ MERGE_METHODS = {NORMAL_MERGE, SQUASH_MERGE, REBASE_MERGE}
 DEFAULT_MERGE_METHOD = REBASE_MERGE  # Default to rebase merge, since that's what most edx repositories require.
 
 
+# Possible commit check statuses. https://docs.github.com/en/rest/checks/runs
+PENDING = 'pending'
+FAILURE = 'failure'
+SUCCESS = 'success'
+
+
 GithubPullRequest = github.PullRequest.PullRequest
 class ExtendedPullRequest(GithubPullRequest):
     def merge(self, commit_message=github.GithubObject.NotSet, merge_method=None):
@@ -300,7 +306,18 @@ class Repo:
                 )
             )
 
+        # Check if PR reviews are required
+        pr_review_required = False
+        default_branch = self.github_repo.get_branch(self.github_repo.default_branch)
+        try:
+            if default_branch.get_required_pull_request_reviews().required_approving_review_count > 0:
+                pr_review_required = True
+        except (GithubException, UnknownObjectException):
+            # 404 is returned if default branch isn't protected or admin permissions aren't given
+            pass
+
         retries = 0
+
         while retries <= self.MAX_MERGE_RETRIES:
             # Assumes only one commit is present on the PR.
             time.sleep(60 * 5)
@@ -308,23 +325,38 @@ class Repo:
             # Update our local PR object from the server. Undocumented in PyGithub, so here's an
             # issue suggesting doc'ing it: https://github.com/PyGithub/PyGithub/issues/2237
             self.pr.update()
+
+            # For repos that require reviews, we'll need to manually check tests, as mergeable_state will always
+            # return as "blocked" without reviews
+            if pr_review_required:
+                test_state = self._get_tests_combined_status()
+                if test_state == FAILURE:
+                    logger.error(
+                        f'A failing CI build prevents [{self.name}/{self.pr.number}] from being merged.'
+                        f'Notifying {self.owner}.',
+                    )
+
+                    self.pr.create_issue_comment(
+                        f'@{self.owner} a failed CI build prevented this PR from being automatically merged.'
+                    )
+                    raise RuntimeError('A failed CI build prevented this PR from being automatically merged.')
+                elif test_state == SUCCESS:
+                    return self._attempt_merge()
+                else:
+                    retries += 1
+                    if retries <= self.MAX_MERGE_RETRIES:
+                        logger.info(
+                            f"Status checks on {self.name}/#{self.pr.number} are pending or PR is otherwise unmergeable. "
+                            f"This is retry {retries} of {self.MAX_MERGE_RETRIES}."
+                        )
+
             # Not fully documented[1] in regular API, but this looks like the same thing in the GraphQL docs:
             # https://docs.github.com/en/graphql/reference/enums#mergestatestatus
             #
             # [1] https://github.community/t/pullrequest-mergeable-state-possible-values/13926/3
-            state = self.pr.mergeable_state
+            elif self.pr.mergeable_state == 'clean':  # "Mergeable and passing commit status"
+                return self._attempt_merge()
 
-            if state == 'clean':  # "Mergeable and passing commit status"
-                try:
-                    self.pr.merge(merge_method=self.merge_method)
-                    logger.info('Merged [%s/#%d].', self.name, self.pr.number)
-                    return True
-                except GithubException as e:
-                    logger.error(
-                        'Failed to merge [%s/#%d], because of the exception [%s]',
-                        self.name, self.pr.number, e,
-                    )
-                    raise RuntimeError('Failed to merge.')
             else:
                 retries += 1
                 if retries <= self.MAX_MERGE_RETRIES:
@@ -339,6 +371,49 @@ class Repo:
             f'@{self.owner} Pending status checks or other failure prevented this PR from being automatically merged.'
         )
         raise RuntimeError('Pending status checks or other failure prevented this PR from being automatically merged')
+
+    def _attempt_merge(self):
+        try:
+            self.pr.merge(merge_method=self.merge_method)
+            logger.info('Merged [%s/#%d].', self.name, self.pr.number)
+            return True
+        except GithubException as e:
+            logger.exception(
+                'Failed to merge [%s/#%d], because of the exception [%s]',
+                self.name, self.pr.number, e,
+            )
+            raise RuntimeError('Failed to merge.')
+
+    def _get_tests_combined_status(self):
+        """ Returns combined status of pr tests """
+        commit = self.pr.get_commits().reversed[0]
+
+        total_statuses = commit.get_statuses().totalCount
+        if total_statuses > 0:
+            combined_status = commit.get_combined_status().state
+            logger.info(f'Combined status for {self.name}/#{self.pr.number}: {combined_status}')
+            if combined_status in [PENDING, FAILURE]:
+                return combined_status
+
+        # Check runs are not included in statuses, iterate over these before determining
+        # final status
+        check_runs = commit.get_check_runs()
+
+        successful_conclusions = 0
+        for check_run in check_runs:
+            conclusion = check_run.conclusion
+            if conclusion:
+                if conclusion in [SUCCESS, 'neutral']:
+                    successful_conclusions += 1
+                else:
+                    # consider all other statuses failure
+                    return FAILURE
+
+        logger.info(f'{successful_conclusions} of {check_runs.totalCount} tests passed for PR.')
+        if (successful_conclusions == check_runs.totalCount):
+            return SUCCESS
+        else:
+            return PENDING
 
     def cleanup(self):
         """Delete the local clone of the repo.
