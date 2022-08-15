@@ -29,7 +29,7 @@ from geoip import download_file
 BRANCH_NAME = 'geoip2-bot-update-country-database'
 
 # The commit message to use.
-MESSAGE = 'geoip2: update maxmind geolite country database'
+MESSAGE = 'chore: geoip2: update maxmind geolite country database'
 
 
 def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD,
