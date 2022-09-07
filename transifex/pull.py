@@ -40,7 +40,7 @@ os.environ['SKIP_NPM_INSTALL'] = 'True'
 os.environ['LANG'] = 'C.UTF-8'
 
 # Configuration repo to fetch lms/studio settings
-CONFIGURATION_REPO_URL = 'https://github.com/edx/configuration.git'
+CONFIGURATION_REPO_URL = 'https://github.com/openedx/configuration.git'
 
 
 def pull(clone_url, repo_owner, merge_method=DEFAULT_MERGE_METHOD, skip_compilemessages=False,

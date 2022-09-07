@@ -11,7 +11,7 @@ PyGithub==1.53
 edx-proctoring-proctortrack==1.1.0
 
 # third-party Python libraries to be installed directly from github
-git+https://github.com/edx/django-wiki.git@0.1.1#egg=django-wiki
+git+https://github.com/openedx/django-wiki.git@0.1.1#egg=django-wiki
 
 # used by paver
 argh==0.26.2              # via watchdog
