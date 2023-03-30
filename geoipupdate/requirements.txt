@@ -1,4 +1,4 @@
-PyGithub==1.43.3
+PyGithub==1.44.1
 urllib3==1.24.1
 testfixtures
 pytest
