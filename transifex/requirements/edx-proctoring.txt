@@ -1,4 +1,4 @@
 -r ./edx-platform.txt
 
-cryptography==35.0.0
+cryptography==39.0.1
 django-simple-history==3.0.0
