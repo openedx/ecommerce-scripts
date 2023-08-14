@@ -429,6 +429,8 @@ class Repo:
                 self.github_repo.get_git_ref(ref).delete()
             except github.UnknownObjectException:
                 logger.info('Branch not found %s:%s.', self.name, self.branch_name)
+            except GithubException:
+                logger.info('Error deleting branch %s:%s.', self.name, self.branch_name)
 
         # Delete cloned repo.
         subprocess.run(['rm', '-rf', self.name], check=True)
