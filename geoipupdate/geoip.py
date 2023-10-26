@@ -6,7 +6,7 @@ import shutil
 import logging
 
 
-license_key = os.environ['LICENSE-KEY']
+license_key = os.environ['LICENSE_KEY']
 MAXMIND_URL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country' \
               '&license_key={key}&suffix=tar.gz'.format(key=license_key)
 MAXMIND_SHA256_URL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country' \
