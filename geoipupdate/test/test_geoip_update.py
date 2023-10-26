@@ -6,7 +6,7 @@ import tempfile
 from unittest.mock import patch, MagicMock, mock_open
 from testfixtures import TempDirectory
 
-os.environ['LICENSE-KEY'] = '1234556'
+os.environ['LICENSE_KEY'] = '1234556'
 from ..geoip import match_sha256, write, download_file  # noqa: E402
 
 
