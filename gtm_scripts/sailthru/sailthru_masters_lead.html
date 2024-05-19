@@ -1,0 +1,35 @@
+<script src="https://ak.sail-horizon.com/spm/spm.v1.min.js"></script>
+<script type="text/javascript">
+  Sailthru.init({ "customerId": '685530a8a02fb32d41c3156ebac072eb', useStoredTags:false });
+</script>
+<script type="text/javascript"> 
+    var getMasterDataFromPage = function(attributeKey){
+        var dataStr = document.body.getAttribute(attributeKey); 
+        var data = (dataStr && dataStr.length > 0) ? JSON.parse(dataStr) : {};
+        return data;
+    };
+
+    var topicName = false;
+    var masterData = getMasterDataFromPage('data-masters-lead');
+    
+    if(masterData){
+        topicName = masterData.sailthruTopicName ? 
+            masterData.sailthruTopicName.trim().replace(/ +/g, '-') : false;
+    }
+    else{
+        masterData = getMasterDataFromPage('data-masters-program');
+        topicName = masterData.title.trim().replace('\'', '').replace(/ +/g, '-');
+    }
+
+
+    if (topicName) { 
+        console.log('masters horizon tags: ', topicName);
+
+        Sailthru.track('pageview', { 
+            autoTrackPageview: false, 
+            url: document.documentURI, 
+            useStoredTags: false, 
+            tags: [topicName, 'masters', 'masters-' + topicName] 
+        }); 
+    } 
+</script>
