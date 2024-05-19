@@ -15,7 +15,7 @@ git+https://github.com/openedx/django-wiki.git@0.1.1#egg=django-wiki
 
 # used by paver
 argh==0.26.2              # via watchdog
-certifi==2019.11.28       # via requests
+certifi==2022.12.7       # via requests
 chardet==3.0.4            # via requests
 edx-opaque-keys==2.0.1
 idna==2.8                 # via requests
